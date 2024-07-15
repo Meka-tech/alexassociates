@@ -1,0 +1,215 @@
+import React from "react";
+import styled from "styled-components";
+import { FlexBox } from "../../../components/container-styles/styles";
+import Typography from "../../../components/typography";
+import { TextSize, TextWeight } from "../../../components/typography/enums";
+import PrimaryButton from "../../../components/buttons/primary";
+import BackgroundGrid from "../../../components/BackgroundGrid";
+import Check from "../../../images/png/check.png";
+import Slideshow from "../../../components/slideshow";
+import { ReactComponent as OrnamentOne } from "../../../images/svg/ornaments/ornamentOne.svg";
+
+const HeroSection = () => {
+  return (
+    <Container>
+      <Ornament>
+        <OrnamentOne />
+      </Ornament>
+      <BackgroundGrid />
+      <TextArea>
+        <Header>
+          <Typography
+            size={TextSize.DisplayXl}
+            m_size={TextSize.DisplayMd}
+            weight={TextWeight.semibold}
+            color="white"
+          >
+            Beautiful, Practical and Sustainable Spaces by Design
+          </Typography>
+        </Header>
+        <SubHeader>
+          <Typography
+            size={TextSize.xl}
+            m_size={TextSize.lg}
+            weight={TextWeight.regular}
+            lh="2.4"
+            mt="2.4"
+            m_mt="1.6"
+            color="white"
+          >
+            Discover the Art of Elegant Design and Innovative Architecture with
+            Alex & Associates.
+          </Typography>
+        </SubHeader>
+        <MobileFlip>
+          <CTAButtons>
+            <CTAButton>
+              <PrimaryButton text="Contact us" />
+            </CTAButton>
+            <CTAButton>
+              <PrimaryButton text="Get a quote" variant={true} />
+            </CTAButton>
+          </CTAButtons>
+          <HeroItems>
+            <HeroItem>
+              <CheckImage src={Check} />
+              <Typography
+                size={TextSize.lg}
+                weight={TextWeight.regular}
+                lh="2.8"
+              >
+                Expert craftsmanship and innovative design
+              </Typography>
+            </HeroItem>
+            <HeroItem>
+              <CheckImage src={Check} />
+              <Typography
+                size={TextSize.lg}
+                weight={TextWeight.regular}
+                lh="2.8"
+              >
+                Tailored solutions for every space
+              </Typography>
+            </HeroItem>
+            <HeroItem>
+              <CheckImage src={Check} />
+              <Typography
+                size={TextSize.lg}
+                weight={TextWeight.regular}
+                lh="2.8"
+              >
+                Unmatched quality and client satisfaction
+              </Typography>
+            </HeroItem>
+          </HeroItems>
+        </MobileFlip>
+      </TextArea>
+      <SlideshowContainer>
+        <Slideshow />
+      </SlideshowContainer>
+    </Container>
+  );
+};
+
+export default HeroSection;
+
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 9.6rem 0rem;
+  @media only screen and (max-width: 769px) {
+    flex-direction: column-reverse;
+    padding: 6.4rem 0rem;
+  }
+`;
+
+const TextArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 8rem;
+
+  @media only screen and (max-width: 769px) {
+    padding: 0rem 1.6rem;
+    margin-top: 6.4rem;
+  }
+`;
+
+const Header = styled.h1`
+  width: 100%;
+  text-align: center;
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+    text-align: left;
+  }
+`;
+
+const SubHeader = styled.h2`
+  width: 100%;
+  text-align: center;
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+    text-align: left;
+  }
+`;
+const MobileFlip = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 769px) {
+    flex-direction: column-reverse;
+  }
+`;
+const CTAButtons = styled.div`
+  display: flex;
+  margin-top: 4.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+  align-items: center;
+  width: 30%;
+  @media only screen and (max-width: 769px) {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 3.2rem;
+  }
+`;
+
+const CTAButton = styled.div`
+  width: 48%;
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+    margin-bottom: 1.6rem;
+  }
+`;
+
+const HeroItems = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  margin-top: 4.8rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  @media only screen and (max-width: 769px) {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    margin-top: 3.2rem;
+  }
+  @media only screen and (max-width: 1500px) {
+    width: 100%;
+  }
+`;
+
+const HeroItem = styled(FlexBox)`
+  @media only screen and (max-width: 769px) {
+    margin-bottom: 1.6rem;
+    align-items: start;
+  }
+`;
+
+const CheckImage = styled.img`
+  margin-right: 1.2rem;
+`;
+
+const SlideshowContainer = styled.div`
+  margin-top: 6.4rem;
+  padding-left: 11.7rem;
+  padding-right: 11.7rem;
+
+  @media only screen and (max-width: 769px) {
+    margin-top: 0rem;
+    padding: 0rem;
+  }
+`;
+
+const Ornament = styled.div`
+  position: absolute;
+  top: 0;
+  right: 20rem;
+  @media only screen and (max-width: 769px) {
+    display: none;
+  }
+`;
