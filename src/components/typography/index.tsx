@@ -25,6 +25,7 @@ interface IProps {
   m_my?: string;
   //
   lh?: string;
+  m_lh?: string;
   align?: string;
   display?: string;
 }
@@ -52,6 +53,7 @@ const Typography = ({
   m_my = my,
   //
   lh,
+  m_lh,
   align,
   display
 }: IProps) => {
@@ -70,6 +72,7 @@ const Typography = ({
       m_mb={m_m ? m_m : m_my ? m_my : m_mb}
       m_mr={m_m ? m_m : m_mx ? m_mx : m_mr}
       lh={lh}
+      m_lh={m_lh}
       align={align}
       display={display}
     >
@@ -92,6 +95,7 @@ const Text = styled.p<IProps>`
   display: ${(props) => props.display && props.display};
   @media screen and (max-width: 480px) {
     font-size: ${(props) => `${props.m_size}rem`};
+    line-height: ${(props) => props.m_lh && `${props.m_lh}rem`};
     margin: ${(props) =>
       `${props.m_mt}rem ${props.m_mr}rem ${props.m_mb}rem ${props.m_ml}rem `};
   }

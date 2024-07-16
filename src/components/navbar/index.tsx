@@ -80,7 +80,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const Container = styled.div`
+const Container = styled.nav`
   padding: 1.6rem 7rem;
   padding-left: 10.2rem;
   display: flex;

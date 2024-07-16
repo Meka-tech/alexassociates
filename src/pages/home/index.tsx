@@ -7,6 +7,8 @@ import PortfolioSection from "./components/portfolioSection";
 import ResultSection from "./components/resultSection";
 import QuoteSection from "./components/quoteSection";
 import ReviewSection from "./components/reviewSection";
+import ContactUs from "./components/contactUs";
+import Footer from "../../components/footer";
 
 const Home = () => {
   return (
@@ -18,6 +20,8 @@ const Home = () => {
       <ResultSection />
       <QuoteSection />
       <ReviewSection />
+      <ContactUs />
+      <Footer />
     </Container>
   );
 };

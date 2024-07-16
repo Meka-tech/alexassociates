@@ -17,43 +17,57 @@ const PortfolioSection = () => {
       title: "Interior design",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Project execution",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Detailed design",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Furniture",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Quotient",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Hourglass",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Command+R",
       content:
         "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/"
+      link: "/",
+      image:
+        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     }
   ];
 
@@ -95,13 +109,14 @@ const PortfolioSection = () => {
       </SectionHeader>
       <Slider>
         <Items offset={sliderOffset}>
-          {PortfolioList.map(({ title, content, link }, i) => {
+          {PortfolioList.map(({ title, content, link, image }, i) => {
             return (
               <PortfolioItem
                 key={i}
                 title={title}
                 content={content}
                 link={link}
+                image={image}
               />
             );
           })}
@@ -125,14 +140,17 @@ const PortfolioSection = () => {
 const PortfolioItem = ({
   title,
   content,
-  link
+  link,
+  image
 }: {
   title: string;
   content: string;
   link: string;
+  image: string;
 }) => {
   return (
     <ItemContainer>
+      <ItemImage src={image} alt={title} />
       <ItemInnerContainer>
         <Typography
           size={TextSize.DisplaySm}
@@ -233,13 +251,20 @@ const ItemContainer = styled.div`
   padding: 2.4rem;
   display: flex;
   align-items: end;
+  position: relative;
   @media only screen and (max-width: 769px) {
     height: 47.2rem;
     width: 30.4rem;
     margin-right: 2.4rem;
   }
 `;
-
+const ItemImage = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
 const ItemInnerContainer = styled.div`
   width: 100%;
   padding: 3.2rem 2.4rem;

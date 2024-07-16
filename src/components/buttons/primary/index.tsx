@@ -40,4 +40,15 @@ const Container = styled.button<IButtonProps>`
         ? "rgba(208, 213, 221, 1)"
         : "rgba(4, 150, 255, 1)"};
   width: 100%;
+
+  transition: all ease-in-out 0.2s;
+
+  &:disabled {
+    cursor: auto;
+    background-color: ${(props) =>
+      props.variant === "true" ? "#ffffff7b" : "#0084e26e"};
+    color: ${(props) => (props.variant === "true" ? "#34405475" : "gray")};
+    border: 1px solid
+      ${(props) => (props.variant === "true" ? "#ffffff7b" : "#0084e26e")};
+  }
 `;
