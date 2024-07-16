@@ -56,12 +56,12 @@ const Navbar = () => {
           </ArrowIcon>
         </NavItem>
         <NavItem>
-          <Nav to="/ourservices">
+          <Nav to="/our-services">
             <Typography
               size={TextSize.md}
               weight={TextWeight.semibold}
               color={
-                path.includes("/ourservices")
+                path.includes("/our-services")
                   ? "rgba(0, 131, 226, 1)"
                   : "inherit"
               }

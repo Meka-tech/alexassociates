@@ -5,11 +5,16 @@ import App from "./App";
 import { StyleSheetManager } from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
+import OurServices from "./pages/ourServices";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />
+  },
+  {
+    path: "/our-services",
+    element: <OurServices />
   }
 ]);
 

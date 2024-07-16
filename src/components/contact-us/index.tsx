@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PrimaryButton from "../../../components/buttons/primary";
-import Typography from "../../../components/typography";
-import { TextSize, TextWeight } from "../../../components/typography/enums";
-import MapImage from "../../../images/png/map.png";
-import StyledInput from "../../../components/input/primaryInput";
-import StyledTextArea from "../../../components/input/textArea";
+import PrimaryButton from "../../components/buttons/primary";
+import Typography from "../../components/typography";
+import { TextSize, TextWeight } from "../../components/typography/enums";
+import MapImage from "../../images/png/map.png";
+import StyledInput from "../../components/input/primaryInput";
+import StyledTextArea from "../../components/input/textArea";
 import { Link } from "react-router-dom";
-import Check from "../../../components/input/check";
+import Check from "../../components/input/check";
 
 const ContactUs = () => {
   const [checked, setChecked] = useState(false);

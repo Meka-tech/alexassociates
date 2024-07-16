@@ -2,13 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import "./grid.css";
 
-const BackgroundGrid = () => {
+interface Iprops {
+  web?: { width: string; height: string };
+  mobile?: { width: string; height: string };
+}
+
+const BackgroundGrid = ({
+  web = { width: "100%", height: "100%" },
+  mobile = { width: "100%", height: "100%" }
+}: Iprops) => {
   return (
     <Container>
       <WebView>
         <svg
-          width="100%"
-          height="100%"
+          width={web.width}
+          height={web.height}
           viewBox="0 0 1920 1440"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,12 +28,12 @@ const BackgroundGrid = () => {
               maskUnits="userSpaceOnUse"
               x="240"
               y="0"
-              width="100%"
-              height="100%"
+              width={web.width}
+              height={web.height}
             >
               <rect
-                width="100%"
-                height="100%"
+                width={web.width}
+                height={web.height}
                 transform="translate(240)"
                 fill="url(#paint0_radial_126_25890)"
               />
@@ -81,21 +89,21 @@ const BackgroundGrid = () => {
               <stop offset="0.953125" stopOpacity="0" />
             </radialGradient>
             <clipPath id="clip0_126_25890">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={web.width} height={web.height} fill="white" />
             </clipPath>
             <clipPath id="clip1_126_25890">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={web.width} height={web.height} fill="white" />
             </clipPath>
             <clipPath id="clip2_126_25890">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={web.width} height={web.height} fill="white" />
             </clipPath>
           </defs>
         </svg>
       </WebView>
       <MobileView>
         <svg
-          width="100%"
-          height="100%"
+          width={mobile.width}
+          height={mobile.height}
           viewBox="0 0 960 960"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -107,12 +115,12 @@ const BackgroundGrid = () => {
               maskUnits="userSpaceOnUse"
               x="0"
               y="0"
-              width="100%"
-              height="100%"
+              width={mobile.width}
+              height={mobile.height}
             >
               <rect
-                width="100%"
-                height="100%"
+                width={mobile.width}
+                height={mobile.height}
                 fill="url(#paint0_radial_126_25934)"
               />
             </mask>
@@ -156,13 +164,13 @@ const BackgroundGrid = () => {
               <stop offset="0.953125" stopOpacity="0" />
             </radialGradient>
             <clipPath id="clip0_126_25934">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={mobile.width} height={mobile.height} fill="white" />
             </clipPath>
             <clipPath id="clip1_126_25934">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={mobile.width} height={mobile.height} fill="white" />
             </clipPath>
             <clipPath id="clip2_126_25934">
-              <rect width="100%" height="100%" fill="white" />
+              <rect width={mobile.width} height={mobile.height} fill="white" />
             </clipPath>
           </defs>
         </svg>

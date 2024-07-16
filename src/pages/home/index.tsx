@@ -7,7 +7,7 @@ import PortfolioSection from "./components/portfolioSection";
 import ResultSection from "./components/resultSection";
 import QuoteSection from "./components/quoteSection";
 import ReviewSection from "./components/reviewSection";
-import ContactUs from "./components/contactUs";
+import ContactUs from "../../components/contact-us";
 import Footer from "../../components/footer";
 
 const Home = () => {

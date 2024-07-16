@@ -15,7 +15,10 @@ const HeroSection = () => {
       <Ornament>
         <OrnamentOne />
       </Ornament>
-      <BackgroundGrid />
+      <BackgroundGrid
+        web={{ width: "1780px", height: "1380px" }}
+        mobile={{ width: "1100px", height: "1100px" }}
+      />
       <TextArea>
         <Header>
           <Typography

@@ -82,12 +82,12 @@ const ReviewSection = () => {
             })}
           </GoldStars>
           <Typography
-            size={TextSize.DisplayLg}
+            size={TextSize.DisplayMd}
             m_size={TextSize.DisplayXs}
             weight={TextWeight.medium}
             mb="4.8"
             m_mb="3.2"
-            lh="6"
+            lh="4.4"
             m_lh="3.2"
           >
             {Review.comment}
