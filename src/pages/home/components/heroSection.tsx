@@ -101,6 +101,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 9.6rem 0rem;
+  overflow: hidden;
   @media only screen and (max-width: 769px) {
     flex-direction: column-reverse;
     padding: 6.4rem 0rem;

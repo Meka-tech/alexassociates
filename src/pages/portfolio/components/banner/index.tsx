@@ -2,12 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
-import BannerImg from "../../../../images/png/services-banner.png";
+import SearchInput from "../../../../components/input/searchInput";
+import BannerImg from "../../../../images/png/portfolio-banner.png";
 
-const Banner = () => {
+interface IProps {
+  setInputValue: (value: string) => void;
+  inputValue: string;
+}
+const Banner = ({ setInputValue, inputValue }: IProps) => {
   return (
     <Container>
-      <BannerContainer src={BannerImg} alt="services-banner" />
+      <BannerContainer src={BannerImg} alt="portfolio-banner" />
       <Typography
         color="rgba(0, 131, 226, 1)"
         weight={TextWeight.semibold}
@@ -17,7 +22,7 @@ const Banner = () => {
         m_lh="2"
         mb="1.2"
       >
-        Our Services
+        Our portfolio
       </Typography>
       <Typography
         color="white"
@@ -29,16 +34,26 @@ const Banner = () => {
         mb="2.4"
         m_mb="1.6"
       >
-        What do we do?
+        The best works from our team
       </Typography>
       <Typography
         color="white"
         size={TextSize.xl}
         m_size={TextSize.lg}
         lh="2.8"
+        mb="4"
+        m_mb="3.2"
       >
-        Learn more about the services we offer at Alex & Associates
+        The latest industry news, interviews, technologies, and resources.
       </Typography>
+      <SearchContainer>
+        <SearchInput
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+        />
+      </SearchContainer>
     </Container>
   );
 };
@@ -47,7 +62,6 @@ export default Banner;
 
 const Container = styled.div`
   width: 100%;
-  height: 34.4rem;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -60,7 +74,7 @@ const Container = styled.div`
   );
   position: relative;
   @media only screen and (max-width: 769px) {
-    padding: 6.4rem 1.6rem;
+    padding: 6.4rem 3.2rem;
   }
 `;
 
@@ -72,4 +86,15 @@ const BannerContainer = styled.img`
   height: 100%;
   object-fit: fill;
   z-index: -1;
+  @media only screen and (max-width: 769px) {
+    object-fit: cover;
+  }
+`;
+
+const SearchContainer = styled.div`
+  width: 32rem;
+
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+  }
 `;

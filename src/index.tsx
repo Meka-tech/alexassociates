@@ -6,6 +6,7 @@ import { StyleSheetManager } from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import OurServices from "./pages/ourServices";
+import Portfolio from "./pages/portfolio";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
   {
     path: "/our-services",
     element: <OurServices />
-  }
+  },
+  { path: "/portfolio", element: <Portfolio /> }
 ]);
 
 const root = ReactDOM.createRoot(
