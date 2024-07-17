@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import OurServices from "./pages/ourServices";
 import Portfolio from "./pages/portfolio";
+import About from "./pages/about";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     path: "/our-services",
     element: <OurServices />
   },
-  { path: "/portfolio", element: <Portfolio /> }
+  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/about", element: <About /> }
 ]);
 
 const root = ReactDOM.createRoot(

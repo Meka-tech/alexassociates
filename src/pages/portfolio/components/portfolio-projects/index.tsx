@@ -6,12 +6,14 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Dropdown from "../../../../components/input/dropdown";
 import ProjectItem from "./project-item";
 import { DummyData } from "./dummyData";
+import Pagination from "../../../../components/pagination";
 
 interface IProps {
   inputValue: string;
 }
 const PortfolioProjects = ({ inputValue }: IProps) => {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
   const filters = [
     { filter: "View all", key: "all" },
     { filter: "Interior", key: "interior" },
@@ -62,6 +64,15 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
           }
         )}
       </ProjectGrid>
+      <PaginationContainer>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={10}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+          }}
+        />
+      </PaginationContainer>
     </Container>
   );
 };
@@ -165,5 +176,17 @@ const ProjectGrid = styled.div`
     grid-template-columns: auto;
     grid-row-gap: 4.8rem;
     margin-bottom: 4.8rem;
+  }
+`;
+
+const PaginationContainer = styled.div`
+  width: 100%;
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(234, 236, 240, 1);
+  @media only screen and (max-width: 769px) {
+    padding-top: 1.6rem;
   }
 `;

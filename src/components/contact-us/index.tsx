@@ -8,9 +8,11 @@ import StyledInput from "../../components/input/primaryInput";
 import StyledTextArea from "../../components/input/textArea";
 import { Link } from "react-router-dom";
 import Check from "../../components/input/check";
+import PhoneInput from "../input/phone_no/phone_input";
 
 const ContactUs = () => {
   const [checked, setChecked] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
     <Container>
@@ -38,7 +40,12 @@ const ContactUs = () => {
             <StyledInput label="Email" placeholder="you@company.com" />
           </InputItem>
           <InputItem>
-            <StyledInput label="Phone number" placeholder="+1 (555) 000-0000" />
+            <PhoneInput
+              label="Phone number"
+              setPhoneValue={(value) => {
+                setPhoneNumber(value);
+              }}
+            />
           </InputItem>
           <InputItem>
             <StyledTextArea
