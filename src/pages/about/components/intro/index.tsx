@@ -98,7 +98,7 @@ const Intro = () => {
 export default Intro;
 
 const Container = styled.div`
-  border-bottom: 1px solid rgba(46, 59, 65, 1);
+  /* border-bottom: 1px solid rgba(46, 59, 65, 1); */
   margin-bottom: 0.8rem;
   position: relative;
   overflow: hidden;

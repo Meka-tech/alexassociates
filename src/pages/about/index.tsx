@@ -4,6 +4,9 @@ import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import Banner from "./components/banner";
 import Intro from "./components/intro";
+import OurStory from "./components/our-story";
+import Team from "./components/team";
+import Partners from "./components/partners";
 
 const About = () => {
   return (
@@ -11,6 +14,9 @@ const About = () => {
       <Navbar />
       <Banner />
       <Intro />
+      <OurStory />
+      <Team />
+      <Partners />
       <Footer />
     </Container>
   );

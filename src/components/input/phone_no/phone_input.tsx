@@ -23,7 +23,7 @@ const PhoneInput = ({
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    setValue(`${PhoneCodes[countryIndex].dial_code} `);
+    setValue(`${PhoneCodes[countryIndex].dial_code}`);
   }, [countryIndex]);
 
   return (
