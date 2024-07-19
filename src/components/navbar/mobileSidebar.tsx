@@ -160,6 +160,7 @@ const Container = styled.div`
   right: 1.2rem;
   top: 100%;
   z-index: 10;
+
   border-radius: 0.8rem;
   @media only screen and (max-width: 769px) {
     display: block;

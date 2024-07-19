@@ -72,4 +72,7 @@ const BannerContainer = styled.img`
   height: 100%;
   object-fit: fill;
   z-index: -1;
+  @media only screen and (max-width: 769px) {
+    object-fit: cover;
+  }
 `;
