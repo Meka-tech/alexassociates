@@ -6,8 +6,8 @@ import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
 import BackgroundGrid from "../../../components/BackgroundGrid";
 import Check from "../../../images/png/check.png";
-import Slideshow from "../../../components/slideshow";
 import { ReactComponent as OrnamentOne } from "../../../images/svg/ornaments/ornamentOne.svg";
+import Slideshow from "./slideshow";
 
 const HeroSection = () => {
   return (
@@ -88,7 +88,15 @@ const HeroSection = () => {
         </MobileFlip>
       </TextArea>
       <SlideshowContainer>
-        <Slideshow />
+        <Slideshow
+          images={[
+            "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb",
+            "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb",
+            "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb",
+            "https://images.pexels.com/photos/279648/pexels-photo-279648.jpeg?auto=compress&cs=tinysrgb",
+            "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb"
+          ]}
+        />
       </SlideshowContainer>
     </Container>
   );

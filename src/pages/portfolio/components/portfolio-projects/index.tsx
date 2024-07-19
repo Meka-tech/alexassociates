@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import Typography from "../../../../components/typography";
@@ -28,6 +28,9 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
     { filter: "Project execution", key: "project-execution" }
   ];
 
+  useEffect(() => {
+    setActiveFilter(filterparam ? filterparam : "all");
+  }, [filterparam]);
   return (
     <Container>
       <TopFlex>

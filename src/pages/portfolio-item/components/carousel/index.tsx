@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
@@ -19,6 +19,10 @@ const Carousel = ({ images }: { images: string[] }) => {
       setIndex(current + 1);
     }
   };
+
+  useEffect(() => {
+    setIndex(0);
+  }, [images]);
 
   return (
     <Container>
