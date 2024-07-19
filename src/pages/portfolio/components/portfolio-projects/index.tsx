@@ -7,7 +7,7 @@ import Dropdown from "../../../../components/input/dropdown";
 import ProjectItem from "./project-item";
 import { DummyData } from "./dummyData";
 import Pagination from "../../../../components/pagination";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 interface IProps {
   inputValue: string;

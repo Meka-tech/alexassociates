@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Typography from "../typography";
 import { TextSize, TextWeight } from "../typography/enums";
@@ -7,13 +7,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../logo";
 import Hamburger from "hamburger-react";
 import Sidebar from "./mobileSidebar";
+import { useClickOutside } from "../../pages/hooks/UseClickOutside";
 
 const Navbar = () => {
   const path = useLocation().pathname;
   const [isOpen, setOpen] = useState(false);
 
+  const ref = useRef(null);
+  useClickOutside(ref, () => {
+    setOpen(false);
+  });
   return (
-    <Container>
+    <Container ref={ref}>
       <Logo />
       <NavItems>
         <NavItem>
