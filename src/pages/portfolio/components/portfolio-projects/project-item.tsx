@@ -5,6 +5,7 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { LuArrowUpRight } from "react-icons/lu";
 
 import { FlexBox } from "../../../../components/container-styles/styles";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   service: string;
@@ -13,6 +14,7 @@ interface IProps {
   author: string;
   date: string;
   image: string;
+  id: string;
 }
 const ProjectItem = ({
   service,
@@ -20,10 +22,12 @@ const ProjectItem = ({
   description,
   author,
   date,
-  image
+  image,
+  id
 }: IProps) => {
+  const navigation = useNavigate();
   return (
-    <Container>
+    <Container onClick={() => navigation(`/portfolio/${id}`)}>
       <ImageContainer src={image} alt={title} />
       <Typography
         color="rgba(0, 131, 226, 1)"

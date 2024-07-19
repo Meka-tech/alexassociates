@@ -8,6 +8,7 @@ import Home from "./pages/home";
 import OurServices from "./pages/ourServices";
 import Portfolio from "./pages/portfolio";
 import About from "./pages/about";
+import PortfolioItem from "./pages/portfolio-item";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     element: <OurServices />
   },
   { path: "/portfolio", element: <Portfolio /> },
+  { path: "/portfolio/:id", element: <PortfolioItem /> },
   { path: "/about", element: <About /> }
 ]);
 

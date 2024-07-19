@@ -58,6 +58,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
           ({ service, title, description, author, date, image }, i) => {
             return (
               <ProjectItem
+                id={`${i}`}
                 service={service}
                 title={title}
                 description={description}
