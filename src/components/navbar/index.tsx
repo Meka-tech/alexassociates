@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../logo";
 import Hamburger from "hamburger-react";
+import Sidebar from "./mobileSidebar";
 
 const Navbar = () => {
   const path = useLocation().pathname;
@@ -74,6 +75,7 @@ const Navbar = () => {
       <HamburgerButton>
         <Hamburger toggled={isOpen} toggle={setOpen} />
       </HamburgerButton>
+      {isOpen && <Sidebar />}
     </Container>
   );
 };
@@ -84,6 +86,7 @@ const Container = styled.nav`
   padding: 1.6rem 7rem;
   padding-left: 10.2rem;
   display: flex;
+  position: relative;
   @media only screen and (max-width: 769px) {
     padding: 1.6rem;
   }

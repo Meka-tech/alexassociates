@@ -7,19 +7,25 @@ import Dropdown from "../../../../components/input/dropdown";
 import ProjectItem from "./project-item";
 import { DummyData } from "./dummyData";
 import Pagination from "../../../../components/pagination";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 interface IProps {
   inputValue: string;
 }
 const PortfolioProjects = ({ inputValue }: IProps) => {
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [searchParams] = useSearchParams();
+
+  const filterparam = searchParams.get("key");
+  const [activeFilter, setActiveFilter] = useState(
+    filterparam ? filterparam : "all"
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const filters = [
     { filter: "View all", key: "all" },
-    { filter: "Interior", key: "interior" },
-    { filter: "Architectural", key: "architectural" },
-    { filter: "Furniture", key: "furniture" },
-    { filter: "Project execution", key: "execution" }
+    { filter: "Interior", key: "interior-design" },
+    { filter: "Architectural", key: "architectural-design" },
+    { filter: "Furniture", key: "furniture-furnishing" },
+    { filter: "Project execution", key: "project-execution" }
   ];
 
   return (
@@ -129,7 +135,7 @@ const FilterOutline = styled.div`
   height: 1px;
   left: 0;
   bottom: 0;
-  border-bottom: 1px solid rgba(234, 236, 240, 1);
+  border-bottom: 2px solid rgba(234, 236, 240, 1);
   @media only screen and (max-width: 769px) {
     border-bottom: 2px solid rgba(234, 236, 240, 1);
   }
