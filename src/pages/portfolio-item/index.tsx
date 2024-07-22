@@ -49,4 +49,8 @@ const Container = styled.div`
   max-width: 100vw;
   min-height: 100vh;
   position: relative;
+  padding-top: 8rem;
+  @media only screen and (max-width: 769px) {
+    padding-top: 7.2rem;
+  }
 `;

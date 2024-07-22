@@ -7,7 +7,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../logo";
 import Hamburger from "hamburger-react";
 import Sidebar from "./mobileSidebar";
-import { useClickOutside } from "../../pages/hooks/UseClickOutside";
+import { useClickOutside } from "../../hooks/UseClickOutside";
 
 const Navbar = () => {
   const path = useLocation().pathname;
@@ -91,7 +91,11 @@ const Container = styled.nav`
   padding: 1.6rem 7rem;
   padding-left: 10.2rem;
   display: flex;
-  position: relative;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(0, 10, 15, 1);
   @media only screen and (max-width: 769px) {
     padding: 1.6rem;
   }

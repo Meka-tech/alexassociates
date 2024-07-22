@@ -162,6 +162,10 @@ const Container = styled.div`
   z-index: 10;
 
   border-radius: 0.8rem;
+  box-shadow: 0px 4px 6px -2px #10182808;
+
+  box-shadow: 0px 12px 16px -4px #10182814;
+
   @media only screen and (max-width: 769px) {
     display: block;
   }
