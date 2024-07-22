@@ -9,24 +9,56 @@ import OurServices from "./pages/ourServices";
 import Portfolio from "./pages/portfolio";
 import About from "./pages/about";
 import PortfolioItem from "./pages/portfolio-item";
+import { ScrollToTop } from "./utils/scrolltoTop";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element: (
+      <ScrollToTop>
+        <Home />
+      </ScrollToTop>
+    )
   },
   {
     path: "/our-services",
-    element: <OurServices />
+    element: (
+      <ScrollToTop>
+        <OurServices />
+      </ScrollToTop>
+    )
   },
-  { path: "/portfolio", element: <Portfolio /> },
-  { path: "/portfolio/:id", element: <PortfolioItem /> },
-  { path: "/about", element: <About /> }
+  {
+    path: "/portfolio",
+    element: (
+      <ScrollToTop>
+        <Portfolio />
+      </ScrollToTop>
+    )
+  },
+  {
+    path: "/portfolio/:id",
+    element: (
+      <ScrollToTop>
+        <PortfolioItem />
+      </ScrollToTop>
+    )
+  },
+  {
+    path: "/about",
+    element: (
+      <ScrollToTop>
+        <About />
+      </ScrollToTop>
+    )
+  }
 ]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+// const path = useLocation().pathname;
+window.scrollTo(0, 0);
 root.render(
   <React.StrictMode>
     <StyleSheetManager shouldForwardProp={() => true}>

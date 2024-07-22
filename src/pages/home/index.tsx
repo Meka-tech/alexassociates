@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import Navbar from "../../components/navbar";
 import HeroSection from "./components/heroSection";
@@ -11,16 +11,20 @@ import ContactUs from "../../components/contact-us";
 import Footer from "../../components/footer";
 
 const Home = () => {
+  const ContactRef = React.useRef<HTMLDivElement>(null);
+  const handleContact = () => {
+    ContactRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <Container>
       <Navbar />
-      <HeroSection />
+      <HeroSection handleContact={handleContact} />
       <AssociateSection />
       <PortfolioSection />
       <ResultSection />
       <QuoteSection />
       <ReviewSection />
-      <ContactUs />
+      <ContactUs ref={ContactRef} />
       <Footer />
     </Container>
   );

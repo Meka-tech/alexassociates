@@ -16,7 +16,6 @@ const PortfolioItem = () => {
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      window.scrollTo(0, 0);
       try {
       } catch (err) {
         navigate("/portfolio");

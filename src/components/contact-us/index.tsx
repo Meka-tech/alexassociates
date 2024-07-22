@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
 import PrimaryButton from "../../components/buttons/primary";
 import Typography from "../../components/typography";
@@ -10,12 +10,15 @@ import { Link } from "react-router-dom";
 import Check from "../../components/input/check";
 import PhoneInput from "../input/phone_no/phone_input";
 
-const ContactUs = () => {
+const ContactUs = forwardRef<HTMLDivElement, any>(function ContactUs(
+  props,
+  ref
+) {
   const [checked, setChecked] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
-    <Container>
+    <Container ref={ref}>
       <TextArea>
         <Typography
           size={TextSize.DisplayLg}
@@ -68,7 +71,7 @@ const ContactUs = () => {
       <Image src={MapImage} alt="map-image" />
     </Container>
   );
-};
+});
 
 export default ContactUs;
 

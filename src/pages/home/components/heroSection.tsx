@@ -8,8 +8,11 @@ import BackgroundGrid from "../../../components/BackgroundGrid";
 import Check from "../../../images/png/check.png";
 import { ReactComponent as OrnamentOne } from "../../../images/svg/ornaments/ornamentOne.svg";
 import Slideshow from "./slideshow";
+import { useNavigate } from "react-router-dom";
 
-const HeroSection = () => {
+const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Ornament>
@@ -47,10 +50,14 @@ const HeroSection = () => {
         <MobileFlip>
           <CTAButtons>
             <CTAButton>
-              <PrimaryButton text="Contact us" />
+              <PrimaryButton text="Contact us" onClick={handleContact} />
             </CTAButton>
             <CTAButton>
-              <PrimaryButton text="Get a quote" variant={true} />
+              <PrimaryButton
+                text="Get a quote"
+                variant={true}
+                onClick={() => navigate("/get-quote")}
+              />
             </CTAButton>
           </CTAButtons>
           <HeroItems>

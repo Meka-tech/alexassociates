@@ -6,7 +6,7 @@ import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RiArrowRightUpLine } from "react-icons/ri";
 
 const PortfolioSection = () => {
@@ -81,6 +81,7 @@ const PortfolioSection = () => {
       setSliderOffset(sliderOffset + 1);
     }
   };
+  const navigate = useNavigate();
   return (
     <Container>
       <BackgroundGrid
@@ -106,8 +107,11 @@ const PortfolioSection = () => {
           </Typography>
         </HeaderTextContainer>
         <HeaderButtonContainer>
-          <PrimaryButton text="Our customers" variant={true} />
-          <PrimaryButton text="View portfolio" />
+          {/* <PrimaryButton text="Our customers" variant={true} /> */}
+          <PrimaryButton
+            text="View portfolio"
+            onClick={() => navigate("/portfolio")}
+          />
         </HeaderButtonContainer>
       </SectionHeader>
       <Slider>
@@ -214,7 +218,7 @@ const HeaderTextContainer = styled.div`
 
 const HeaderButtonContainer = styled.div`
   display: grid;
-  grid-template-columns: 18.5rem 18.5rem;
+  grid-template-columns: 18.5rem;
   grid-column-gap: 1.2rem;
   @media only screen and (max-width: 769px) {
     width: 100%;
