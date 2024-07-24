@@ -1,26 +1,37 @@
-import React, { InputHTMLAttributes, useEffect, useState } from "react";
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Typography from "../../typography";
 import { TextSize, TextWeight } from "../../typography/enums";
 import PhoneCodes from "./phone_codes.json";
 import { IoIosArrowDown } from "react-icons/io";
+import { useClickOutside } from "../../../hooks/UseClickOutside";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   defaultValue?: string;
   defaultIndex?: number;
   setPhoneValue: (value: string) => void;
+  setIndex?: (value: number) => void;
 }
 const PhoneInput = ({
   label,
-  defaultValue,
-  defaultIndex,
+  defaultValue = "",
+  defaultIndex = 0,
   setPhoneValue,
+  setIndex,
   ...rest
 }: IProps) => {
-  const [countryIndex, setCountryIndex] = useState(97);
+  const [countryIndex, setCountryIndex] = useState(
+    defaultIndex > 0 ? defaultIndex : 97
+  );
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
+
+  const ref = useRef(null);
+
+  useClickOutside(ref, () => {
+    setIsOpen(false);
+  });
 
   useEffect(() => {
     setValue(`${PhoneCodes[countryIndex].dial_code}`);
@@ -54,13 +65,16 @@ const PhoneInput = ({
           placeholder={`${PhoneCodes[countryIndex].dial_code} `}
         />
       </InputContainer>
-      <Dropdown isopen={isOpen ? "true" : "false"}>
+      <Dropdown isopen={isOpen ? "true" : "false"} ref={ref}>
         {PhoneCodes.map(({ name }, i) => {
           return (
             <DropdownItem
               onClick={() => {
                 setCountryIndex(i);
                 setIsOpen(false);
+                if (setIndex) {
+                  setIndex(i);
+                }
               }}
               key={i}
             >

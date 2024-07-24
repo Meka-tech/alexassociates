@@ -5,8 +5,10 @@ import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
 import Image from "../../../images/png/quoteImage.png";
 import { ReactComponent as QuoteOrnament } from "../../../images/svg/ornaments/quoteOrnament.svg";
+import { useNavigate } from "react-router-dom";
 
 const QuoteSection = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Ornament>
@@ -27,7 +29,10 @@ const QuoteSection = () => {
             life!
           </Typography>
           <ButtonContainer>
-            <PrimaryButton text="Get started" />
+            <PrimaryButton
+              text="Get started"
+              onClick={() => navigate("/get-quote")}
+            />
           </ButtonContainer>
         </TextArea>
         <QuoteImage src={Image} alt="quote images" />

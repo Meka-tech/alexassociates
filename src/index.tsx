@@ -10,6 +10,7 @@ import Portfolio from "./pages/portfolio";
 import About from "./pages/about";
 import PortfolioItem from "./pages/portfolio-item";
 import { ScrollToTop } from "./utils/scrolltoTop";
+import GetQuote from "./pages/get-quote";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
         <About />
       </ScrollToTop>
     )
+  },
+  {
+    path: "/get-quote",
+    element: (
+      <ScrollToTop>
+        <GetQuote />
+      </ScrollToTop>
+    )
   }
 ]);
 
@@ -66,7 +75,3 @@ root.render(
     </StyleSheetManager>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

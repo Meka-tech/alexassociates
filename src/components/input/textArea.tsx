@@ -33,6 +33,43 @@ const InputContainer = styled.div`
   padding: 1rem 1.4rem;
   border-radius: 8px;
   height: fit-content;
+
+  /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+  /** {
+  scrollbar-width: thin;
+  scrollbar-color: #FFFFFF #000A0F;
+}*/
+
+  /* Chrome, Edge and Safari */
+  *::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #000a0f;
+  }
+
+  *::-webkit-scrollbar-track:hover {
+    background-color: #000a0f;
+  }
+
+  *::-webkit-scrollbar-track:active {
+    background-color: #000a0f;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background-color: #ffffff;
+  }
 `;
 const Input = styled.textarea<{ height: string }>`
   height: ${(props) => props.height}rem;

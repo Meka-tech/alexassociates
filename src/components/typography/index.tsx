@@ -28,6 +28,7 @@ interface IProps {
   m_lh?: string;
   align?: string;
   display?: string;
+  m_display?: string;
 }
 const Typography = ({
   size = "2",
@@ -55,7 +56,8 @@ const Typography = ({
   lh,
   m_lh,
   align,
-  display
+  display,
+  m_display
 }: IProps) => {
   return (
     <Text
@@ -75,6 +77,7 @@ const Typography = ({
       m_lh={m_lh}
       align={align}
       display={display}
+      m_display={m_display}
     >
       {children}
     </Text>
@@ -98,5 +101,6 @@ const Text = styled.p<IProps>`
     line-height: ${(props) => props.m_lh && `${props.m_lh}rem`};
     margin: ${(props) =>
       `${props.m_mt}rem ${props.m_mr}rem ${props.m_mb}rem ${props.m_ml}rem `};
+    display: ${(props) => props.m_display && props.m_display};
   }
 `;

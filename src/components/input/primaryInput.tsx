@@ -5,15 +5,21 @@ import { TextSize, TextWeight } from "../typography/enums";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  currency?: string;
 }
-const StyledInput = ({ label, ...rest }: IProps) => {
+const StyledInput = ({ label, currency, ...rest }: IProps) => {
   return (
     <Container>
       <Typography size={TextSize.sm} weight={TextWeight.medium} mb="0.6" lh="2">
         {label}
       </Typography>
       <InputContainer>
-        <Input {...rest} />
+        {currency && (
+          <Typography lh="2.4" mr="0.4" color="#FAFAFA" size={TextSize.md}>
+            {currency}
+          </Typography>
+        )}
+        <Input {...rest} type={currency ? "number" : "text"} />
       </InputContainer>
     </Container>
   );
@@ -31,6 +37,8 @@ const InputContainer = styled.div`
   width: 100%;
   padding: 1rem 1.4rem;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
 `;
 const Input = styled.input`
   width: 100%;

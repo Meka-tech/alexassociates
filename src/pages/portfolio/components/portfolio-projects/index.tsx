@@ -53,7 +53,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
           </FilterContainer>
         </FilterMobileOverflow>
         <SortContainer>
-          <Dropdown />
+          <Dropdown selectItem={(value) => {}} />
         </SortContainer>
       </TopFlex>
       <ProjectGrid>

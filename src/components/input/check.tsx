@@ -7,14 +7,16 @@ const Check = ({
   setCheck
 }: {
   state?: boolean;
-  setCheck: (state: boolean) => void;
+  setCheck?: (state: boolean) => void;
 }) => {
   const [active, setActive] = useState(state);
 
   const OnCheck = () => {
     const state = active;
     setActive(!state);
-    setCheck(!state);
+    if (setCheck) {
+      setCheck(!state);
+    }
   };
   return (
     <Container isactive={active ? "true" : "false"} onClick={OnCheck}>
@@ -30,12 +32,12 @@ const Container = styled.div<{ isactive: string }>`
   width: 2rem;
   height: 2rem;
   border-radius: 6px;
-  border: 1px solid white;
+  border: 1px solid
+    ${(props) => (props.isactive === "true" ? "#0083E2" : "white")};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(0, 22, 33, 1);
-  background-color: ${(props) =>
-    props.isactive === "true" ? "white" : "transparent"};
+  color: #0083e2;
+  background-color: transparent;
   transition: ease-in-out 0.1s all;
 `;
