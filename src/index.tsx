@@ -11,6 +11,8 @@ import About from "./pages/about";
 import PortfolioItem from "./pages/portfolio-item";
 import { ScrollToTop } from "./utils/scrolltoTop";
 import GetQuote from "./pages/get-quote";
+import UserRequests from "./pages/admin/user-requests";
+import Message from "./pages/admin/message";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,22 @@ const router = createBrowserRouter([
     element: (
       <ScrollToTop>
         <GetQuote />
+      </ScrollToTop>
+    )
+  },
+  {
+    path: "/admin/user-requests",
+    element: (
+      <ScrollToTop>
+        <UserRequests />
+      </ScrollToTop>
+    )
+  },
+  {
+    path: "/admin/message/:id",
+    element: (
+      <ScrollToTop>
+        <Message />
       </ScrollToTop>
     )
   }

@@ -13,6 +13,8 @@ const Navbar = () => {
   const path = useLocation().pathname;
   const [isOpen, setOpen] = useState(false);
 
+  const admin = false;
+
   const ref = useRef(null);
   useClickOutside(ref, () => {
     setOpen(false);
@@ -76,6 +78,40 @@ const Navbar = () => {
             </Typography>
           </Nav>
         </NavItem>
+        {admin && (
+          <>
+            <NavItem>
+              <Nav to="/admin/user-requests">
+                <Typography
+                  size={TextSize.md}
+                  weight={TextWeight.semibold}
+                  color={
+                    path.includes("/admin/user-requests")
+                      ? "rgba(0, 131, 226, 1)"
+                      : "inherit"
+                  }
+                >
+                  User requests
+                </Typography>
+              </Nav>
+            </NavItem>
+            <NavItem>
+              <Nav to="/admin/manage-website">
+                <Typography
+                  size={TextSize.md}
+                  weight={TextWeight.semibold}
+                  color={
+                    path.includes("/admin/manage-website")
+                      ? "rgba(0, 131, 226, 1)"
+                      : "inherit"
+                  }
+                >
+                  Manage website
+                </Typography>
+              </Nav>
+            </NavItem>
+          </>
+        )}
       </NavItems>
       <HamburgerButton>
         <Hamburger toggled={isOpen} toggle={setOpen} />

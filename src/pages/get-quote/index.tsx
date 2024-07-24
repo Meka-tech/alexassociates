@@ -15,7 +15,7 @@ import Modal from "../../components/modal";
 import SuccessModal from "./components/success-modal";
 
 const GetQuote = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
 
   const [firstName, setFirstName] = useState("");

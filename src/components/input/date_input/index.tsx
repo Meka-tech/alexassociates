@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import { LuCalendar } from "react-icons/lu";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Typography from "../../typography";
 import { TextSize, TextWeight } from "../../typography/enums";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import "./style.css";
 
 interface IProps {
   placeholder?: string;
@@ -16,8 +17,17 @@ const DateInput = ({ placeholder = "Select dates" }: IProps) => {
   const handleButtonClick = () => {
     datePickerRef.current?.setOpen(true);
   };
+
   return (
     <Container>
+      <InputContainer>
+        <DatePicker
+          ref={datePickerRef}
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          startDate={new Date()}
+        />
+      </InputContainer>
       <Body onClick={handleButtonClick}>
         <LuCalendar size={20} />
         <Typography
@@ -29,13 +39,6 @@ const DateInput = ({ placeholder = "Select dates" }: IProps) => {
         >
           {placeholder}
         </Typography>
-        <InputContainer>
-          <DatePicker
-            ref={datePickerRef}
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-          />
-        </InputContainer>
       </Body>
     </Container>
   );
@@ -59,11 +62,15 @@ const Body = styled.div`
   align-items: center;
   justify-content: center;
   color: white;
+  z-index: 3;
+  background-color: #000a0f;
 `;
 
 const InputContainer = styled.div`
   position: absolute;
   cursor: pointer;
+  /* width: 100%; */
+  font-size: 1.4rem;
   top: 50%;
   left: 50%;
   opacity: 1;
