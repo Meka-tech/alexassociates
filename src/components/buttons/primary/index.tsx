@@ -7,7 +7,11 @@ interface IProps extends React.HTMLProps<HTMLButtonElement> {
   text: string;
   variant?: boolean;
 }
-const PrimaryButton = ({ text, variant = false, ...rest }: IProps) => {
+const PrimaryButton = ({
+  text = "Button",
+  variant = false,
+  ...rest
+}: IProps) => {
   return (
     <Container variant={variant ? "true" : "false"} {...rest}>
       <Typography size={TextSize.md} weight={TextWeight.semibold}>

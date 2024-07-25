@@ -8,12 +8,13 @@ import Logo from "../logo";
 import Hamburger from "hamburger-react";
 import Sidebar from "./mobileSidebar";
 import { useClickOutside } from "../../hooks/UseClickOutside";
+import { useAuth } from "../../context/authContext";
 
 const Navbar = () => {
   const path = useLocation().pathname;
   const [isOpen, setOpen] = useState(false);
 
-  const admin = false;
+  const { isLoggedIn } = useAuth();
 
   const ref = useRef(null);
   useClickOutside(ref, () => {
@@ -78,7 +79,7 @@ const Navbar = () => {
             </Typography>
           </Nav>
         </NavItem>
-        {admin && (
+        {isLoggedIn && (
           <>
             <NavItem>
               <Nav to="/admin/user-requests">
@@ -110,6 +111,15 @@ const Navbar = () => {
                 </Typography>
               </Nav>
             </NavItem>
+            <ProfileIcon>
+              <Typography
+                weight={TextWeight.semibold}
+                lh="4"
+                size={TextSize.DisplayXs}
+              >
+                A
+              </Typography>
+            </ProfileIcon>
           </>
         )}
       </NavItems>
@@ -140,6 +150,8 @@ const Container = styled.nav`
 const NavItems = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
+  padding-right: 3.2rem;
   margin-left: 4rem;
   @media only screen and (max-width: 769px) {
     display: none;
@@ -151,6 +163,17 @@ const NavItem = styled.div`
 
   display: flex;
   align-items: center;
+`;
+const ProfileIcon = styled.div`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin-left: auto;
+  background-color: #990178;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 `;
 const Nav = styled(Link)`
   text-decoration: none;

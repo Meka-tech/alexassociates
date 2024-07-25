@@ -6,6 +6,7 @@ import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import Messages from "./message-components/messages";
 import { useSearchParams } from "react-router-dom";
+import Quotes from "./quote-components/quotes";
 
 const UserRequests = () => {
   const [searchParams] = useSearchParams();
@@ -47,7 +48,11 @@ const UserRequests = () => {
           </Button>
         </Buttons>
       </TopNav>
-      {active === "message" ? <Messages /> : null}
+      {active === "message" ? (
+        <Messages />
+      ) : active === "quote" ? (
+        <Quotes />
+      ) : null}
       <Footer />
     </Main>
   );
@@ -71,6 +76,9 @@ const TopNav = styled.div`
   border-bottom: 1px solid #2e3b41;
   padding: 1.2rem 11.2rem;
   margin-bottom: 0.8rem;
+  @media only screen and (max-width: 769px) {
+    padding: 1.2rem 1.6rem;
+  }
 `;
 
 const Buttons = styled.div`

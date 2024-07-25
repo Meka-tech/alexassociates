@@ -199,9 +199,6 @@ const HeroItems = styled.div`
     width: 100%;
     margin-top: 3.2rem;
   }
-  @media only screen and (max-width: 1500px) {
-    width: 100%;
-  }
 `;
 
 const HeroItem = styled(FlexBox)`

@@ -4,18 +4,22 @@ import styled from "styled-components";
 
 const Check = ({
   state = false,
-  setCheck
+  setCheck,
+  disabled = false
 }: {
   state?: boolean;
   setCheck?: (state: boolean) => void;
+  disabled?: boolean;
 }) => {
   const [active, setActive] = useState(state);
 
   const OnCheck = () => {
     const state = active;
-    setActive(!state);
-    if (setCheck) {
-      setCheck(!state);
+    if (!disabled) {
+      setActive(!state);
+      if (setCheck) {
+        setCheck(!state);
+      }
     }
   };
   return (

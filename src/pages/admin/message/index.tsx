@@ -142,6 +142,9 @@ const TopNav = styled.div`
   border-bottom: 1px solid #2e3b41;
   padding: 1.2rem 11.2rem;
   margin-bottom: 0.8rem;
+  @media only screen and (max-width: 769px) {
+    padding: 1.2rem 1.6rem;
+  }
 `;
 
 const Buttons = styled.div`
@@ -197,6 +200,10 @@ const OrnamentContainer = styled.div`
 
 const Body = styled.div`
   padding: 6.4rem 8rem;
+  @media only screen and (max-width: 769px) {
+    padding: 2.7rem 1.6rem;
+    padding-bottom: 6.2rem;
+  }
 `;
 
 const TextBox = styled.div`
@@ -206,10 +213,17 @@ const TextBox = styled.div`
   color: #e4e4e4;
   border-radius: 0.8rem;
   padding: 1.2rem 1.4rem;
+  @media only screen and (max-width: 769px) {
+    margin-bottom: 2.8rem;
+  }
 `;
 
 const ButtonGrid = styled.div`
   display: grid;
   grid-template-columns: 12rem 12rem;
   grid-column-gap: 3.2rem;
+  @media only screen and (max-width: 769px) {
+    grid-template-columns: 100%;
+    grid-row-gap: 1.6rem;
+  }
 `;

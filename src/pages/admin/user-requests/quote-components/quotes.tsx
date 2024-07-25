@@ -11,7 +11,7 @@ import { data } from "./dummyData";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown } from "react-icons/io";
 
-const Messages = () => {
+const Quotes = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
@@ -22,7 +22,7 @@ const Messages = () => {
           lh="3.2"
           size={TextSize.DisplayXs}
         >
-          Messages
+          Quote requests
         </Typography>
         <SearchInput variant={true} />
       </HeaderFlex>
@@ -94,7 +94,7 @@ const Messages = () => {
             {data.map(
               ({ firstname, lastname, date, email, phoneNumber }, i) => {
                 return (
-                  <MessageItem
+                  <QuoteItem
                     firstname={firstname}
                     lastname={lastname}
                     date={date}
@@ -122,7 +122,7 @@ const Messages = () => {
   );
 };
 
-const MessageItem = ({
+const QuoteItem = ({
   firstname,
   lastname,
   email,
@@ -169,7 +169,7 @@ const MessageItem = ({
         <ActionButtons>
           <SendMail
             onClick={() => {
-              navigate(`/admin/message/${id}`);
+              navigate(`/admin/quote/${id}`);
             }}
           >
             <LuMail size={20} />
@@ -183,7 +183,7 @@ const MessageItem = ({
   );
 };
 
-export default Messages;
+export default Quotes;
 
 const Container = styled.div`
   border-top: 1px solid #2e3b41;
