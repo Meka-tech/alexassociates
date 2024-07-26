@@ -140,27 +140,47 @@ const MessageItem = ({
   const navigate = useNavigate();
   return (
     <tr>
-      <td>
+      <td
+        onClick={() => {
+          navigate(`/admin/message/${id}`);
+        }}
+      >
         <Typography lh="2" size={TextSize.sm}>
           {firstname}
         </Typography>
       </td>
-      <td>
+      <td
+        onClick={() => {
+          navigate(`/admin/message/${id}`);
+        }}
+      >
         <Typography lh="2" size={TextSize.sm}>
           {lastname}
         </Typography>
       </td>
-      <td>
+      <td
+        onClick={() => {
+          navigate(`/admin/message/${id}`);
+        }}
+      >
         <Typography lh="2" size={TextSize.sm}>
           {email}
         </Typography>
       </td>
-      <td>
+      <td
+        onClick={() => {
+          navigate(`/admin/message/${id}`);
+        }}
+      >
         <Typography lh="2" size={TextSize.sm}>
           {phoneNumber}
         </Typography>
       </td>
-      <td>
+      <td
+        onClick={() => {
+          navigate(`/admin/message/${id}`);
+        }}
+      >
         <Typography lh="2" size={TextSize.sm}>
           {date}
         </Typography>
@@ -168,9 +188,9 @@ const MessageItem = ({
       <td>
         <ActionButtons>
           <SendMail
-            onClick={() => {
-              navigate(`/admin/message/${id}`);
-            }}
+          // onClick={() => {
+          //   navigate(`/admin/message/${id}`);
+          // }}
           >
             <LuMail size={20} />
           </SendMail>
@@ -221,12 +241,14 @@ const TableContainer = styled.table`
   margin-bottom: 6.4rem;
   width: 100%;
   color: white;
+  border-collapse: collapse;
   @media only screen and (max-width: 769px) {
     width: 100rem;
   }
 
   tr {
     background-color: transparent;
+    cursor: pointer;
     &:nth-child(odd) {
       background-color: #01111a;
     }
@@ -238,6 +260,7 @@ const TableContainer = styled.table`
     border-top: 1px solid #0083e2;
     border-bottom: 1px solid #0083e2;
     background-color: rgba(0, 10, 15, 1);
+    cursor: auto;
   }
   td {
     color: #e4e4e4;
