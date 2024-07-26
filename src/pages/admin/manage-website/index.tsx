@@ -110,7 +110,7 @@ const Container = styled.div`
   padding-top: 8rem;
   overflow-x: hidden;
   @media only screen and (max-width: 769px) {
-    padding-top: 7.2rem;
+    padding-top: 8rem;
   }
 `;
 
@@ -120,10 +120,9 @@ const TopNav = styled.div`
   padding: 1.2rem 11.2rem;
   margin-bottom: 0.8rem;
   display: flex;
-
   @media only screen and (max-width: 769px) {
     padding: 1.2rem 1.6rem;
-    width: fit-content;
+    min-width: fit-content;
     overflow-x: scroll;
   }
 `;

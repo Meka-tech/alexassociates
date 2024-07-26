@@ -111,21 +111,26 @@ const Navbar = () => {
                 </Typography>
               </Nav>
             </NavItem>
-            <ProfileIcon>
-              <Typography
-                weight={TextWeight.semibold}
-                lh="4"
-                size={TextSize.DisplayXs}
-              >
-                A
-              </Typography>
-            </ProfileIcon>
           </>
         )}
       </NavItems>
-      <HamburgerButton>
-        <Hamburger toggled={isOpen} toggle={setOpen} />
-      </HamburgerButton>
+      <NavRight>
+        {isLoggedIn && (
+          <ProfileIcon>
+            <Typography
+              weight={TextWeight.semibold}
+              lh="4"
+              size={TextSize.DisplayXs}
+            >
+              A
+            </Typography>
+          </ProfileIcon>
+        )}
+
+        <HamburgerButton>
+          <Hamburger toggled={isOpen} toggle={setOpen} />
+        </HamburgerButton>
+      </NavRight>
       {isOpen && <Sidebar />}
     </Container>
   );
@@ -168,12 +173,14 @@ const ProfileIcon = styled.div`
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  margin-left: auto;
   background-color: #990178;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
+  @media only screen and (max-width: 769px) {
+    margin-right: 2.4rem;
+  }
 `;
 const Nav = styled(Link)`
   text-decoration: none;
@@ -190,9 +197,13 @@ const ArrowIcon = styled.div`
   color: white;
 `;
 
+const NavRight = styled.div`
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+`;
 const HamburgerButton = styled.div`
   color: white;
-  margin-left: auto;
   display: none;
   @media only screen and (max-width: 769px) {
     display: block;

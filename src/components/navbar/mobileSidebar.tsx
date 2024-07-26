@@ -4,14 +4,17 @@ import Typography from "../typography";
 import { TextSize, TextWeight } from "../typography/enums";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiHome6Line } from "react-icons/ri";
-import { PiInfo } from "react-icons/pi";
+import { PiInfo, PiUsers } from "react-icons/pi";
 import { HiOutlineBriefcase, HiOutlineLightningBolt } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
+import { useAuth } from "../../context/authContext";
 
 const Sidebar = () => {
   const path = useLocation().pathname;
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownAuthOpen, setDropdownAuthOpen] = useState(false);
   const navigation = useNavigate();
+  const { isLoggedIn } = useAuth();
   return (
     <Container>
       <Nav to={"/"}>
@@ -146,6 +149,125 @@ const Sidebar = () => {
           </Typography>
         </NavItem>
       </Nav>
+      {isLoggedIn && (
+        <>
+          <Nav to={"/admin/user-requests"}>
+            <NavItem>
+              <PiUsers
+                size={20}
+                color={
+                  path.includes("/admin/user-requests")
+                    ? "rgba(0, 131, 226, 1)"
+                    : "inherit"
+                }
+              />
+
+              <Typography
+                size={TextSize.sm}
+                weight={TextWeight.medium}
+                lh="2"
+                color={
+                  path.includes("/admin/user-requests")
+                    ? "rgba(0, 131, 226, 1)"
+                    : "inherit"
+                }
+                ml="0.8"
+              >
+                User requests
+              </Typography>
+            </NavItem>
+          </Nav>
+          <Dropdown>
+            <DropdownBody>
+              <Nav to={"/admin/manage-website"} style={{ display: "flex" }}>
+                <HiOutlineBriefcase
+                  size={20}
+                  color={
+                    path.includes("/admin/manage-website")
+                      ? "rgba(0, 131, 226, 1)"
+                      : "rgba(52, 64, 84, 1)"
+                  }
+                />
+                <Typography
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  color={
+                    path.includes("/admin/manage-website")
+                      ? "rgba(0, 131, 226, 1)"
+                      : "rgba(52, 64, 84, 1)"
+                  }
+                  ml="0.8"
+                >
+                  Manage website
+                </Typography>
+              </Nav>
+              <Arrow
+                onClick={() => setDropdownAuthOpen(!dropdownAuthOpen)}
+                isopen={dropdownAuthOpen ? "true" : "false"}
+              >
+                <IoIosArrowDown size={20} />
+              </Arrow>
+            </DropdownBody>
+            {dropdownAuthOpen && (
+              <>
+                <DropdownItem
+                  onClick={() => {
+                    navigation("/admin/manage-website?key=home");
+                  }}
+                >
+                  <Typography
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                  >
+                    Home page
+                  </Typography>
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    navigation("/admin/manage-website?key=about");
+                  }}
+                >
+                  <Typography
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                  >
+                    About page
+                  </Typography>
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    navigation("/admin/manage-website?key=services");
+                  }}
+                >
+                  <Typography
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                  >
+                    Our services
+                  </Typography>
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    navigation("/admin/manage-website?key=portfolio");
+                  }}
+                >
+                  <Typography
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                  >
+                    Portfolio
+                  </Typography>
+                </DropdownItem>
+              </>
+            )}
+          </Dropdown>
+        </>
+      )}
     </Container>
   );
 };

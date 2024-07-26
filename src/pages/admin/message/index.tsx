@@ -134,7 +134,7 @@ const Main = styled.div`
   padding-top: 8rem;
 
   @media only screen and (max-width: 769px) {
-    padding-top: 7.2rem;
+    padding-top: 8rem;
   }
 `;
 const TopNav = styled.div`
