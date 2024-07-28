@@ -34,7 +34,7 @@ const RelatedContent = ({ service }: { service: string }) => {
                 title={title}
                 description={description}
                 author={author}
-                date={date}
+                // date={date}
                 image={image}
                 key={i}
               />

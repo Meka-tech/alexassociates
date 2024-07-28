@@ -15,22 +15,22 @@ const Footer = () => {
       <Links>
         <FooterLink to="/">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
-            Overview
+            Home
           </Typography>
         </FooterLink>
-        <FooterLink to="/">
+        <FooterLink to="/about">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
-            Features
+            About
           </Typography>
         </FooterLink>
-        <FooterLink to="/">
+        <FooterLink to="/portfolio">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
-            Pricing
+            Portfolio
           </Typography>
         </FooterLink>
-        <FooterLink to="/">
+        <FooterLink to="/our-services">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
-            Careers
+            Our Services
           </Typography>
         </FooterLink>
         <FooterLink to="/">
@@ -54,9 +54,6 @@ const Footer = () => {
           </BottomLink>
           <BottomLink to="">
             <Typography size={TextSize.md}>Privacy</Typography>
-          </BottomLink>
-          <BottomLink to="">
-            <Typography size={TextSize.md}>Cookies</Typography>
           </BottomLink>
         </FlexBox>
       </Bottom>

@@ -6,13 +6,14 @@ import { LuArrowUpRight } from "react-icons/lu";
 
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { useNavigate } from "react-router-dom";
+import DateConvert from "../../../../utils/dateConvert";
 
 interface IProps {
   service: string;
   title: string;
   description: string;
   author: string;
-  date: string;
+  date?: Date;
   image: string;
   id: string;
 }
@@ -21,7 +22,7 @@ const ProjectItem = ({
   title,
   description,
   author,
-  date,
+  date = new Date(),
   image,
   id
 }: IProps) => {
@@ -68,7 +69,7 @@ const ProjectItem = ({
         {author}
       </Typography>
       <Typography color="rgba(228, 228, 228, 1)" size={TextSize.sm} lh="2">
-        {date}
+        {DateConvert(date)}
       </Typography>
     </Container>
   );

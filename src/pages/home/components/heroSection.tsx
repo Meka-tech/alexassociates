@@ -168,6 +168,8 @@ const CTAButtons = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 30%;
+  z-index: 1;
+
   @media only screen and (max-width: 769px) {
     flex-direction: column;
     width: 100%;
@@ -227,6 +229,7 @@ const Ornament = styled.div`
   position: absolute;
   top: 0;
   right: 20rem;
+  z-index: 0;
   @media only screen and (max-width: 769px) {
     display: none;
   }

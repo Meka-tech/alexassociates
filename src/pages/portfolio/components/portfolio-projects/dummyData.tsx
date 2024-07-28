@@ -7,7 +7,8 @@ export const DummyData = [
     author: "Olivia Rhye",
     date: "20 Jan 2024",
     image:
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb",
+    published: false
   },
   {
     service: "Furniture & Furnishings",
@@ -17,7 +18,8 @@ export const DummyData = [
     author: "Phoenix Baker",
     date: "19 Jan 2024",
     image:
-      "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb",
+    published: true
   },
   {
     service: "Project execution",
@@ -27,7 +29,8 @@ export const DummyData = [
     author: "Lana Steiner",
     date: "18 Jan 2024",
     image:
-      "https://images.pexels.com/photos/609768/pexels-photo-609768.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/609768/pexels-photo-609768.jpeg?auto=compress&cs=tinysrgb",
+    published: false
   },
   {
     service: "Furniture & Furnishings",
@@ -37,7 +40,8 @@ export const DummyData = [
     author: "Demi WIlkinson",
     date: "16 Jan 2024",
     image:
-      "https://images.pexels.com/photos/37347/office-sitting-room-executive-sitting.jpg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/37347/office-sitting-room-executive-sitting.jpg?auto=compress&cs=tinysrgb",
+    published: true
   },
   {
     service: "Interior design",
@@ -47,7 +51,8 @@ export const DummyData = [
     author: "Demi WIlkinson",
     date: "16 Jan 2024",
     image:
-      "https://images.pexels.com/photos/279648/pexels-photo-279648.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/279648/pexels-photo-279648.jpeg?auto=compress&cs=tinysrgb",
+    published: false
   },
   {
     service: "Architectural design",
@@ -57,7 +62,8 @@ export const DummyData = [
     author: "Candice Wu",
     date: "15 Jan 2024",
     image:
-      "https://images.pexels.com/photos/5922202/pexels-photo-5922202.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/5922202/pexels-photo-5922202.jpeg?auto=compress&cs=tinysrgb",
+    published: false
   },
   {
     service: "Interior design",
@@ -67,7 +73,8 @@ export const DummyData = [
     author: "Natali Craig",
     date: "14 Jan 2024",
     image:
-      "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb",
+    published: true
   },
   {
     service: "Architectural design",
@@ -77,7 +84,8 @@ export const DummyData = [
     author: "Drew Cano",
     date: "13 Jan 2024",
     image:
-      "https://images.pexels.com/photos/9405517/pexels-photo-9405517.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/9405517/pexels-photo-9405517.jpeg?auto=compress&cs=tinysrgb",
+    published: true
   },
   {
     service: "Project execution",
@@ -87,6 +95,7 @@ export const DummyData = [
     author: "Orlando Diggs",
     date: "12 Jan 2024",
     image:
-      "https://images.pexels.com/photos/667838/pexels-photo-667838.jpeg?auto=compress&cs=tinysrgb"
+      "https://images.pexels.com/photos/667838/pexels-photo-667838.jpeg?auto=compress&cs=tinysrgb",
+    published: false
   }
 ];

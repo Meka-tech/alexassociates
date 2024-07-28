@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useRef } from "react";
 import styled from "styled-components";
 import Typography from "../typography";
 import { TextSize, TextWeight } from "../typography/enums";
@@ -6,8 +6,10 @@ import { TextSize, TextWeight } from "../typography/enums";
 interface IProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   height?: string;
+  limit?: number;
 }
-const StyledTextArea = ({ label, height = "12.4", ...rest }: IProps) => {
+const StyledTextArea = ({ label, height = "12.4", limit, ...rest }: IProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <Container>
       <Typography size={TextSize.sm} weight={TextWeight.medium} mb="0.6" lh="2">
@@ -16,6 +18,16 @@ const StyledTextArea = ({ label, height = "12.4", ...rest }: IProps) => {
       <InputContainer>
         <Input height={height} {...rest} />
       </InputContainer>
+      {limit && (
+        <MaxCharacterContainer>
+          <Typography size={TextSize.sm} color="#475467">
+            Max {limit} characters *
+          </Typography>
+          <Typography size={TextSize.sm} color="#475467">
+            {inputRef.current?.value.length || 0}/{limit}
+          </Typography>
+        </MaxCharacterContainer>
+      )}
     </Container>
   );
 };
@@ -85,4 +97,10 @@ const Input = styled.textarea<{ height: string }>`
   &::placeholder {
     color: grey;
   }
+`;
+const MaxCharacterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
 `;

@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
+import PortfolioEdit from "./components/portfolio-page";
 
 const ManageWebsite = () => {
   const [searchParams] = useSearchParams();
@@ -60,7 +61,10 @@ const ManageWebsite = () => {
           <PrimaryButton text="Save changes" onClick={SaveChanges} />
         </ConfirmButtons>
       </TopNav>
-      <Body>{active === "home" && null}</Body>
+      <Body>
+        {active === "home" && null}{" "}
+        {active === "portfolio" && <PortfolioEdit />}
+      </Body>
       <MobileConfirmButtons>
         <PrimaryButton
           text="Discard changes"

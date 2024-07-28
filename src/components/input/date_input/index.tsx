@@ -1,17 +1,19 @@
 import React, { useRef, useState } from "react";
 import { LuCalendar } from "react-icons/lu";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import Typography from "../../typography";
 import { TextSize, TextWeight } from "../../typography/enums";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import "./style.css";
+import DateConvert from "../../../utils/dateConvert";
 
 interface IProps {
   placeholder?: string;
+  selectDate?: (date: Date | null) => void;
 }
-const DateInput = ({ placeholder = "Select dates" }: IProps) => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+const DateInput = ({ placeholder = "Select date", selectDate }: IProps) => {
+  const [date, setDate] = useState<Date | null>();
   const datePickerRef = useRef<any>(null);
 
   const handleButtonClick = () => {
@@ -23,8 +25,13 @@ const DateInput = ({ placeholder = "Select dates" }: IProps) => {
       <InputContainer>
         <DatePicker
           ref={datePickerRef}
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
+          selected={date}
+          onChange={(date) => {
+            setDate(date);
+            if (selectDate) {
+              selectDate(date);
+            }
+          }}
           startDate={new Date()}
         />
       </InputContainer>
@@ -37,7 +44,7 @@ const DateInput = ({ placeholder = "Select dates" }: IProps) => {
           lh="2"
           weight={TextWeight.semibold}
         >
-          {placeholder}
+          {date ? DateConvert(date) : placeholder}
         </Typography>
       </Body>
     </Container>

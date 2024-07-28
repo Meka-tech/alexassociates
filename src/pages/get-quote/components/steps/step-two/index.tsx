@@ -10,6 +10,7 @@ import {
 } from "../../../../../components/typography/enums";
 import Check from "../../../../../components/input/check";
 import DateInput from "../../../../../components/input/date_input";
+import Label from "../../../../../components/typography/label";
 
 interface IProps {
   goBack: () => void;
@@ -116,20 +117,20 @@ const StepTwo = ({
             );
           })}
         </div>
-        <div>
-          <Typography
-            mb="0.6"
-            lh="2"
-            size={TextSize.sm}
-            weight={TextWeight.medium}
-            color="#CFCECE"
-          >
-            Expected start date - Expected completion date
-          </Typography>
-          <DateContainer>
-            <DateInput />
-          </DateContainer>
-        </div>
+        <Dates>
+          <div>
+            <Label>Expected start date</Label>
+            <DateContainer>
+              <DateInput />
+            </DateContainer>
+          </div>
+          <div>
+            <Label>Expected completion date</Label>
+            <DateContainer>
+              <DateInput />
+            </DateContainer>
+          </div>
+        </Dates>
       </GridItems>
 
       <ButtonGrid>
@@ -173,6 +174,17 @@ const CheckItem = styled.div`
   margin-bottom: 1.2rem;
 `;
 
+const Dates = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48% 48%;
+  align-items: start;
+  justify-content: space-between;
+  @media only screen and (max-width: 769px) {
+    grid-template-columns: 48% 48%;
+    padding: 0 2rem;
+  }
+`;
 const DateContainer = styled.div`
   width: 32.1rem;
   @media only screen and (max-width: 769px) {

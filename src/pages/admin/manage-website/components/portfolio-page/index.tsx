@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FlexBox } from "../../../../components/container-styles/styles";
-import Typography from "../../../../components/typography";
-import { TextSize, TextWeight } from "../../../../components/typography/enums";
-import Dropdown from "../../../../components/input/dropdown";
-import ProjectItem from "./project-item";
-import { DummyData } from "./dummyData";
-import Pagination from "../../../../components/pagination";
-import { useSearchParams } from "react-router-dom";
+import { FlexBox } from "../../../../../components/container-styles/styles";
+import Typography from "../../../../../components/typography";
+import {
+  TextSize,
+  TextWeight
+} from "../../../../../components/typography/enums";
+import PrimaryButton from "../../../../../components/buttons/primary";
+import { TfiUpload } from "react-icons/tfi";
+import SearchInput from "../../../../../components/input/searchInput";
+import Pagination from "../../../../../components/pagination";
+import ProjectEditItem from "./portfolio-edit-item";
+import { DummyData } from "../../../../portfolio/components/portfolio-projects/dummyData";
+import { useNavigate } from "react-router-dom";
 
-interface IProps {
-  inputValue: string;
-}
-const PortfolioProjects = ({ inputValue }: IProps) => {
-  const [searchParams] = useSearchParams();
-
-  const filterparam = searchParams.get("key");
-  const [activeFilter, setActiveFilter] = useState(
-    filterparam ? filterparam : "all"
-  );
+const PortfolioEdit = () => {
+  const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const filters = [
     { filter: "View all", key: "all" },
@@ -27,10 +24,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
     { filter: "Furniture", key: "furniture-furnishing" },
     { filter: "Project execution", key: "project-execution" }
   ];
-
-  useEffect(() => {
-    setActiveFilter(filterparam ? filterparam : "all");
-  }, [filterparam]);
+  const navigate = useNavigate();
   return (
     <Container>
       <TopFlex>
@@ -52,15 +46,23 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
             <FilterOutline />
           </FilterContainer>
         </FilterMobileOverflow>
-        <SortContainer>
-          <Dropdown selectItem={(value) => {}} />
-        </SortContainer>
+        <UploadContainer>
+          <PrimaryButton
+            text="Upload new project"
+            icon={<TfiUpload size={15} />}
+            onClick={() => navigate("/admin/manage-website/upload-project")}
+          />
+        </UploadContainer>
       </TopFlex>
+      <SearchInput variant />
       <ProjectGrid>
         {DummyData.map(
-          ({ service, title, description, author, date, image }, i) => {
+          (
+            { service, title, description, author, date, image, published },
+            i
+          ) => {
             return (
-              <ProjectItem
+              <ProjectEditItem
                 id={`${i}`}
                 service={service}
                 title={title}
@@ -69,6 +71,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
                 // date={date}
                 image={image}
                 key={i}
+                published={published}
               />
             );
           }
@@ -87,14 +90,15 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
   );
 };
 
-export default PortfolioProjects;
+export default PortfolioEdit;
 
 const Container = styled.div`
   width: 100%;
-  padding: 2.4rem 11.2rem 9.6rem 11.2rem;
+  padding: 2.4rem 11.2rem;
+  padding-bottom: 9.6rem;
   @media only screen and (max-width: 769px) {
-    padding: 2.4rem 1.6rem 6.4rem 1.6rem;
-    overflow: hidden;
+    padding: 3.2rem 1.6rem;
+    padding-bottom: 6.4rem;
   }
 `;
 
@@ -119,11 +123,12 @@ const FilterMobileOverflow = styled.div`
   }
 `;
 const FilterContainer = styled.div`
-  width: 86.4rem;
+  width: 120rem;
   display: flex;
   align-items: center;
   position: relative;
   max-width: 80%;
+
   @media only screen and (max-width: 769px) {
     width: max-content;
     max-width: max-content;
@@ -165,8 +170,8 @@ const FilterItem = styled.div<{ isactive: string }>`
   }
 `;
 
-const SortContainer = styled.div`
-  width: 32rem;
+const UploadContainer = styled.div`
+  width: 22rem;
   @media only screen and (max-width: 769px) {
     width: 100%;
     margin-top: 3.2rem;
@@ -176,16 +181,22 @@ const SortContainer = styled.div`
 const ProjectGrid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 30% 30% 30%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "a b c "
+    "d e f"
+    "g h i";
   align-items: center;
   justify-content: space-between;
   grid-column-gap: 3.2rem;
   grid-row-gap: 6.4rem;
-  margin-bottom: 6.4rem;
+  margin: 6.4rem 0;
   @media only screen and (max-width: 769px) {
     grid-template-columns: auto;
     grid-row-gap: 4.8rem;
-    margin-bottom: 4.8rem;
+    grid-template-areas: unset;
+    margin: 4.8rem 0;
   }
 `;
 

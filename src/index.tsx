@@ -24,6 +24,8 @@ import Auth from "./pages/auth";
 import { AuthProvider } from "./context/authContext";
 import PrivateRoute from "./components/private-route";
 import ManageWebsite from "./pages/admin/manage-website";
+import UploadProject from "./pages/admin/portfolio/upload-project";
+import EditProject from "./pages/admin/portfolio/edit-project";
 
 const router = createBrowserRouter([
   {
@@ -155,6 +157,22 @@ root.render(
                 element={
                   <PrivateRoute>
                     <ManageWebsite />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/manage-website/upload-project"
+                element={
+                  <PrivateRoute>
+                    <UploadProject />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/manage-website/edit-project/:id"
+                element={
+                  <PrivateRoute>
+                    <EditProject />
                   </PrivateRoute>
                 }
               />

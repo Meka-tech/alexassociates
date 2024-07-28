@@ -100,12 +100,14 @@ const DropdownBody = styled.div<{ isopen: string }>`
   background-color: white;
   border-radius: 0.8rem;
   opacity: ${(props) => (props.isopen === "true" ? 1 : 0)};
-  z-index: ${(props) => (props.isopen === "true" ? 4 : -10)};
+  z-index: ${(props) => (props.isopen === "true" ? 4 : -1)};
+  transform: ${(props) =>
+    props.isopen === "true" ? "translateY(0)" : "translateY(-50%)"};
   padding: 0.6rem;
   box-shadow: -1px 37px 31px -3px rgba(0, 0, 0, 0.14);
   -webkit-box-shadow: -1px 37px 31px -3px rgba(0, 0, 0, 0.14);
   -moz-box-shadow: -1px 37px 31px -3px rgba(0, 0, 0, 0.14);
-  transition: all ease-in-out 0.2s;
+  transition: all ease-in-out 0.15s;
   &::-webkit-scrollbar {
     display: none;
   }
