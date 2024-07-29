@@ -33,7 +33,7 @@ const Message = () => {
   useEffect(() => {
     GetMessage();
   }, []);
-  const subject = "Reply to Message";
+  const subject = "Reply to Message : Alex associates";
   const body = `re:${message?.message}`;
 
   const mailtoLink = `mailto:${message?.email}?subject=${encodeURIComponent(
@@ -151,7 +151,7 @@ const Message = () => {
                 text="Back"
                 onClick={() => navigate(-1)}
               />
-              <a href={mailtoLink}>
+              <a href={mailtoLink} style={{ all: "unset" }}>
                 <PrimaryButton text="Send mail" />
               </a>
             </ButtonGrid>

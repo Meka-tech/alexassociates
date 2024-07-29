@@ -189,11 +189,20 @@ const Messages = () => {
               <tbody>
                 {messages.map(
                   (
-                    { firstname, lastname, createdAt, email, phone, _id },
+                    {
+                      firstname,
+                      lastname,
+                      createdAt,
+                      email,
+                      phone,
+                      _id,
+                      message
+                    },
                     i
                   ) => {
                     return (
                       <MessageItem
+                        message={message}
                         onDelete={() => {
                           setActiveId(_id);
                           setDeleteModal(true);
@@ -237,6 +246,7 @@ const MessageItem = ({
   phoneNumber,
   date = new Date(),
   id,
+  message,
   onDelete
 }: {
   firstname: string;
@@ -245,6 +255,7 @@ const MessageItem = ({
   phoneNumber: string;
   date: Date;
   id: string;
+  message: string;
   onDelete: () => void;
 }) => {
   const navigate = useNavigate();
@@ -256,9 +267,8 @@ const MessageItem = ({
     return `${day}-${month}-${year}`;
   }
 
-  const subject = "Your Subject Here";
-  const body = "Body content here.";
-
+  const subject = "Reply to Message : Alex associates";
+  const body = `re:${message}`;
 
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
     subject
@@ -313,7 +323,7 @@ const MessageItem = ({
       </td>
       <td>
         <ActionButtons>
-          <a href={mailtoLink}>
+          <a href={mailtoLink} style={{ all: "unset" }}>
             <SendMail onClick={() => {}}>
               <LuMail size={20} />
             </SendMail>
