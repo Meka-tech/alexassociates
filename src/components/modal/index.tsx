@@ -18,7 +18,11 @@ const Modal = ({ isActive, closeModal, children }: IProps) => {
 
   const ref = useRef(null);
 
-  useClickOutside(ref, () => closeModal());
+  useClickOutside(ref, () => {
+    if (isActive) {
+      closeModal();
+    }
+  });
   return (
     <Container isopen={isActive ? "true" : "false"}>
       <Body ref={ref}>{children}</Body>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
@@ -12,19 +12,41 @@ import Check from "../../../components/input/check";
 import { LuCalendar } from "react-icons/lu";
 import { CiFileOn } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
+import api from "../../../utils/axiosInstance";
+import LoadingData from "./loading-data";
+import { IQuote } from "../../../utils/types/quote";
+import DateConvert from "../../../utils/dateConvert";
+import { companyservices } from "../../../utils/company-services";
 
 const Quote = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const servicesList = [
-    "Interior design",
-    "Architectural design",
-    "Furniture & Furnishings",
-    "Project execution"
-  ];
+  const [loading, setLoading] = useState(false);
+  const [quote, setQuote] = useState<IQuote>();
 
-  const SendMail = () => {};
+  const GetQuote = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(`/quote/${id}`);
+      setQuote(data.data.quote);
+    } catch (err) {
+      navigate("/admin/manage-websitekey=quote");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetQuote();
+  }, []);
+  const subject = "Reply to Quote : Alex associates";
+  const body = ``;
+
+  const mailtoLink = `mailto:${quote?.email}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
   return (
     <Main>
       <Navbar />
@@ -55,273 +77,274 @@ const Quote = () => {
           </Button>
         </Buttons>
       </TopNav>
-      <TopSection>
-        <BackgroundGrid
-          web={{ height: "1440px", width: "1920px" }}
-          mobile={{ height: "720px", width: "960px" }}
-        />
-        <Typography
-          size={TextSize.DisplayLg}
-          weight={TextWeight.semibold}
-          lh="6"
-          mb="2.4"
-          m_mb="1.8"
-          m_lh="4.4"
-          m_size={TextSize.DisplayMd}
-        >
-          Quote request
-        </Typography>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Name:{" "}
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            John Doe
-          </Typography>
-        </TextFlex>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Email:
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            john@doe.com
-          </Typography>
-        </TextFlex>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Phone number:
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            +1 48894 4783
-          </Typography>
-        </TextFlex>
-        <OrnamentContainer>
-          <Ornament />
-        </OrnamentContainer>
-      </TopSection>
-      <Body>
-        <Section>
-          <SectionOneGrid>
-            <div>
+      {loading ? (
+        <LoadingData />
+      ) : (
+        <>
+          <TopSection>
+            <BackgroundGrid
+              web={{ height: "1440px", width: "1920px" }}
+              mobile={{ height: "720px", width: "960px" }}
+            />
+            <Typography
+              size={TextSize.DisplayLg}
+              weight={TextWeight.semibold}
+              lh="6"
+              mb="2.4"
+              m_mb="1.8"
+              m_lh="4.4"
+              m_size={TextSize.DisplayMd}
+            >
+              Quote request
+            </Typography>
+            <TextFlex>
               <Typography
-                color="#CFCECE"
-                size={TextSize.sm}
-                weight={TextWeight.medium}
-                lh="2"
-                mb="0.6"
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
               >
-                Location of project
+                Name:{" "}
               </Typography>
-              <TextBox>
-                <Typography size={TextSize.md} lh="2.4">
-                  Andhra Pradesh, India
-                </Typography>
-              </TextBox>
-            </div>
-            <div>
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {quote?.firstname} {quote?.lastname}
+              </Typography>
+            </TextFlex>
+            <TextFlex>
               <Typography
-                color="#CFCECE"
-                size={TextSize.sm}
-                weight={TextWeight.medium}
-                lh="2"
-                mb="0.6"
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
               >
-                Type of project
+                Email:
               </Typography>
-              <TextBox>
-                <Typography size={TextSize.md} lh="2.4">
-                  Commercial
-                </Typography>
-              </TextBox>
-            </div>
-            <div>
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {quote?.email}
+              </Typography>
+            </TextFlex>
+            <TextFlex>
               <Typography
-                color="#CFCECE"
-                size={TextSize.sm}
-                weight={TextWeight.medium}
-                lh="2"
-                mb="0.6"
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
               >
-                Which services do you need? (Select all that apply)
+                Phone number:
               </Typography>
-              {servicesList.map((service, i) => {
-                const IsInArray = ["Architectural design"].includes(service);
-                return (
-                  <CheckItem key={i}>
-                    <Check state={IsInArray} disabled={true} />
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {quote?.phone}
+              </Typography>
+            </TextFlex>
+            <OrnamentContainer>
+              <Ornament />
+            </OrnamentContainer>
+          </TopSection>
+          <Body>
+            <Section>
+              <SectionOneGrid>
+                <div>
+                  <Typography
+                    color="#CFCECE"
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                    mb="0.6"
+                  >
+                    Location of project
+                  </Typography>
+                  <TextBox>
+                    <Typography size={TextSize.md} lh="2.4">
+                      {quote?.location}
+                    </Typography>
+                  </TextBox>
+                </div>
+                <div>
+                  <Typography
+                    color="#CFCECE"
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                    mb="0.6"
+                  >
+                    Type of project
+                  </Typography>
+                  <TextBox>
+                    <Typography size={TextSize.md} lh="2.4">
+                      {quote?.projectType}
+                    </Typography>
+                  </TextBox>
+                </div>
+                <div>
+                  <Typography
+                    color="#CFCECE"
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                    mb="0.6"
+                  >
+                    Which services do you need? (Select all that apply)
+                  </Typography>
+                  {companyservices.map((service, i) => {
+                    const IsInArray = quote?.services.includes(service);
+                    return (
+                      <CheckItem key={i}>
+                        <Check state={IsInArray} disabled={true} />
+                        <Typography
+                          ml="0.8"
+                          size={TextSize.sm}
+                          weight={TextWeight.medium}
+                          lh="2"
+                          color={IsInArray ? "#0083E2" : "white"}
+                        >
+                          {service}
+                        </Typography>
+                      </CheckItem>
+                    );
+                  })}
+                </div>
+                <div>
+                  <Typography
+                    color="#CFCECE"
+                    size={TextSize.sm}
+                    weight={TextWeight.medium}
+                    lh="2"
+                    mb="0.6"
+                  >
+                    Expected start date - Expected completion date
+                  </Typography>
+                  <DateBox>
+                    <LuCalendar size={20} />
                     <Typography
                       ml="0.8"
                       size={TextSize.sm}
-                      weight={TextWeight.medium}
+                      color="#E4E4E4"
                       lh="2"
-                      color={IsInArray ? "#0083E2" : "white"}
+                      weight={TextWeight.semibold}
                     >
-                      {service}
+                      {DateConvert(quote?.startDate || null)} -{" "}
+                      {DateConvert(quote?.endDate || null)}
                     </Typography>
-                  </CheckItem>
-                );
-              })}
-            </div>
-            <div>
-              <Typography
-                color="#CFCECE"
-                size={TextSize.sm}
-                weight={TextWeight.medium}
-                lh="2"
-                mb="0.6"
-              >
-                Expected start date - Expected completion date
-              </Typography>
-              <DateBox>
-                <LuCalendar size={20} />
-                <Typography
-                  ml="0.8"
-                  size={TextSize.sm}
-                  color="#E4E4E4"
-                  lh="2"
-                  weight={TextWeight.semibold}
-                >
-                  Jan 6, 2022 - Jan 20, 2022
-                </Typography>
-              </DateBox>
-            </div>
-          </SectionOneGrid>
-        </Section>
-        <Section>
-          <div>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              Please provide a brief description of your project
-            </Typography>
-            <TextBox>
-              <Typography size={TextSize.md} lh="2.4">
-                Lorem ipsum dolor sit amet consectetur. Id egestas eget sed quis
-                habitant pharetra etiam. Donec id nam mattis faucibus vel ac.
-                Etiam tempor ultrices massa feugiat. Eget et accumsan ac etiam
-                sem metus. Cras et aliquam enim netus sodales maecenas. Gravida
-                urna nunc neque quis molestie tincidunt. Sed donec ac urna at
-                tristique. Urna commodo tempus euismod eget ornare semper.
-                Praesent euismod morbi porttitor id. Mauris platea aenean arcu
-                in dolor. Cursus consectetur blandit cras integer adipiscing
-                donec euismod risus. Facilisis integer tristique eget integer
-                gravida fringilla.
-              </Typography>
-            </TextBox>
-          </div>
-          <div>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              Do you have any specific requirements or preferences?
-            </Typography>
-            <TextBox>
-              <Typography size={TextSize.md} lh="2.4">
-                Lorem ipsum dolor sit amet consectetur. Id egestas eget sed quis
-                habitant pharetra etiam. Donec id nam mattis faucibus vel ac.
-                Etiam tempor ultrices massa feugiat. Eget et accumsan ac etiam
-                sem metus. Cras et aliquam enim netus sodales maecenas. Gravida
-                urna nunc neque quis molestie tincidunt. Sed donec ac urna at
-                tristique. Urna commodo tempus euismod eget ornare semper.
-                Praesent euismod morbi porttitor id. Mauris platea aenean arcu
-                in dolor. Cursus consectetur blandit cras integer adipiscing
-                donec euismod risus. Facilisis integer tristique eget integer
-                gravida fringilla.
-              </Typography>
-            </TextBox>
-          </div>
-          <div>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              What is your estimated budget for this project?
-            </Typography>
-            <TextBox>
-              <Typography size={TextSize.md} lh="2.4">
-                $ 2000
-              </Typography>
-            </TextBox>
-          </div>
-        </Section>
-        <Section>
-          <div>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              Is there any other information you would like to provide?
-            </Typography>
-            <TextBox>
-              <Typography size={TextSize.md} lh="2.4">
-                Lorem ipsum dolor sit amet consectetur. Id egestas eget sed quis
-                habitant pharetra etiam. Donec id nam mattis faucibus vel ac.
-                Etiam tempor ultrices massa feugiat. Eget et accumsan ac etiam
-                sem metus. Cras et aliquam enim netus sodales maecenas. Gravida
-                urna nunc neque quis molestie tincidunt. Sed donec ac urna at
-                tristique. Urna commodo tempus euismod eget ornare semper.
-                Praesent euismod morbi porttitor id. Mauris platea aenean arcu
-                in dolor. Cursus consectetur blandit cras integer adipiscing
-                donec euismod risus. Facilisis integer tristique eget integer
-                gravida fringilla.
-              </Typography>
-            </TextBox>
-          </div>
-          <div>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              Please upload any relevant files (e.g floor plans, inspiration
-              images)
-            </Typography>
-            <FileGrid>
-              <FileItem>
-                <CiFileOn color="white" size={20} />
-                <div style={{ marginLeft: "0.8rem" }}>
-                  <Typography lh="2" size={TextSize.sm}>
-                    Tech design requirements.pdf
-                  </Typography>
-                  <Typography lh="2" size={TextSize.sm}>
-                    {(400000 / (1024 * 1024)).toFixed(2)}MB – 100% uploaded
-                  </Typography>
+                  </DateBox>
                 </div>
-                <FileTick>
-                  <IoMdCheckmark />
-                </FileTick>
-              </FileItem>
-              <ViewButton>
-                <PrimaryButton text="View" variant={true} />
-              </ViewButton>
-            </FileGrid>
-          </div>
-        </Section>
-        <ButtonGrid>
-          <PrimaryButton
-            variant={true}
-            text="Back"
-            onClick={() => navigate(-1)}
-          />
-          <PrimaryButton text="Send mail" onClick={SendMail} />
-        </ButtonGrid>
-      </Body>
+              </SectionOneGrid>
+            </Section>
+            <Section>
+              <div>
+                <Typography
+                  color="#CFCECE"
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  mb="0.6"
+                >
+                  Please provide a brief description of your project
+                </Typography>
+                <TextBox>
+                  <Typography size={TextSize.md} lh="2.4">
+                    {quote?.description}
+                  </Typography>
+                </TextBox>
+              </div>
+              <div>
+                <Typography
+                  color="#CFCECE"
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  mb="0.6"
+                >
+                  Do you have any specific requirements or preferences?
+                </Typography>
+                <TextBox>
+                  <Typography size={TextSize.md} lh="2.4">
+                    {quote?.requirements}
+                  </Typography>
+                </TextBox>
+              </div>
+              <div>
+                <Typography
+                  color="#CFCECE"
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  mb="0.6"
+                >
+                  What is your estimated budget for this project?
+                </Typography>
+                <TextBox>
+                  <Typography size={TextSize.md} lh="2.4">
+                    ${quote?.budget}
+                  </Typography>
+                </TextBox>
+              </div>
+            </Section>
+            <Section>
+              <div>
+                <Typography
+                  color="#CFCECE"
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  mb="0.6"
+                >
+                  Is there any other information you would like to provide?
+                </Typography>
+                <TextBox>
+                  <Typography size={TextSize.md} lh="2.4">
+                    {quote?.addditionalInfo || "No"}
+                  </Typography>
+                </TextBox>
+              </div>
+              <div>
+                <Typography
+                  color="#CFCECE"
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                  mb="0.6"
+                >
+                  Please upload any relevant files (e.g floor plans, inspiration
+                  images)
+                </Typography>
+                {quote?.image && (
+                  <FileGrid>
+                    <FileItem
+                      onClick={() => {
+                        window.open(quote?.image.url, "_blank");
+                      }}
+                    >
+                      <CiFileOn color="white" size={20} />
+                      <div style={{ marginLeft: "0.8rem" }}>
+                        <Typography lh="2" size={TextSize.sm}>
+                          {quote.lastname}-{quote.image.name.slice(0, 12)}.jpg
+                        </Typography>
+                        <Typography lh="2" size={TextSize.sm}>
+                          100% uploaded
+                        </Typography>
+                      </div>
+                      <FileTick>
+                        <IoMdCheckmark />
+                      </FileTick>
+                    </FileItem>
+                    <ViewButton>
+                      <PrimaryButton text="View" variant={true} />
+                    </ViewButton>
+                  </FileGrid>
+                )}
+              </div>
+            </Section>
+            <ButtonGrid>
+              <PrimaryButton
+                variant={true}
+                text="Back"
+                onClick={() => navigate(-1)}
+              />
+              <a href={mailtoLink} style={{ all: "unset" }}>
+                <PrimaryButton text="Send mail" />
+              </a>
+            </ButtonGrid>
+          </Body>
+        </>
+      )}
+
       <Footer />
     </Main>
   );
@@ -512,5 +535,8 @@ const ButtonGrid = styled.div`
   @media only screen and (max-width: 769px) {
     grid-template-columns: 100%;
     grid-row-gap: 1.6rem;
+    button:first-child {
+      order: 1;
+    }
   }
 `;

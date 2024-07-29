@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import Typography from "../../../../components/typography";
@@ -7,12 +7,65 @@ import Pagination from "../../../../components/pagination";
 import { LuMail } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { data } from "./dummyData";
 import SearchInput from "../../../../components/input/searchInput";
-import { IoMdArrowDown } from "react-icons/io";
+import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
+import api from "../../../../utils/axiosInstance";
+import LoadingData from "./loading-data";
+import NoData from "./no-data";
+import ModalChildTemplate from "../../../../components/modal/modal-child-template";
+import Modal from "../../../../components/modal";
+import { IQuote } from "../../../../utils/types/quote";
 
 const Quotes = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [quotes, setQuotes] = useState<IQuote[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [activeId, setActiveId] = useState("");
+
+  const GetQuotes = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(
+        `/quote?page=${currentPage}${search !== "" ? `&search=${search}` : ""}`
+      );
+      setQuotes(data.results);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetQuotes();
+  }, [currentPage, search]);
+
+  const [modal, setModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const DeleteQuote = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`quote/${activeId}`);
+      setDeleteModal(false);
+      setSuccessModal(true);
+    } catch (err) {
+    } finally {
+      setDeleting(false);
+    }
+  };
+  const OnSucessfulDelete = async () => {
+    try {
+      setModal(false);
+      setSuccessModal(false);
+      GetQuotes();
+    } catch (err) {}
+  };
 
   return (
     <Container>
@@ -24,100 +77,152 @@ const Quotes = () => {
         >
           Quote requests
         </Typography>
-        <SearchInput variant={true} />
-      </HeaderFlex>
-      <Body>
-        <TableContainer>
-          <thead>
-            <tr>
-              <th scope="col">
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Typography
-                    weight={TextWeight.medium}
-                    size={TextSize.sm}
-                    lh="2"
-                    mr="1"
-                  >
-                    First name
-                  </Typography>
-                  <IoMdArrowDown size={15} />
-                </div>
-              </th>
-              <th scope="col">
-                <Typography
-                  weight={TextWeight.medium}
-                  size={TextSize.sm}
-                  lh="2"
-                >
-                  Last name
-                </Typography>
-              </th>
-              <th scope="col">
-                <Typography
-                  weight={TextWeight.medium}
-                  size={TextSize.sm}
-                  lh="2"
-                >
-                  Email
-                </Typography>
-              </th>
-              <th scope="col">
-                <Typography
-                  weight={TextWeight.medium}
-                  size={TextSize.sm}
-                  lh="2"
-                >
-                  Phone number
-                </Typography>
-              </th>
-              <th scope="col">
-                <Typography
-                  weight={TextWeight.medium}
-                  size={TextSize.sm}
-                  lh="2"
-                >
-                  Date
-                </Typography>
-              </th>
-              <th scope="col">
-                <Typography
-                  weight={TextWeight.medium}
-                  size={TextSize.sm}
-                  lh="2"
-                >
-                  Action
-                </Typography>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map(
-              ({ firstname, lastname, date, email, phoneNumber }, i) => {
-                return (
-                  <QuoteItem
-                    firstname={firstname}
-                    lastname={lastname}
-                    date={date}
-                    email={email}
-                    phoneNumber={phoneNumber}
-                    key={i}
-                    id={i.toString()}
-                  />
-                );
-              }
-            )}
-          </tbody>
-        </TableContainer>
-      </Body>
-      <PaginationContainer>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={10}
-          onPageChange={(page) => {
-            setCurrentPage(page);
-          }}
+        <SearchInput
+          variant={true}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-      </PaginationContainer>
+      </HeaderFlex>
+      {loading ? (
+        <LoadingData />
+      ) : quotes.length > 0 ? (
+        <>
+          <Body>
+            <Modal
+              isActive={modal}
+              closeModal={() => {
+                setModal(false);
+              }}
+            >
+              {deleteModal ? (
+                <ModalChildTemplate
+                  header="Delete quote"
+                  subheader="Are you sure you want to delete this quote?"
+                  type="red"
+                  confirmText="Delete"
+                  onConfirm={DeleteQuote}
+                  onClose={() => setModal(false)}
+                  loading={deleting}
+                  icon={<HiOutlineTrash color="#EF0000" size={20} />}
+                />
+              ) : successModal ? (
+                <ModalChildTemplate
+                  header="Deleted successfully!"
+                  confirmText="Confirm"
+                  onConfirm={OnSucessfulDelete}
+                  onClose={() => setModal(false)}
+                  icon={
+                    <IoMdCheckmarkCircleOutline size={20} color="#079455" />
+                  }
+                  cancelOption={false}
+                />
+              ) : (
+                <></>
+              )}
+            </Modal>
+            <TableContainer>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Typography
+                        weight={TextWeight.medium}
+                        size={TextSize.sm}
+                        lh="2"
+                        mr="1"
+                      >
+                        First name
+                      </Typography>
+                      <IoMdArrowDown size={15} />
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <Typography
+                      weight={TextWeight.medium}
+                      size={TextSize.sm}
+                      lh="2"
+                    >
+                      Last name
+                    </Typography>
+                  </th>
+                  <th scope="col">
+                    <Typography
+                      weight={TextWeight.medium}
+                      size={TextSize.sm}
+                      lh="2"
+                    >
+                      Email
+                    </Typography>
+                  </th>
+                  <th scope="col">
+                    <Typography
+                      weight={TextWeight.medium}
+                      size={TextSize.sm}
+                      lh="2"
+                    >
+                      Phone number
+                    </Typography>
+                  </th>
+                  <th scope="col">
+                    <Typography
+                      weight={TextWeight.medium}
+                      size={TextSize.sm}
+                      lh="2"
+                    >
+                      Date
+                    </Typography>
+                  </th>
+                  <th scope="col">
+                    <Typography
+                      weight={TextWeight.medium}
+                      size={TextSize.sm}
+                      lh="2"
+                    >
+                      Action
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {quotes.map(
+                  (
+                    { firstname, lastname, createdAt, email, phone, _id },
+                    i
+                  ) => {
+                    return (
+                      <QuoteItem
+                        onDelete={() => {
+                          setActiveId(_id);
+                          setDeleteModal(true);
+                          setModal(true);
+                        }}
+                        firstname={firstname}
+                        lastname={lastname}
+                        date={createdAt}
+                        email={email}
+                        phoneNumber={phone}
+                        key={i}
+                        id={_id}
+                      />
+                    );
+                  }
+                )}
+              </tbody>
+            </TableContainer>
+          </Body>
+          <PaginationContainer>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+              }}
+            />
+          </PaginationContainer>
+        </>
+      ) : (
+        <NoData />
+      )}
     </Container>
   );
 };
@@ -128,16 +233,33 @@ const QuoteItem = ({
   email,
   phoneNumber,
   date,
-  id
+  id,
+  onDelete
 }: {
   firstname: string;
   lastname: string;
   email: string;
   phoneNumber: string;
-  date: string;
+  date: Date;
   id: string;
+  onDelete: () => void;
 }) => {
   const navigate = useNavigate();
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  const subject = "Reply to Quote : Alex associates";
+  const body = ``;
+
+  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
   return (
     <tr>
       <td
@@ -182,19 +304,17 @@ const QuoteItem = ({
         }}
       >
         <Typography lh="2" size={TextSize.sm}>
-          {date}
+          {formatDate(`${date}`)}
         </Typography>
       </td>
       <td>
         <ActionButtons>
-          <SendMail
-            onClick={() => {
-              // navigate(`/admin/quote/${id}`);
-            }}
-          >
-            <LuMail size={20} />
-          </SendMail>
-          <DeleteMail>
+          <a href={mailtoLink} style={{ all: "unset" }}>
+            <SendMail onClick={() => {}}>
+              <LuMail size={20} />
+            </SendMail>
+          </a>
+          <DeleteMail onClick={onDelete}>
             <HiOutlineTrash size={20} />
           </DeleteMail>
         </ActionButtons>

@@ -10,16 +10,34 @@ import {
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { CiFileOn } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
+import api from "../../../../../utils/axiosInstance";
+import LoadingAnimation from "../../../../../components/loading-animation";
+import { HiOutlineTrash } from "react-icons/hi";
 
 interface IProps {
   goBack: () => void;
   ImageFile: File | undefined;
+  ImageId: string;
   AdditionalInfo: string;
-  complete: (additionalInfo: string, file: File | undefined) => void;
+  complete: (
+    additionalInfo: string,
+    file: File | undefined,
+    imageId: string
+  ) => void;
 }
-const StepFour = ({ goBack, ImageFile, AdditionalInfo, complete }: IProps) => {
+const StepFour = ({
+  goBack,
+  ImageFile,
+  AdditionalInfo,
+  complete,
+  ImageId
+}: IProps) => {
   const [additionalInfo, setAdditionalInfo] = useState(AdditionalInfo);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [uploadStatus, setUploadStatus] = useState(1);
+  const [uploading, setUploading] = useState(false);
+  const [imageId, setImageId] = useState(ImageId);
+  const [uploadError, setUploadError] = useState(false);
 
   const [file, setFile] = useState<File | undefined>(
     ImageFile ? ImageFile : undefined
@@ -37,6 +55,7 @@ const StepFour = ({ goBack, ImageFile, AdditionalInfo, complete }: IProps) => {
 
     if (file) {
       setFile(file);
+      handleUpload(file);
     }
   };
 
@@ -46,9 +65,37 @@ const StepFour = ({ goBack, ImageFile, AdditionalInfo, complete }: IProps) => {
 
     if (file) {
       setFile(file[0]);
+      handleUpload(file[0]);
     }
   };
-  useEffect(() => {}, []);
+
+  const handleUpload = async (file: File) => {
+    if (!file) {
+      return;
+    }
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      setUploadStatus(30);
+      const { data } = await api.post("/media", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      setImageId(data.media._id);
+
+      setUploadStatus(100);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setUploadError(true);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const [loading, setLoading] = useState(false);
   return (
     <Container>
       <GridItems>
@@ -108,20 +155,43 @@ const StepFour = ({ goBack, ImageFile, AdditionalInfo, complete }: IProps) => {
               </div>
             </UploadArea>
           )}
-          {file && (
+          {file && uploadStatus > 0 && (
             <FileItem>
               <CiFileOn color="white" size={20} />
               <div style={{ marginLeft: "0.8rem" }}>
                 <Typography lh="2" size={TextSize.sm}>
                   {file?.name}
                 </Typography>
-                <Typography lh="2" size={TextSize.sm}>
-                  {(file?.size / (1024 * 1024)).toFixed(2)}MB – 100% uploaded
-                </Typography>
+                {uploadError ? (
+                  <Typography lh="2" size={TextSize.sm} color="#B42318">
+                    Upload failed, please try again
+                  </Typography>
+                ) : (
+                  <Typography lh="2" size={TextSize.sm}>
+                    {(file?.size / (1024 * 1024)).toFixed(2)}MB – {uploadStatus}
+                    % uploaded
+                  </Typography>
+                )}
               </div>
-              <FileTick>
-                <IoMdCheckmark />
-              </FileTick>
+              {uploading ? (
+                <LoadingArea>
+                  <LoadingAnimation />
+                </LoadingArea>
+              ) : uploadError ? (
+                <LoadingArea
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setUploadError(false);
+                    setFile(undefined);
+                  }}
+                >
+                  <HiOutlineTrash size={15} color="#B42318" />
+                </LoadingArea>
+              ) : (
+                <FileTick>
+                  <IoMdCheckmark />
+                </FileTick>
+              )}
             </FileItem>
           )}
         </div>
@@ -132,8 +202,12 @@ const StepFour = ({ goBack, ImageFile, AdditionalInfo, complete }: IProps) => {
         <PrimaryButton
           text="Proceed"
           onClick={() => {
-            complete(additionalInfo, file);
+            setLoading(true);
+            complete(additionalInfo, file, imageId);
+            setLoading(false);
           }}
+          disabled={uploading}
+          loading={loading}
         />
       </ButtonGrid>
     </Container>
@@ -215,8 +289,11 @@ const FileItem = styled.div`
   }
 `;
 
-const FileTick = styled.div`
+const LoadingArea = styled.div`
   margin-left: auto;
+`;
+
+const FileTick = styled.div`
   width: 1.6rem;
   height: 1.6rem;
   background-color: #0083e2;

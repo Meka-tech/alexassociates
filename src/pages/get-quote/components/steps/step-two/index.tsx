@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StyledInput from "../../../../../components/input/primaryInput";
 import PrimaryButton from "../../../../../components/buttons/primary";
@@ -11,16 +11,21 @@ import {
 import Check from "../../../../../components/input/check";
 import DateInput from "../../../../../components/input/date_input";
 import Label from "../../../../../components/typography/label";
+import DateConvert from "../../../../../utils/dateConvert";
 
 interface IProps {
   goBack: () => void;
   Location: string;
   ProjectType: string;
   ChosenServices: string[];
+  StartDate: Date | null;
+  EndDate: Date | null;
   complete: (
     location: string,
     projectType: string,
-    chosenServices: string[]
+    chosenServices: string[],
+    startDate: Date | null,
+    endDate: Date | null
   ) => void;
 }
 const StepTwo = ({
@@ -28,12 +33,17 @@ const StepTwo = ({
   Location,
   ProjectType,
   ChosenServices,
-  complete
+  complete,
+  StartDate,
+  EndDate
 }: IProps) => {
   const [location, setLocation] = useState(Location);
   const [projectType, setProjectType] = useState(ProjectType);
   const [chosenServices, setChosenServices] =
     useState<string[]>(ChosenServices);
+  const [startDate, setStartDate] = useState<Date | null>(StartDate);
+  const [endDate, setEndDate] = useState<Date | null>(EndDate);
+  const [disabled, setDisabled] = useState(true);
 
   const servicesList = [
     "Interior design",
@@ -51,6 +61,19 @@ const StepTwo = ({
     setChosenServices(filtered);
   };
 
+  useEffect(() => {
+    if (
+      location.length > 0 &&
+      projectType.length > 0 &&
+      chosenServices.length > 0 &&
+      startDate &&
+      endDate
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [location, projectType, chosenServices, startDate, endDate]);
   return (
     <Container>
       <GridItems>
@@ -121,13 +144,19 @@ const StepTwo = ({
           <div>
             <Label>Expected start date</Label>
             <DateContainer>
-              <DateInput />
+              <DateInput
+                selectDate={(date) => setStartDate(date)}
+                placeholder={startDate ? DateConvert(startDate) : "Select date"}
+              />
             </DateContainer>
           </div>
           <div>
             <Label>Expected completion date</Label>
             <DateContainer>
-              <DateInput />
+              <DateInput
+                selectDate={(date) => setEndDate(date)}
+                placeholder={endDate ? DateConvert(endDate) : "Select date"}
+              />
             </DateContainer>
           </div>
         </Dates>
@@ -137,8 +166,9 @@ const StepTwo = ({
         <PrimaryButton variant={true} text="Back" onClick={goBack} />
         <PrimaryButton
           text="Proceed"
+          disabled={disabled}
           onClick={() => {
-            complete(location, projectType, chosenServices);
+            complete(location, projectType, chosenServices, startDate, endDate);
           }}
         />
       </ButtonGrid>

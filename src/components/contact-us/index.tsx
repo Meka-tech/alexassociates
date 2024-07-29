@@ -57,6 +57,11 @@ const ContactUs = forwardRef<HTMLDivElement, any>(function ContactUs(
     } catch (err) {
     } finally {
       setLoading(false);
+      setFirstname("");
+      setLastname("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
     }
   };
 

@@ -13,26 +13,33 @@ import StepThree from "./components/steps/step-three";
 import StepFour from "./components/steps/step-four";
 import Modal from "../../components/modal";
 import SuccessModal from "./components/success-modal";
+import api from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const GetQuote = () => {
   const [step, setStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneCountryIndex, setCountryIndex] = useState(-1);
+
   const [location, setLocation] = useState("");
   const [projectType, setProjectType] = useState("");
   const [chosenServices, setChosenServices] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const [description, setDescription] = useState("");
   const [requirements, setRequirements] = useState("");
   const [budget, setBudget] = useState("");
 
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [additionalInfo, setAdditionalInfo] = useState("No");
   const [file, setFile] = useState<File | undefined>();
+  const [imageId, setImageId] = useState("");
 
   const GoBack = () => {
     setStep(step - 1);
@@ -42,6 +49,28 @@ const GetQuote = () => {
     setStep(step);
   };
 
+  const PostQuote = async () => {
+    const body = {
+      firstname: firstName,
+      lastname: lastName,
+      email,
+      phone: phoneNumber,
+      location,
+      projectType,
+      services: chosenServices,
+      startDate: startDate,
+      endDate: endDate,
+      description,
+      requirements,
+      budget,
+      additionalInfo,
+      image: imageId
+    };
+    try {
+      await api.post("/quote", body);
+      setModalOpen(true);
+    } catch (err) {}
+  };
   const CompleteStepOne = (
     firstname: string,
     lastname: string,
@@ -60,11 +89,15 @@ const GetQuote = () => {
   const CompleteStepTwo = (
     location: string,
     projectType: string,
-    chosenServices: string[]
+    chosenServices: string[],
+    startDate: Date | null,
+    endDate: Date | null
   ) => {
     setLocation(location);
     setProjectType(projectType);
     setChosenServices(chosenServices);
+    setStartDate(startDate);
+    setEndDate(endDate);
     ChangeStep(step + 1);
   };
 
@@ -79,15 +112,26 @@ const GetQuote = () => {
     ChangeStep(step + 1);
   };
 
-  const CompleteStepFour = (additionalInfo: string, file: File | undefined) => {
+  const CompleteStepFour = (
+    additionalInfo: string,
+    file: File | undefined,
+    imageId: string
+  ) => {
     setAdditionalInfo(additionalInfo);
     setFile(file);
-    setModalOpen(true);
+    setImageId(imageId);
+    PostQuote();
   };
 
   return (
     <Container>
-      <Modal closeModal={() => setModalOpen(false)} isActive={modalOpen}>
+      <Modal
+        closeModal={() => {
+          setModalOpen(false);
+          navigate("/");
+        }}
+        isActive={modalOpen}
+      >
         <SuccessModal />
       </Modal>
       <Navbar />
@@ -146,8 +190,22 @@ const GetQuote = () => {
           ProjectType={projectType}
           goBack={GoBack}
           Location={location}
-          complete={(location, projectType, chosenServices) => {
-            CompleteStepTwo(location, projectType, chosenServices);
+          StartDate={startDate}
+          EndDate={endDate}
+          complete={(
+            location,
+            projectType,
+            chosenServices,
+            startDate,
+            endDate
+          ) => {
+            CompleteStepTwo(
+              location,
+              projectType,
+              chosenServices,
+              startDate,
+              endDate
+            );
           }}
         />
       )}
@@ -164,11 +222,12 @@ const GetQuote = () => {
       )}
       {step === 4 && (
         <StepFour
+          ImageId={imageId}
           AdditionalInfo={additionalInfo}
           ImageFile={file}
           goBack={GoBack}
-          complete={(additionalInfo, file) => {
-            CompleteStepFour(additionalInfo, file);
+          complete={(additionalInfo, file, imageId) => {
+            CompleteStepFour(additionalInfo, file, imageId);
           }}
         />
       )}

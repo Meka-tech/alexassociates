@@ -24,7 +24,7 @@ const Message = () => {
       const { data } = await api.get(`/message/${id}`);
       setMessage(data.data.message);
     } catch (err) {
-      navigate(-1);
+      navigate("/admin/manage-website");
     } finally {
       setLoading(false);
     }
