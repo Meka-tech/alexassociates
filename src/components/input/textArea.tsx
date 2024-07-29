@@ -16,7 +16,7 @@ const StyledTextArea = ({ label, height = "12.4", limit, ...rest }: IProps) => {
         {label}
       </Typography>
       <InputContainer>
-        <Input height={height} {...rest} />
+        <Input height={height} {...rest} maxLength={limit} />
       </InputContainer>
       {limit && (
         <MaxCharacterContainer>

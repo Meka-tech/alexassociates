@@ -35,6 +35,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Iprops) => {
       const min = 1;
       const max = totalPages;
       let count = 3;
+      if (totalPages < 5) {
+        for (let i = 1; i < totalPages + 1; i++) {
+          array.push(i);
+        }
+        return setPagesArray(array);
+      }
 
       array.push(min, max, currentPage);
 

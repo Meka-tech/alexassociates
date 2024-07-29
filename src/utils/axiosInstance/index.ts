@@ -1,0 +1,33 @@
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+
+const BaseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8080"
+    : process.env.REACT_APP_BASE_URL;
+
+const getToken = (): string | null => {
+  return localStorage.getItem("token");
+};
+const api: AxiosInstance = axios.create({
+  baseURL: BaseUrl,
+  headers: {
+    "Content-Type": "application/json"
+  },
+  timeout: 20000
+});
+
+// Interceptor to add Bearer token to the headers
+// api.interceptors.request.use(
+//   (config: AxiosRequestConfig) => {
+//     const token = getToken();
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
+export default api;

@@ -7,6 +7,7 @@ import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
 import PortfolioEdit from "./components/portfolio-page";
+import OurServicesEdit from "./components/ourServices-page";
 
 const ManageWebsite = () => {
   const [searchParams] = useSearchParams();
@@ -64,6 +65,7 @@ const ManageWebsite = () => {
       <Body>
         {active === "home" && null}{" "}
         {active === "portfolio" && <PortfolioEdit />}
+        {active === "services" && <OurServicesEdit />}
       </Body>
       <MobileConfirmButtons>
         <PrimaryButton
@@ -173,5 +175,4 @@ const MobileConfirmButtons = styled.div`
 
 const Body = styled.div`
   width: 100%;
-  border-top: 1px solid #2e3b41;
 `;

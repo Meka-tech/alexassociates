@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
@@ -8,12 +8,37 @@ import { TextSize, TextWeight } from "../../../components/typography/enums";
 import { ReactComponent as Ornament } from "../../../images/svg/ornaments/quoteOrnament.svg";
 import BackgroundGrid from "../../../components/BackgroundGrid";
 import PrimaryButton from "../../../components/buttons/primary";
+import api from "../../../utils/axiosInstance";
+import { IMessage } from "../../../utils/types/message";
+import LoadingData from "./loading-data";
 
 const Message = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [message, setMessage] = useState<IMessage | null>();
+  const [loading, setLoading] = useState(false);
 
-  const SendMail = () => {};
+  const GetMessage = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(`/message/${id}`);
+      setMessage(data.data.message);
+    } catch (err) {
+      navigate(-1);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetMessage();
+  }, []);
+  const subject = "Reply to Message";
+  const body = `re:${message?.message}`;
+
+  const mailtoLink = `mailto:${message?.email}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
   return (
     <Main>
       <Navbar />
@@ -44,82 +69,96 @@ const Message = () => {
           </Button>
         </Buttons>
       </TopNav>
-      <TopSection>
-        <BackgroundGrid
-          web={{ height: "1440px", width: "1920px" }}
-          mobile={{ height: "720px", width: "960px" }}
-        />
-        <Typography
-          size={TextSize.DisplayLg}
-          weight={TextWeight.semibold}
-          lh="6"
-          mb="2.4"
-          m_mb="1.8"
-          m_lh="4.4"
-          m_size={TextSize.DisplayMd}
-        >
-          Message
-        </Typography>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Name:{" "}
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            John Doe
-          </Typography>
-        </TextFlex>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Email:
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            john@doe.com
-          </Typography>
-        </TextFlex>
-        <TextFlex>
-          <Typography weight={TextWeight.semibold} size={TextSize.xl} lh="3">
-            Phone number:
-          </Typography>
-          <Typography ml="1" size={TextSize.xl} lh="3">
-            +1 48894 4783
-          </Typography>
-        </TextFlex>
-        <OrnamentContainer>
-          <Ornament />
-        </OrnamentContainer>
-      </TopSection>
-      <Body>
-        <Typography
-          color="#CFCECE"
-          size={TextSize.sm}
-          weight={TextWeight.medium}
-          lh="2"
-          mb="0.6"
-        >
-          Message
-        </Typography>
-        <TextBox>
-          <Typography size={TextSize.md} lh="2.4">
-            Lorem ipsum dolor sit amet consectetur. Id egestas eget sed quis
-            habitant pharetra etiam. Donec id nam mattis faucibus vel ac. Etiam
-            tempor ultrices massa feugiat. Eget et accumsan ac etiam sem metus.
-            Cras et aliquam enim netus sodales maecenas. Gravida urna nunc neque
-            quis molestie tincidunt. Sed donec ac urna at tristique. Urna
-            commodo tempus euismod eget ornare semper. Praesent euismod morbi
-            porttitor id. Mauris platea aenean arcu in dolor. Cursus consectetur
-            blandit cras integer adipiscing donec euismod risus. Facilisis
-            integer tristique eget integer gravida fringilla.
-          </Typography>
-        </TextBox>
-        <ButtonGrid>
-          <PrimaryButton
-            variant={true}
-            text="Back"
-            onClick={() => navigate(-1)}
-          />
-          <PrimaryButton text="Send mail" onClick={SendMail} />
-        </ButtonGrid>
-      </Body>
+
+      {loading ? (
+        <LoadingData />
+      ) : (
+        <>
+          <TopSection>
+            <BackgroundGrid
+              web={{ height: "1440px", width: "1920px" }}
+              mobile={{ height: "720px", width: "960px" }}
+            />
+            <Typography
+              size={TextSize.DisplayLg}
+              weight={TextWeight.semibold}
+              lh="6"
+              mb="2.4"
+              m_mb="1.8"
+              m_lh="4.4"
+              m_size={TextSize.DisplayMd}
+            >
+              Message
+            </Typography>
+            <TextFlex>
+              <Typography
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
+              >
+                Name:{" "}
+              </Typography>
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {message?.firstname} {message?.lastname}
+              </Typography>
+            </TextFlex>
+            <TextFlex>
+              <Typography
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
+              >
+                Email:
+              </Typography>
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {message?.email}
+              </Typography>
+            </TextFlex>
+            <TextFlex>
+              <Typography
+                weight={TextWeight.semibold}
+                size={TextSize.xl}
+                lh="3"
+              >
+                Phone number:
+              </Typography>
+              <Typography ml="1" size={TextSize.xl} lh="3">
+                {message?.phone}
+              </Typography>
+            </TextFlex>
+            <OrnamentContainer>
+              <Ornament />
+            </OrnamentContainer>
+          </TopSection>
+          <Body>
+            <Typography
+              color="#CFCECE"
+              size={TextSize.sm}
+              weight={TextWeight.medium}
+              lh="2"
+              mb="0.6"
+            >
+              Message
+            </Typography>
+            <TextBox>
+              <Typography size={TextSize.md} lh="2.4">
+                {message?.message}
+              </Typography>
+            </TextBox>
+            <ButtonGrid>
+              <PrimaryButton
+                variant={true}
+                text="Back"
+                onClick={() => navigate(-1)}
+              />
+              <a href={mailtoLink}>
+                <PrimaryButton text="Send mail" />
+              </a>
+            </ButtonGrid>
+          </Body>
+        </>
+      )}
+
       <Footer />
     </Main>
   );

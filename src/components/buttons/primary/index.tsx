@@ -2,17 +2,24 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 import Typography from "../../typography";
 import { TextSize, TextWeight } from "../../typography/enums";
+import LoadingAnimation from "../../loading-animation";
 
 interface IProps extends React.HTMLProps<HTMLButtonElement> {
   text: string;
   variant?: boolean;
   icon?: ReactElement;
   danger?: boolean;
+  type?: string;
+  loading?: boolean;
+  disabled?: boolean;
 }
 const PrimaryButton = ({
   text = "Button",
   variant = false,
   danger = false,
+  type = "button",
+  loading,
+  disabled,
   icon,
   ...rest
 }: IProps) => {
@@ -20,12 +27,20 @@ const PrimaryButton = ({
     <Container
       variant={variant ? "true" : "false"}
       danger={danger ? "true" : "false"}
+      type={type}
+      disabled={loading || disabled}
       {...rest}
     >
-      <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
-        {text}
-      </Typography>
-      {icon && <IconContainer>{icon}</IconContainer>}
+      {loading ? (
+        <LoadingAnimation />
+      ) : (
+        <>
+          <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
+            {text}
+          </Typography>
+          {icon && <IconContainer>{icon}</IconContainer>}
+        </>
+      )}
     </Container>
   );
 };
@@ -67,10 +82,19 @@ const Container = styled.button<IButtonProps>`
   &:disabled {
     cursor: auto;
     background-color: ${(props) =>
-      props.variant === "true" ? "#ffffff7b" : "#0084e26e"};
+      props.danger === "true"
+        ? "#b4332a"
+        : props.variant === "true"
+        ? "#ffffff7b"
+        : "#0084e26e"};
     color: ${(props) => (props.variant === "true" ? "#34405475" : "gray")};
     border: 1px solid
-      ${(props) => (props.variant === "true" ? "#ffffff7b" : "#0084e26e")};
+      ${(props) =>
+        props.danger === "true"
+          ? "#b4332a"
+          : props.variant === "true"
+          ? "#ffffff7b"
+          : "#0084e26e"};
   }
 `;
 

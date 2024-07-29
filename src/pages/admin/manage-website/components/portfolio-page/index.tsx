@@ -93,6 +93,7 @@ const PortfolioEdit = () => {
 export default PortfolioEdit;
 
 const Container = styled.div`
+  border-top: 1px solid #2e3b41;
   width: 100%;
   padding: 2.4rem 11.2rem;
   padding-bottom: 9.6rem;

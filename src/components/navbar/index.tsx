@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Typography from "../typography";
 import { TextSize, TextWeight } from "../typography/enums";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import Logo from "../logo";
 import Hamburger from "hamburger-react";
@@ -13,15 +13,23 @@ import { useAuth } from "../../context/authContext";
 const Navbar = () => {
   const path = useLocation().pathname;
   const [isOpen, setOpen] = useState(false);
+  const [isportOpen, setPortOpen] = useState(false);
+  const portRef = useRef(null);
+  const navigate = useNavigate();
 
   const { isLoggedIn } = useAuth();
 
-  const ref = useRef(null);
-  useClickOutside(ref, () => {
+  const Hamref = useRef(null);
+  useClickOutside(Hamref, () => {
     setOpen(false);
   });
+
+  useClickOutside(portRef, () => {
+    setPortOpen(false);
+  });
+
   return (
-    <Container ref={ref}>
+    <Container ref={Hamref}>
       <Logo />
       <NavItems>
         <NavItem>
@@ -60,7 +68,71 @@ const Navbar = () => {
               Portfolio
             </Typography>
           </Nav>
-          <ArrowIcon>
+
+          {isportOpen && (
+            <PortfolioContainer ref={portRef}>
+              <PortItem
+                onClick={() => {
+                  setPortOpen(false);
+                  navigate("/portfolio?key=interior-design");
+                }}
+              >
+                <Typography
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                >
+                  Interior Design
+                </Typography>
+              </PortItem>
+              <PortItem
+                onClick={() => {
+                  setPortOpen(false);
+                  navigate("/portfolio?key=architectural-design");
+                }}
+              >
+                <Typography
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                >
+                  Architectural design
+                </Typography>
+              </PortItem>
+              <PortItem
+                onClick={() => {
+                  setPortOpen(false);
+                  navigate("/portfolio?key=furniture-furnishing");
+                }}
+              >
+                <Typography
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                >
+                  Furniture & Furnishing
+                </Typography>
+              </PortItem>
+              <PortItem
+                onClick={() => {
+                  setPortOpen(false);
+                  navigate("/portfolio?key=project-execution");
+                }}
+              >
+                <Typography
+                  size={TextSize.sm}
+                  weight={TextWeight.medium}
+                  lh="2"
+                >
+                  Project Execution
+                </Typography>
+              </PortItem>
+            </PortfolioContainer>
+          )}
+          <ArrowIcon
+            isopen={isportOpen ? "true" : "false"}
+            onClick={() => setPortOpen(!isportOpen)}
+          >
             <IoIosArrowDown size={18} />
           </ArrowIcon>
         </NavItem>
@@ -165,7 +237,7 @@ const NavItems = styled.div`
 const NavItem = styled.div`
   cursor: pointer;
   margin-right: 3.2rem;
-
+  position: relative;
   display: flex;
   align-items: center;
 `;
@@ -190,11 +262,37 @@ const Nav = styled(Link)`
   }
 `;
 
-const ArrowIcon = styled.div`
+const ArrowIcon = styled.div<{ isopen: string }>`
   margin-left: 0.8rem;
   display: flex;
   align-items: center;
   color: white;
+  transform: ${(props) =>
+    props.isopen === "true" ? "rotate(180deg)" : "rotate(0deg)"};
+  transition: ease-in 0.2s all;
+`;
+
+const PortfolioContainer = styled.div`
+  position: absolute;
+  background-color: white;
+  padding: 0.6rem 0.2rem;
+  right: 1.2rem;
+  top: 100%;
+  z-index: 10;
+  border-radius: 0.8rem;
+  box-shadow: 0px 4px 6px -2px #10182808;
+
+  box-shadow: 0px 12px 16px -4px #10182814;
+`;
+
+const PortItem = styled.div`
+  padding: 0.9rem 1rem;
+  width: 16.7rem;
+  height: 3.8rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  color: rgba(52, 64, 84, 1);
 `;
 
 const NavRight = styled.div`
