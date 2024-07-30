@@ -41,6 +41,8 @@ const GetQuote = () => {
   const [file, setFile] = useState<File | undefined>();
   const [imageId, setImageId] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const GoBack = () => {
     setStep(step - 1);
   };
@@ -67,9 +69,13 @@ const GetQuote = () => {
       image: imageId
     };
     try {
+      setLoading(true);
       await api.post("/quote", body);
       setModalOpen(true);
-    } catch (err) {}
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
   };
   const CompleteStepOne = (
     firstname: string,
@@ -112,14 +118,9 @@ const GetQuote = () => {
     ChangeStep(step + 1);
   };
 
-  const CompleteStepFour = (
-    additionalInfo: string,
-    file: File | undefined,
-    imageId: string
-  ) => {
+  const CompleteStepFour = (additionalInfo: string, file: File | undefined) => {
     setAdditionalInfo(additionalInfo);
     setFile(file);
-    setImageId(imageId);
     PostQuote();
   };
 
@@ -222,12 +223,14 @@ const GetQuote = () => {
       )}
       {step === 4 && (
         <StepFour
+          loading={loading}
+          SelectImageId={(id) => setImageId(id)}
           ImageId={imageId}
           AdditionalInfo={additionalInfo}
           ImageFile={file}
           goBack={GoBack}
-          complete={(additionalInfo, file, imageId) => {
-            CompleteStepFour(additionalInfo, file, imageId);
+          complete={(additionalInfo, file) => {
+            CompleteStepFour(additionalInfo, file);
           }}
         />
       )}

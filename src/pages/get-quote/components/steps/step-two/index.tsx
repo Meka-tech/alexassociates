@@ -96,7 +96,7 @@ const StepTwo = ({
             Type of project
           </Typography>
           <Dropdown
-            placeholder="Select"
+            placeholder={projectType ? projectType : "Select"}
             items={["Residential", "Commercial"]}
             selectItem={(value) => {
               setProjectType(value);

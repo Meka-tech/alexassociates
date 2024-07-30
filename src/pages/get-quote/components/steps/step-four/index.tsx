@@ -19,18 +19,18 @@ interface IProps {
   ImageFile: File | undefined;
   ImageId: string;
   AdditionalInfo: string;
-  complete: (
-    additionalInfo: string,
-    file: File | undefined,
-    imageId: string
-  ) => void;
+  SelectImageId: (id: string) => void;
+  complete: (additionalInfo: string, file: File | undefined) => void;
+  loading: boolean;
 }
 const StepFour = ({
   goBack,
   ImageFile,
   AdditionalInfo,
   complete,
-  ImageId
+  ImageId,
+  SelectImageId,
+  loading
 }: IProps) => {
   const [additionalInfo, setAdditionalInfo] = useState(AdditionalInfo);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -85,6 +85,7 @@ const StepFour = ({
         }
       });
       setImageId(data.media._id);
+      SelectImageId(data.media._id);
 
       setUploadStatus(100);
     } catch (error) {
@@ -95,7 +96,6 @@ const StepFour = ({
     }
   };
 
-  const [loading, setLoading] = useState(false);
   return (
     <Container>
       <GridItems>
@@ -202,9 +202,7 @@ const StepFour = ({
         <PrimaryButton
           text="Proceed"
           onClick={() => {
-            setLoading(true);
-            complete(additionalInfo, file, imageId);
-            setLoading(false);
+            complete(additionalInfo, file);
           }}
           disabled={uploading}
           loading={loading}
@@ -294,6 +292,7 @@ const LoadingArea = styled.div`
 `;
 
 const FileTick = styled.div`
+  margin-left: auto;
   width: 1.6rem;
   height: 1.6rem;
   background-color: #0083e2;

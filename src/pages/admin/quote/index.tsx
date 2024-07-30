@@ -314,7 +314,7 @@ const Quote = () => {
                       <CiFileOn color="white" size={20} />
                       <div style={{ marginLeft: "0.8rem" }}>
                         <Typography lh="2" size={TextSize.sm}>
-                          {quote.lastname}-{quote.image.name.slice(0, 12)}.jpg
+                          {quote.image.name.slice(0, 12)}
                         </Typography>
                         <Typography lh="2" size={TextSize.sm}>
                           100% uploaded
