@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../../../components/navbar";
 import Footer from "../../../../components/footer";
@@ -17,22 +17,30 @@ import { TbCamera } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import DateConvert from "../../../../utils/dateConvert";
 import { companyservices } from "../../../../utils/company-services";
+import api from "../../../../utils/axiosInstance";
+import { IProject } from "../../../../utils/types/project";
+import { IimageType } from "../../../../utils/types/image";
+import LoadingData from "../../../../components/loading-component";
 
 const EditProject = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const [active, setActive] = useState("portfolio");
+  const [active] = useState("portfolio");
+  const [loading, setLoading] = useState(false);
+  const [project, setProject] = useState<IProject>();
+  const [disabled, setDisabled] = useState(true);
 
-  const [images, setImages] = useState<File[]>([]);
-  const [title, setTitle] = useState("Contemporary living space");
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet consectetur. Iaculis eget proin mattis fermentum mi donec integer nisl. Integer sapien feugiat aliquet id dolor tincidunt. Lacus sagittis egestas justo sed gravida. Volutpat massa porta a porttitor dictum nulla tellus lectus. Adipiscing convallis euismod magna vel massa sed. Arcu pulvinar tempor blandit duis dui dictum. Lorem suspendisse egestas vel praesent lectus tempus nascetur nulla."
-  );
-  const [clientName, setClientName] = useState("Olivia Rhye");
-  const [category, setCategory] = useState(companyservices[0]);
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const [images, setImages] = useState<IimageType[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [clientName, setClientName] = useState("");
+  const [category, setCategory] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
 
   const Back = () => {
     navigate(-1);
@@ -42,15 +50,138 @@ const EditProject = () => {
     const file = event.target.files[0];
 
     if (file) {
-      setImages((prev) => [...prev, file]);
+      setNewImages((prev) => [...prev, file]);
     }
   };
 
-  const RemoveImage = (item: File) => {
+  const RemoveOldImage = (item: IimageType) => {
     const arr = images;
-    const filtered = arr.filter((i: File) => i.name !== item.name);
+    const filtered = arr.filter((i: IimageType) => i.name !== item.name);
     setImages(filtered);
   };
+
+  const RemoveNewImage = (item: File) => {
+    const arr = newImages;
+    const filtered = arr.filter((i: File) => i.name !== item.name);
+    setNewImages(filtered);
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get(`/project/${id}`);
+
+        setProject(data.data.project);
+      } catch (err) {
+        navigate("/portfolio");
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, [id]);
+
+  useEffect(() => {
+    if (project) {
+      setTitle(project.title);
+      setDescription(project.description);
+      setClientName(project.clientName);
+      setDate(project.date);
+      setCategory(project.category);
+      setImages(project.images);
+    }
+  }, [project]);
+
+  const PostImages = async () => {
+    try {
+      //already uploaded images
+      let OldImageIds: string[] = [];
+      for (let i = 0; i < images.length; i++) {
+        OldImageIds = [...OldImageIds, images[i]._id];
+      }
+      //images not yet uploaded
+      let ImageIds: string[] = [];
+      for (let i = 0; i < newImages.length; i++) {
+        const file = newImages[i];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const { data } = await api.post("/media", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+
+        ImageIds = [...ImageIds, data.media._id];
+      }
+
+      return [...OldImageIds, ...ImageIds];
+    } catch (err) {}
+  };
+
+  const PostEdit = async () => {
+    setButtonLoading(true);
+    try {
+      const imageIds = await PostImages();
+      const data = {
+        title,
+        category,
+        description,
+        clientName,
+        date,
+        images: imageIds
+      };
+      await api.put(`/project/${project?._id}`, data);
+      navigate("/admin/manage-website?key=portfolio");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    ////can't have an empty input
+    if (
+      title.length > 0 &&
+      category.length > 0 &&
+      description.length > 0 &&
+      clientName.length > 0 &&
+      date &&
+      (images.length > 0 || newImages.length > 0)
+    ) {
+      //make sure theres a change
+      if (
+        title === project?.title &&
+        description === project?.description &&
+        category === project?.category &&
+        clientName === project?.clientName &&
+        date === project?.date &&
+        description === project?.description &&
+        images === project.images &&
+        newImages.length < 1
+      ) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    } else {
+      setDisabled(true);
+    }
+  }, [
+    title,
+    clientName,
+    category,
+    description,
+    date,
+    images,
+    newImages,
+    project
+  ]);
+
+  /////////////////////////////////////////
+  //////////////////////////////////////////////
+  /////////////////////////////////////////////
 
   const Button = ({
     text,
@@ -80,11 +211,25 @@ const EditProject = () => {
     );
   };
 
-  const ImageItem = ({ image }: { image: File }) => {
+  const OldImageItem = ({ image }: { image: IimageType }) => {
+    return (
+      <ImageContainer>
+        <Img
+          src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+          alt={image.name}
+        />
+        <DeleteImageContainer onClick={() => RemoveOldImage(image)}>
+          <RxCross2 size={18} />
+        </DeleteImageContainer>
+      </ImageContainer>
+    );
+  };
+
+  const NewImageItem = ({ image }: { image: File }) => {
     return (
       <ImageContainer>
         <Img src={URL.createObjectURL(image)} alt={image.name} />
-        <DeleteImageContainer onClick={() => RemoveImage(image)}>
+        <DeleteImageContainer onClick={() => RemoveNewImage(image)}>
           <RxCross2 size={18} />
         </DeleteImageContainer>
       </ImageContainer>
@@ -145,72 +290,90 @@ const EditProject = () => {
           pictures or videos.
         </Typography>
       </TopSection>
-      <Body>
-        <TextGrid>
-          <StyledInput
-            label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div>
-            <Label>Category</Label>
-            <Dropdown
-              placeholder={category}
-              items={companyservices}
-              selectItem={(value) => {
-                setCategory(value);
+
+      {loading ? (
+        <LoadingData />
+      ) : project ? (
+        <Body>
+          <TextGrid>
+            <StyledInput
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <div>
+              <Label>Category</Label>
+              <Dropdown
+                placeholder={category}
+                items={companyservices}
+                selectItem={(value) => {
+                  setCategory(value);
+                }}
+              />
+            </div>
+          </TextGrid>
+          <TextArea>
+            <StyledTextArea
+              label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </TextArea>
+          <TextGrid>
+            <StyledInput
+              label="Client name"
+              limit={30}
+              value={clientName}
+              onChange={(e) => {
+                setClientName(e.target.value);
               }}
             />
-          </div>
-        </TextGrid>
-        <TextArea>
-          <StyledTextArea
-            label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </TextArea>
-        <TextGrid>
-          <StyledInput
-            label="Client name"
-            limit={50}
-            value={clientName}
-            onChange={(e) => {
-              setClientName(e.target.value);
-            }}
-          />
-          <div>
-            <Label>Date</Label>
-            <DateInput
-              placeholder={DateConvert(date)}
-              selectDate={(date) => setDate(date)}
+            <div>
+              <Label>Date</Label>
+              <DateInput
+                placeholder={DateConvert(date)}
+                selectDate={(date) => setDate(date)}
+              />
+            </div>
+          </TextGrid>
+          {(images.length > 0 || newImages.length > 0) && (
+            <ImagesContainer>
+              {images.map((image, i) => {
+                return <OldImageItem image={image} key={i} />;
+              })}
+              {newImages.map((image, i) => {
+                return <NewImageItem image={image} key={i} />;
+              })}
+            </ImagesContainer>
+          )}
+          <UploadContainer>
+            <FormInput
+              type="file"
+              accept="image/*"
+              onChange={AddImage}
+              multiple={false}
             />
-          </div>
-        </TextGrid>
-        {images.length > 0 && (
-          <ImagesContainer>
-            {images.map((image, i) => {
-              return <ImageItem image={image} key={i} />;
-            })}
-          </ImagesContainer>
-        )}
-        <UploadContainer>
-          <FormInput
-            type="file"
-            accept="image/*"
-            onChange={AddImage}
-            multiple={false}
-          />
-          <TbCamera size={20} />
-          <Typography size={TextSize.md} weight={TextWeight.semibold} ml="0.8">
-            Upload image/video
-          </Typography>
-        </UploadContainer>
-        <ButtonGrid>
-          <PrimaryButton danger={true} text="Discard" onClick={Back} />
-          <PrimaryButton text="Upload project" />
-        </ButtonGrid>
-      </Body>
+            <TbCamera size={20} />
+            <Typography
+              size={TextSize.md}
+              weight={TextWeight.semibold}
+              ml="0.8"
+            >
+              Upload image/video
+            </Typography>
+          </UploadContainer>
+          <ButtonGrid>
+            <PrimaryButton danger={true} text="Discard" onClick={Back} />
+            <PrimaryButton
+              text="Upload project"
+              loading={buttonLoading}
+              onClick={PostEdit}
+              disabled={disabled}
+            />
+          </ButtonGrid>
+        </Body>
+      ) : null}
+
       <Footer />
     </Main>
   );

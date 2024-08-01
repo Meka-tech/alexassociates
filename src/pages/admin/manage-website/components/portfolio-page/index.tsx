@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../../components/container-styles/styles";
 import Typography from "../../../../../components/typography";
@@ -13,18 +13,45 @@ import Pagination from "../../../../../components/pagination";
 import ProjectEditItem from "./portfolio-edit-item";
 import { DummyData } from "../../../../portfolio/components/portfolio-projects/dummyData";
 import { useNavigate } from "react-router-dom";
+import api from "../../../../../utils/axiosInstance";
+import { IProject } from "../../../../../utils/types/project";
+import LoadingData from "../../../../../components/loading-component";
 
 const PortfolioEdit = () => {
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const [projects, setProjects] = useState<IProject[]>([]);
   const filters = [
     { filter: "View all", key: "all" },
-    { filter: "Interior", key: "interior-design" },
-    { filter: "Architectural", key: "architectural-design" },
-    { filter: "Furniture", key: "furniture-furnishing" },
-    { filter: "Project execution", key: "project-execution" }
+    { filter: "Interior", key: "Interior design" },
+    { filter: "Architectural", key: "Architectural design" },
+    { filter: "Furniture", key: "Furniture & Furnishings" },
+    { filter: "Project execution", key: "Project execution" }
   ];
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const GetProjects = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get(
+          `/project?page=${currentPage}${
+            search !== "" ? `&search=${search}` : ""
+          }${activeFilter !== "all" ? `&category=${activeFilter}` : ""}`
+        );
+        setProjects(data.results);
+        setTotalPages(data.totalPages);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    };
+    GetProjects();
+  }, [currentPage, search, activeFilter]);
   return (
     <Container>
       <TopFlex>
@@ -54,33 +81,51 @@ const PortfolioEdit = () => {
           />
         </UploadContainer>
       </TopFlex>
-      <SearchInput variant />
-      <ProjectGrid>
-        {DummyData.map(
-          (
-            { service, title, description, author, date, image, published },
-            i
-          ) => {
-            return (
-              <ProjectEditItem
-                id={`${i}`}
-                service={service}
-                title={title}
-                description={description}
-                author={author}
-                // date={date}
-                image={image}
-                key={i}
-                published={published}
-              />
-            );
-          }
-        )}
-      </ProjectGrid>
+      <SearchInput
+        variant
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      {loading ? (
+        <LoadingData />
+      ) : projects.length > 0 ? (
+        <ProjectGrid>
+          {projects.map(
+            (
+              {
+                category,
+                title,
+                description,
+                clientName,
+                date,
+                images,
+                published,
+                _id
+              },
+              i
+            ) => {
+              return (
+                <ProjectEditItem
+                  _id={_id}
+                  category={category}
+                  title={title}
+                  description={description}
+                  clientName={clientName}
+                  date={date}
+                  images={images}
+                  key={i}
+                  published={published}
+                />
+              );
+            }
+          )}
+        </ProjectGrid>
+      ) : null}
+
       <PaginationContainer>
         <Pagination
           currentPage={currentPage}
-          totalPages={10}
+          totalPages={totalPages}
           onPageChange={(page) => {
             setCurrentPage(page);
           }}
@@ -182,19 +227,19 @@ const UploadContainer = styled.div`
 const ProjectGrid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 33% 33% 33%;
+  /* grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
     "a b c "
     "d e f"
     "g h i";
-  align-items: center;
+  align-items: center; */
   justify-content: space-between;
   grid-column-gap: 3.2rem;
   grid-row-gap: 6.4rem;
   margin: 6.4rem 0;
   @media only screen and (max-width: 769px) {
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-row-gap: 4.8rem;
     grid-template-areas: unset;
     margin: 4.8rem 0;

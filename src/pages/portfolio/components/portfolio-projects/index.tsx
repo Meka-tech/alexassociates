@@ -8,12 +8,18 @@ import ProjectItem from "./project-item";
 import { DummyData } from "./dummyData";
 import Pagination from "../../../../components/pagination";
 import { useSearchParams } from "react-router-dom";
+import { IProject } from "../../../../utils/types/project";
+import api from "../../../../utils/axiosInstance";
+import LoadingData from "../../../../components/loading-component";
 
 interface IProps {
   inputValue: string;
 }
 const PortfolioProjects = ({ inputValue }: IProps) => {
   const [searchParams] = useSearchParams();
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
 
   const filterparam = searchParams.get("key");
   const [activeFilter, setActiveFilter] = useState(
@@ -22,15 +28,34 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const filters = [
     { filter: "View all", key: "all" },
-    { filter: "Interior", key: "interior-design" },
-    { filter: "Architectural", key: "architectural-design" },
-    { filter: "Furniture", key: "furniture-furnishing" },
-    { filter: "Project execution", key: "project-execution" }
+    { filter: "Interior", key: "Interior design" },
+    { filter: "Architectural", key: "Architectural design" },
+    { filter: "Furniture", key: "Furniture & Furnishings" },
+    { filter: "Project execution", key: "Project execution" }
   ];
 
   useEffect(() => {
     setActiveFilter(filterparam ? filterparam : "all");
   }, [filterparam]);
+
+  useEffect(() => {
+    const GetProjects = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get(
+          `/project?page=${currentPage}${
+            activeFilter !== "all" ? `&category=${activeFilter}` : ""
+          }&published=true`
+        );
+        setProjects(data.results);
+        setTotalPages(data.totalPages);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    };
+    GetProjects();
+  }, [currentPage, activeFilter]);
   return (
     <Container>
       <TopFlex>
@@ -56,33 +81,43 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
           <Dropdown selectItem={(value) => {}} />
         </SortContainer>
       </TopFlex>
-      <ProjectGrid>
-        {DummyData.map(
-          ({ service, title, description, author, date, image }, i) => {
-            return (
-              <ProjectItem
-                id={`${i}`}
-                service={service}
-                title={title}
-                description={description}
-                author={author}
-                // date={date}
-                image={image}
-                key={i}
-              />
-            );
-          }
-        )}
-      </ProjectGrid>
-      <PaginationContainer>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={10}
-          onPageChange={(page) => {
-            setCurrentPage(page);
-          }}
-        />
-      </PaginationContainer>
+      {loading ? (
+        <LoadingData />
+      ) : projects.length > 0 ? (
+        <>
+          {" "}
+          <ProjectGrid>
+            {projects.map(
+              (
+                { category, title, description, clientName, date, images, _id },
+                i
+              ) => {
+                return (
+                  <ProjectItem
+                    _id={_id}
+                    category={category}
+                    title={title}
+                    description={description}
+                    clientName={clientName}
+                    date={date}
+                    images={images}
+                    key={i}
+                  />
+                );
+              }
+            )}
+          </ProjectGrid>
+          <PaginationContainer>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+              }}
+            />
+          </PaginationContainer>
+        </>
+      ) : null}
     </Container>
   );
 };
@@ -176,14 +211,14 @@ const SortContainer = styled.div`
 const ProjectGrid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 30% 30% 30%;
+  grid-template-columns: 33% 33% 33%;
   align-items: center;
   justify-content: space-between;
   grid-column-gap: 3.2rem;
   grid-row-gap: 6.4rem;
   margin-bottom: 6.4rem;
   @media only screen and (max-width: 769px) {
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-row-gap: 4.8rem;
     margin-bottom: 4.8rem;
   }

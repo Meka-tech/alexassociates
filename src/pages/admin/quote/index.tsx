@@ -13,10 +13,11 @@ import { LuCalendar } from "react-icons/lu";
 import { CiFileOn } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
 import api from "../../../utils/axiosInstance";
-import LoadingData from "./loading-data";
+
 import { IQuote } from "../../../utils/types/quote";
 import DateConvert from "../../../utils/dateConvert";
 import { companyservices } from "../../../utils/company-services";
+import LoadingData from "../../../components/loading-component";
 
 const Quote = () => {
   const { id } = useParams();

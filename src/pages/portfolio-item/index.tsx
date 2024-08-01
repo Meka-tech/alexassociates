@@ -4,19 +4,25 @@ import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import Carousel from "./components/carousel";
 import Information from "./components/Information";
-import { data } from "./components/dummydata";
 import RelatedContent from "./components/related-content";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../utils/axiosInstance";
+import { IProject } from "../../utils/types/project";
+import LoadingData from "../../components/loading-component";
 
 const PortfolioItem = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [project, setProject] = useState<IProject>();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
       try {
+        const { data } = await api.get(`/project/${id}`);
+
+        setProject(data.data.project);
       } catch (err) {
         navigate("/portfolio");
       } finally {
@@ -28,15 +34,17 @@ const PortfolioItem = () => {
   return (
     <Container>
       <Navbar />
-      <Carousel images={data.images} />
-      <Information
-        service={data.service}
-        name={data.name}
-        description={data.description}
-        title={data.title}
-        date={data.date}
-      />
-      <RelatedContent service={data.service} />
+
+      {loading ? (
+        <LoadingData />
+      ) : project ? (
+        <>
+          <Carousel images={project.images} />
+          <Information {...project} />
+          <RelatedContent id={project?._id} category={project?.category} />
+        </>
+      ) : null}
+
       <Footer />
     </Container>
   );

@@ -1,48 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import ProjectItem from "../../../portfolio/components/portfolio-projects/project-item";
-import { DummyData } from "../../../portfolio/components/portfolio-projects/dummyData";
+import api from "../../../../utils/axiosInstance";
+import { IProject } from "../../../../utils/types/project";
+import LoadingData from "../../../../components/loading-component";
 
-const RelatedContent = ({ service }: { service: string }) => {
+const RelatedContent = ({ id, category }: { id: string; category: string }) => {
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const GetRelatedProject = async () => {
+      try {
+        setLoading(true);
+        const { data } = await api.get(`/project/related-projects/${id}`);
+        setProjects(data.data.projects);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    GetRelatedProject();
+  }, []);
   return (
-    <Container>
-      <Header>
-        <Typography
-          mb="6.4"
-          m_mb="4.8"
-          weight={TextWeight.medium}
-          size={TextSize.DisplaySm}
-          m_size={TextSize.DisplayXs}
-          lh="3.8"
-          m_lh="3.2"
-        >
-          More on {service}
-        </Typography>
-      </Header>
-      <ProjectGrid>
-        {DummyData.map(
-          ({ service, title, description, author, date, image }, i) => {
-            if (i >= 3) {
-              return null;
-            }
-            return (
-              <ProjectItem
-                id={`${i}`}
-                service={service}
-                title={title}
-                description={description}
-                author={author}
-                // date={date}
-                image={image}
-                key={i}
-              />
-            );
-          }
-        )}
-      </ProjectGrid>
-    </Container>
+    <>
+      {loading ? (
+        <LoadingData />
+      ) : projects.length > 0 ? (
+        <>
+          <Container>
+            <Header>
+              <Typography
+                mb="6.4"
+                m_mb="4.8"
+                weight={TextWeight.medium}
+                size={TextSize.DisplaySm}
+                m_size={TextSize.DisplayXs}
+                lh="3.8"
+                m_lh="3.2"
+              >
+                More on {category}
+              </Typography>
+            </Header>
+            <ProjectGrid>
+              {projects.map((project, i) => {
+                return <ProjectItem {...project} key={i} />;
+              })}
+            </ProjectGrid>
+          </Container>
+        </>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
@@ -74,7 +86,7 @@ const ProjectGrid = styled.div`
   grid-row-gap: 6.4rem;
   margin-bottom: 6.4rem;
   @media only screen and (max-width: 769px) {
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-row-gap: 4.8rem;
     margin-bottom: 4.8rem;
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import LoadingAnimation from "../../../components/loading-animation";
-import Typography from "../../../components/typography";
-import { TextSize, TextWeight } from "../../../components/typography/enums";
+import LoadingAnimation from "../loading-animation";
+import Typography from "../typography";
+import { TextSize, TextWeight } from "../typography/enums";
 
 const LoadingData = () => {
   return (

@@ -1,3 +1,5 @@
+import { IimageType } from "./image";
+
 export interface IQuote {
   firstname: string;
   lastname: string;
@@ -12,7 +14,7 @@ export interface IQuote {
   requirements: string;
   budget: string;
   addditionalInfo?: string;
-  image: { name: string; url: string; type: string };
+  image: IimageType;
   createdAt: Date;
   _id: string;
 }

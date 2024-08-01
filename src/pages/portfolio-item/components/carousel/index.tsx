@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { IimageType } from "../../../../utils/types/image";
 
-const Carousel = ({ images }: { images: string[] }) => {
+const Carousel = ({ images }: { images: IimageType[] }) => {
   const [index, setIndex] = useState(0);
 
   const Previous = () => {
@@ -29,7 +30,13 @@ const Carousel = ({ images }: { images: string[] }) => {
       <ImageArea>
         <ImageArray index={index}>
           {images.map((img, i) => {
-            return <ImageItem src={img} alt={`image${i}`} key={i} />;
+            return (
+              <ImageItem
+                src={`https://drive.google.com/thumbnail?id=${img.fileId}&sz=w1000`}
+                alt={img.name}
+                key={i}
+              />
+            );
           })}
         </ImageArray>
       </ImageArea>

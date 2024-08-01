@@ -15,7 +15,7 @@ import { IMessage } from "../../../../utils/types/message";
 import NoData from "./no-data";
 import Modal from "../../../../components/modal";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
-import LoadingData from "./loading-data";
+import LoadingData from "../../../../components/loading-component";
 
 const Messages = () => {
   const [currentPage, setCurrentPage] = useState(1);

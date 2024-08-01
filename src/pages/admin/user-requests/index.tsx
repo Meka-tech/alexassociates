@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
 import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import Messages from "./message-components/messages";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Quotes from "./quote-components/quotes";
 
 const UserRequests = () => {
   const [searchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const activeparam = searchParams.get("key");
   const [active, setActive] = useState(activeparam ? activeparam : "message");
+
+  useEffect(() => {
+    setActive(activeparam ? activeparam : "message");
+  }, [activeparam]);
   return (
     <Main>
       <Navbar />
@@ -21,7 +25,7 @@ const UserRequests = () => {
           <Button
             isactive={active === "message" ? "true" : "false"}
             onClick={() => {
-              setActive("message");
+              navigate("/admin/user-requests?key=message");
             }}
           >
             <Typography
@@ -35,7 +39,7 @@ const UserRequests = () => {
           <Button
             isactive={active === "quote" ? "true" : "false"}
             onClick={() => {
-              setActive("quote");
+              navigate("/admin/user-requests?key=quote");
             }}
           >
             <Typography

@@ -10,7 +10,7 @@ import BackgroundGrid from "../../../components/BackgroundGrid";
 import PrimaryButton from "../../../components/buttons/primary";
 import api from "../../../utils/axiosInstance";
 import { IMessage } from "../../../utils/types/message";
-import LoadingData from "./loading-data";
+import LoadingData from "../../../components/loading-component";
 
 const Message = () => {
   const { id } = useParams();

@@ -10,11 +10,12 @@ import { useNavigate } from "react-router-dom";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import api from "../../../../utils/axiosInstance";
-import LoadingData from "./loading-data";
+
 import NoData from "./no-data";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import Modal from "../../../../components/modal";
 import { IQuote } from "../../../../utils/types/quote";
+import LoadingData from "../../../../components/loading-component";
 
 const Quotes = () => {
   const [currentPage, setCurrentPage] = useState(1);

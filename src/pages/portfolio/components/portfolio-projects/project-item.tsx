@@ -7,29 +7,32 @@ import { LuArrowUpRight } from "react-icons/lu";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { useNavigate } from "react-router-dom";
 import DateConvert from "../../../../utils/dateConvert";
+import { IProject } from "../../../../utils/types/project";
 
-interface IProps {
-  service: string;
-  title: string;
-  description: string;
-  author: string;
-  date?: Date;
-  image: string;
-  id: string;
-}
 const ProjectItem = ({
-  service,
+  category,
   title,
   description,
-  author,
+  clientName,
   date = new Date(),
-  image,
-  id
-}: IProps) => {
+  images,
+  _id
+}: IProject) => {
   const navigation = useNavigate();
+  const image = images[0];
+
+  function truncateString(str: string) {
+    if (str.length > 30) {
+      return str.slice(0, 150) + "...";
+    }
+  }
+
   return (
-    <Container onClick={() => navigation(`/portfolio/${id}`)}>
-      <ImageContainer src={image} alt={title} />
+    <Container onClick={() => navigation(`/portfolio/${_id}`)}>
+      <ImageContainer
+        src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+        alt={image.name}
+      />
       <Typography
         color="rgba(0, 131, 226, 1)"
         size={TextSize.sm}
@@ -37,7 +40,7 @@ const ProjectItem = ({
         mb="0.8"
         lh="2"
       >
-        {service}
+        {category}
       </Typography>
       <FlexBox style={{ marginBottom: "0.8rem" }}>
         <Typography
@@ -58,7 +61,7 @@ const ProjectItem = ({
         mb="2.4"
         lh="2.4"
       >
-        {description}
+        {truncateString(description)}
       </Typography>
       <Typography
         color="rgba(250, 250, 250, 1)"
@@ -66,7 +69,7 @@ const ProjectItem = ({
         weight={TextWeight.semibold}
         lh="2"
       >
-        {author}
+        {clientName}
       </Typography>
       <Typography color="rgba(228, 228, 228, 1)" size={TextSize.sm} lh="2">
         {DateConvert(date)}

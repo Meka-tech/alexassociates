@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { LuArrowUpRight } from "react-icons/lu";
@@ -13,49 +13,68 @@ import { FlexBox } from "../../../../../../components/container-styles/styles";
 import PrimaryButton from "../../../../../../components/buttons/primary";
 import { TbTrash } from "react-icons/tb";
 import DateConvert from "../../../../../../utils/dateConvert";
+import { IProject } from "../../../../../../utils/types/project";
+import api from "../../../../../../utils/axiosInstance";
+import LoadingAnimation from "../../../../../../components/loading-animation";
 
-interface IProps {
-  service: string;
-  title: string;
-  description: string;
-  author: string;
-  date?: Date;
-  image: string;
-  id: string;
-  published?: boolean;
-}
 const ProjectEditItem = ({
-  service,
+  category,
   title,
   description,
-  author,
+  clientName,
   date = new Date(),
-  image,
+  images,
   published = false,
-  id
-}: IProps) => {
+  _id
+}: IProject) => {
   const navigate = useNavigate();
+  const image = images[0];
+
+  const [isPublished, setIsPublished] = useState(published);
+  const [publishLoading, setPublishLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const Edit = () => {
-    navigate(`/admin/manage-website/edit-project/${id}`);
+    navigate(`/admin/manage-website/edit-project/${_id}`);
   };
 
   const Delete = async () => {
-    if (published) {
+    if (isPublished) {
       return;
+    }
+    try {
+      setDeleting(true);
+      await api.delete(`/project/${_id}`);
+      window.location.reload();
+    } catch (err) {
+    } finally {
+      setDeleting(false);
     }
   };
 
   const PublishUnPub = async () => {
-    if (published) {
-      //unpublish
-    } else {
-      //publish
+    try {
+      setPublishLoading(true);
+      await api.put(`/project/published/${_id}`, { published: !isPublished });
+      setIsPublished(!isPublished);
+    } catch {
+    } finally {
+      setPublishLoading(false);
     }
   };
+
+  function truncateString(str: string) {
+    if (str.length > 30) {
+      return str.slice(0, 150) + "...";
+    }
+  }
+
   return (
     <Container>
-      <ImageContainer src={image} alt={title} />
+      <ImageContainer
+        src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+        alt={image.name}
+      />
       <Typography
         color="rgba(0, 131, 226, 1)"
         size={TextSize.sm}
@@ -63,7 +82,7 @@ const ProjectEditItem = ({
         mb="0.8"
         lh="2"
       >
-        {service}
+        {category}
       </Typography>
       <FlexBox style={{ marginBottom: "0.8rem" }}>
         <Typography
@@ -84,7 +103,7 @@ const ProjectEditItem = ({
         mb="2.4"
         lh="2.4"
       >
-        {description}
+        {truncateString(description)}
       </Typography>
       <DeleteDiv>
         <div>
@@ -94,24 +113,25 @@ const ProjectEditItem = ({
             weight={TextWeight.semibold}
             lh="2"
           >
-            {author}
+            {clientName}
           </Typography>
           <Typography color="rgba(228, 228, 228, 1)" size={TextSize.sm} lh="2">
             {DateConvert(date)}
           </Typography>
         </div>
         <DeleteContainer
-          published={published ? "false" : "true"}
+          published={isPublished ? "false" : "true"}
           onClick={Delete}
         >
-          <TbTrash size={15} />
+          {deleting ? <LoadingAnimation /> : <TbTrash size={15} />}
         </DeleteContainer>
       </DeleteDiv>
       <Buttons>
         <PrimaryButton
-          text={published ? "Unpublish" : "Publish"}
+          text={isPublished ? "Unpublish" : "Publish"}
           variant
           onClick={PublishUnPub}
+          loading={publishLoading}
         />
         <PrimaryButton text="Edit" onClick={Edit} />
       </Buttons>
@@ -144,9 +164,9 @@ const DeleteDiv = styled.div`
 `;
 
 const DeleteContainer = styled.div<{ published: string }>`
-  cursor: pointer;
+  cursor: ${(props) => (props.published === "true" ? "pointer" : "unset")};
   background-color: ${(props) =>
-    props.published === "true" ? "#EF0000" : "  #2e3b41"};
+    props.published === "true" ? "#EF0000" : "#2e3b41"};
   width: 3.2rem;
   height: 3.2rem;
   border-radius: 0.6rem;

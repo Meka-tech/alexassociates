@@ -2,15 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
+import { IProject } from "../../../../utils/types/project";
+import DateConvert from "../../../../utils/dateConvert";
 
-interface IProps {
-  service: string;
-  title: string;
-  description: string;
-  name: string;
-  date: string;
-}
-const Information = ({ service, title, description, name, date }: IProps) => {
+const Information = ({
+  category,
+  title,
+  description,
+  clientName,
+  date
+}: IProject) => {
   return (
     <Container>
       <Typography
@@ -22,7 +23,7 @@ const Information = ({ service, title, description, name, date }: IProps) => {
         m_size={TextSize.md}
         mb="0.8"
       >
-        {service}
+        {category}
       </Typography>
       <Typography
         weight={TextWeight.semibold}
@@ -51,7 +52,7 @@ const Information = ({ service, title, description, name, date }: IProps) => {
         m_lh="2"
         m_size={TextSize.sm}
       >
-        {name}
+        {clientName}
       </Typography>
       <Typography
         color="rgba(228, 228, 228, 1)"
@@ -60,7 +61,7 @@ const Information = ({ service, title, description, name, date }: IProps) => {
         m_lh="2"
         m_size={TextSize.sm}
       >
-        {date}
+        {DateConvert(date)}
       </Typography>
     </Container>
   );

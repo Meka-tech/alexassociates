@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../../../components/navbar";
 import Footer from "../../../../components/footer";
@@ -16,6 +16,7 @@ import DateInput from "../../../../components/input/date_input";
 import { TbCamera } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import { companyservices } from "../../../../utils/company-services";
+import api from "../../../../utils/axiosInstance";
 
 const UploadProject = () => {
   const navigate = useNavigate();
@@ -23,11 +24,14 @@ const UploadProject = () => {
   const [active, setActive] = useState("portfolio");
 
   const [images, setImages] = useState<File[]>([]);
+  // const [imagesId, setImagesId] = useState<string[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [clientName, setClientName] = useState("Olivia Rhye");
+  const [clientName, setClientName] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState<Date | null>(new Date());
+  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const AddImage = (event: any) => {
     const file = event.target.files[0];
@@ -85,6 +89,63 @@ const UploadProject = () => {
       </ImageContainer>
     );
   };
+
+  const PostImages = async () => {
+    try {
+      let ImageIds: string[] = [];
+      for (let i = 0; i < images.length; i++) {
+        const file = images[i];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const { data } = await api.post("/media", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+
+        ImageIds = [...ImageIds, data.media._id];
+      }
+      return ImageIds;
+    } catch (err) {}
+  };
+
+  const PostProject = async () => {
+    setLoading(true);
+    try {
+      const imageIds = await PostImages();
+      let Body = {
+        title,
+        category,
+        description,
+        clientName,
+        date,
+        images: imageIds
+      };
+
+      await api.post("/project", Body);
+
+      navigate("/admin/manage-website?key=portfolio");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      title.length > 0 &&
+      category.length > 0 &&
+      description.length > 0 &&
+      clientName.length > 0 &&
+      date &&
+      images.length > 0
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [title, clientName, category, description, date, images]);
 
   return (
     <Main>
@@ -204,7 +265,12 @@ const UploadProject = () => {
         </UploadContainer>
         <ButtonGrid>
           <PrimaryButton danger={true} text="Discard" onClick={Back} />
-          <PrimaryButton text="Upload project" />
+          <PrimaryButton
+            text="Upload project"
+            loading={loading}
+            onClick={PostProject}
+            disabled={disabled}
+          />
         </ButtonGrid>
       </Body>
       <Footer />
@@ -311,6 +377,7 @@ const UploadContainer = styled.div`
   width: fit-content;
   color: #cfcece;
   position: relative;
+  z-index: 0;
   @media only screen and (max-width: 769px) {
     width: 100%;
   }
