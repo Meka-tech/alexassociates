@@ -21,6 +21,7 @@ import api from "../../../../utils/axiosInstance";
 import { IProject } from "../../../../utils/types/project";
 import { IimageType } from "../../../../utils/types/image";
 import LoadingData from "../../../../components/loading-component";
+import { UploadImage } from "../../../../utils/upload-image";
 
 const EditProject = () => {
   const navigate = useNavigate();
@@ -104,16 +105,8 @@ const EditProject = () => {
       let ImageIds: string[] = [];
       for (let i = 0; i < newImages.length; i++) {
         const file = newImages[i];
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const { data } = await api.post("/media", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        });
-
-        ImageIds = [...ImageIds, data.media._id];
+        const MediaId = await UploadImage(file);
+        ImageIds = [...ImageIds, MediaId];
       }
 
       return [...OldImageIds, ...ImageIds];

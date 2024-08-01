@@ -17,6 +17,11 @@ import { TbCamera } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import { companyservices } from "../../../../utils/company-services";
 import api from "../../../../utils/axiosInstance";
+import { UploadImage } from "../../../../utils/upload-image";
+import Modal from "../../../../components/modal";
+import ModalChildTemplate from "../../../../components/modal/modal-child-template";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { MdOutlineFileUpload } from "react-icons/md";
 
 const UploadProject = () => {
   const navigate = useNavigate();
@@ -32,6 +37,9 @@ const UploadProject = () => {
   const [date, setDate] = useState<Date | null>(new Date());
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [modalActive, setModalActive] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
 
   const AddImage = (event: any) => {
     const file = event.target.files[0];
@@ -95,16 +103,9 @@ const UploadProject = () => {
       let ImageIds: string[] = [];
       for (let i = 0; i < images.length; i++) {
         const file = images[i];
-        const formData = new FormData();
-        formData.append("file", file);
+        const MediaId = await UploadImage(file);
 
-        const { data } = await api.post("/media", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        });
-
-        ImageIds = [...ImageIds, data.media._id];
+        ImageIds = [...ImageIds, MediaId];
       }
       return ImageIds;
     } catch (err) {}
@@ -124,13 +125,25 @@ const UploadProject = () => {
       };
 
       await api.post("/project", Body);
-
-      navigate("/admin/manage-website?key=portfolio");
+      setUpdateModal(false);
+      setSuccessModal(true);
     } catch (err) {
     } finally {
       setLoading(false);
     }
   };
+  const OnSuccessfullPost = () => {
+    setModalActive(false);
+    setSuccessModal(false);
+    navigate("/admin/manage-website?key=portfolio");
+  };
+
+  useEffect(() => {
+    if (!modalActive) {
+      setSuccessModal(false);
+      setUpdateModal(false);
+    }
+  }, [modalActive]);
 
   useEffect(() => {
     if (
@@ -201,6 +214,35 @@ const UploadProject = () => {
           pictures or videos.
         </Typography>
       </TopSection>
+      <Modal
+        isActive={modalActive}
+        closeModal={() => {
+          setModalActive(false);
+        }}
+      >
+        {updateModal ? (
+          <ModalChildTemplate
+            header="Upload project"
+            subheader="Are you sure you want to upload this project?"
+            confirmText="Upload"
+            onConfirm={PostProject}
+            onClose={() => setModalActive(false)}
+            loading={loading}
+            icon={<MdOutlineFileUpload size={25} color="#00365C" />}
+          />
+        ) : successModal ? (
+          <ModalChildTemplate
+            header="Uploaded successfully!"
+            confirmText="Confirm"
+            onConfirm={OnSuccessfullPost}
+            onClose={OnSuccessfullPost}
+            icon={<IoMdCheckmarkCircleOutline size={20} color="#079455" />}
+            cancelOption={false}
+          />
+        ) : (
+          <></>
+        )}
+      </Modal>
       <Body>
         <TextGrid>
           <StyledInput
@@ -267,8 +309,10 @@ const UploadProject = () => {
           <PrimaryButton danger={true} text="Discard" onClick={Back} />
           <PrimaryButton
             text="Upload project"
-            loading={loading}
-            onClick={PostProject}
+            onClick={() => {
+              setModalActive(true);
+              setUpdateModal(true);
+            }}
             disabled={disabled}
           />
         </ButtonGrid>

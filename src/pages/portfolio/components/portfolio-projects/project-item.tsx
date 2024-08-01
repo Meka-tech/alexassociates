@@ -25,6 +25,7 @@ const ProjectItem = ({
     if (str.length > 30) {
       return str.slice(0, 150) + "...";
     }
+    return str;
   }
 
   return (
@@ -63,17 +64,19 @@ const ProjectItem = ({
       >
         {truncateString(description)}
       </Typography>
-      <Typography
-        color="rgba(250, 250, 250, 1)"
-        size={TextSize.sm}
-        weight={TextWeight.semibold}
-        lh="2"
-      >
-        {clientName}
-      </Typography>
-      <Typography color="rgba(228, 228, 228, 1)" size={TextSize.sm} lh="2">
-        {DateConvert(date)}
-      </Typography>
+      <ItemFooter>
+        <Typography
+          color="rgba(250, 250, 250, 1)"
+          size={TextSize.sm}
+          weight={TextWeight.semibold}
+          lh="2"
+        >
+          {clientName}
+        </Typography>
+        <Typography color="rgba(228, 228, 228, 1)" size={TextSize.sm} lh="2">
+          {DateConvert(date)}
+        </Typography>
+      </ItemFooter>
     </Container>
   );
 };
@@ -85,6 +88,8 @@ const Container = styled.div`
   height: 100%;
   color: white;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ImageContainer = styled.img`
@@ -94,4 +99,8 @@ const ImageContainer = styled.img`
   object-fit: cover;
   margin-bottom: 2.4rem;
   background-color: gray;
+`;
+
+const ItemFooter = styled.div`
+  margin-top: auto;
 `;

@@ -13,6 +13,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import api from "../../../../../utils/axiosInstance";
 import LoadingAnimation from "../../../../../components/loading-animation";
 import { HiOutlineTrash } from "react-icons/hi";
+import { UploadImage } from "../../../../../utils/upload-image";
 
 interface IProps {
   goBack: () => void;
@@ -74,19 +75,13 @@ const StepFour = ({
       return;
     }
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
       setUploadStatus(30);
-      const { data } = await api.post("/media", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      setImageId(data.media._id);
-      SelectImageId(data.media._id);
+      //uploadImage
+      const MediaId = await UploadImage(file);
 
+      setImageId(MediaId);
+      SelectImageId(MediaId);
       setUploadStatus(100);
     } catch (error) {
       console.error("Error uploading file:", error);

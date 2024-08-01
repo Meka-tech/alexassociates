@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { LuArrowUpRight } from "react-icons/lu";
@@ -11,12 +11,19 @@ import {
 } from "../../../../../../components/typography/enums";
 import { FlexBox } from "../../../../../../components/container-styles/styles";
 import PrimaryButton from "../../../../../../components/buttons/primary";
-import { TbTrash } from "react-icons/tb";
+import { TbBookUpload, TbTrash } from "react-icons/tb";
 import DateConvert from "../../../../../../utils/dateConvert";
 import { IProject } from "../../../../../../utils/types/project";
 import api from "../../../../../../utils/axiosInstance";
 import LoadingAnimation from "../../../../../../components/loading-animation";
+import Modal from "../../../../../../components/modal";
+import ModalChildTemplate from "../../../../../../components/modal/modal-child-template";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { HiOutlineTrash } from "react-icons/hi";
 
+interface IProps extends IProject {
+  refresh: () => void;
+}
 const ProjectEditItem = ({
   category,
   title,
@@ -25,14 +32,19 @@ const ProjectEditItem = ({
   date = new Date(),
   images,
   published = false,
-  _id
-}: IProject) => {
+  _id,
+  refresh
+}: IProps) => {
   const navigate = useNavigate();
   const image = images[0];
 
   const [isPublished, setIsPublished] = useState(published);
   const [publishLoading, setPublishLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
+  const [publishModal, setPublishModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const Edit = () => {
     navigate(`/admin/manage-website/edit-project/${_id}`);
@@ -45,7 +57,7 @@ const ProjectEditItem = ({
     try {
       setDeleting(true);
       await api.delete(`/project/${_id}`);
-      window.location.reload();
+      setSuccessModal(true);
     } catch (err) {
     } finally {
       setDeleting(false);
@@ -56,6 +68,8 @@ const ProjectEditItem = ({
     try {
       setPublishLoading(true);
       await api.put(`/project/published/${_id}`, { published: !isPublished });
+      setPublishModal(false);
+      setSuccessModal(true);
       setIsPublished(!isPublished);
     } catch {
     } finally {
@@ -63,14 +77,77 @@ const ProjectEditItem = ({
     }
   };
 
+  const OnSuccessfullPost = () => {
+    setModalActive(false);
+    setPublishModal(false);
+    setDeleteModal(false);
+    setSuccessModal(false);
+    refresh();
+  };
   function truncateString(str: string) {
     if (str.length > 30) {
       return str.slice(0, 150) + "...";
     }
+    return str;
   }
+
+  useEffect(() => {
+    if (!modalActive) {
+      setSuccessModal(false);
+      setPublishModal(false);
+    }
+  }, [modalActive]);
 
   return (
     <Container>
+      <Modal
+        isActive={modalActive}
+        closeModal={() => {
+          setModalActive(false);
+        }}
+      >
+        {publishModal ? (
+          <ModalChildTemplate
+            header={`${isPublished ? "Unpublish" : "Publish"} project`}
+            subheader={`Are you sure you want to ${
+              isPublished ? "unpublish" : "publish"
+            } this project?`}
+            confirmText={`${isPublished ? "Unpublish" : "Publish"}`}
+            onConfirm={PublishUnPub}
+            onClose={() => setModalActive(false)}
+            loading={publishLoading}
+            icon={<TbBookUpload size={25} color="#00365C" />}
+          />
+        ) : successModal ? (
+          <ModalChildTemplate
+            header={`${
+              !isPublished
+                ? "Unpublished"
+                : deleteModal
+                ? "Deleted"
+                : "Published"
+            } successfully`}
+            confirmText="Confirm"
+            onConfirm={OnSuccessfullPost}
+            onClose={OnSuccessfullPost}
+            icon={<IoMdCheckmarkCircleOutline size={20} color="#079455" />}
+            cancelOption={false}
+          />
+        ) : deleteModal ? (
+          <ModalChildTemplate
+            header="Delete message"
+            subheader="Are you sure you want to delete this message?"
+            type="red"
+            confirmText="Delete"
+            onConfirm={Delete}
+            onClose={() => setModalActive(false)}
+            loading={deleting}
+            icon={<HiOutlineTrash color="#EF0000" size={20} />}
+          />
+        ) : (
+          <></>
+        )}
+      </Modal>
       <ImageContainer
         src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
         alt={image.name}
@@ -121,7 +198,10 @@ const ProjectEditItem = ({
         </div>
         <DeleteContainer
           published={isPublished ? "false" : "true"}
-          onClick={Delete}
+          onClick={() => {
+            setModalActive(true);
+            setDeleteModal(true);
+          }}
         >
           {deleting ? <LoadingAnimation /> : <TbTrash size={15} />}
         </DeleteContainer>
@@ -130,8 +210,10 @@ const ProjectEditItem = ({
         <PrimaryButton
           text={isPublished ? "Unpublish" : "Publish"}
           variant
-          onClick={PublishUnPub}
-          loading={publishLoading}
+          onClick={() => {
+            setModalActive(true);
+            setPublishModal(true);
+          }}
         />
         <PrimaryButton text="Edit" onClick={Edit} />
       </Buttons>
@@ -143,8 +225,9 @@ export default ProjectEditItem;
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
   color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ImageContainer = styled.img`
@@ -161,6 +244,7 @@ const DeleteDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 2.4rem;
 `;
 
 const DeleteContainer = styled.div<{ published: string }>`
@@ -185,7 +269,7 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: space-between;
   grid-template-columns: 48% 48%;
-  margin-top: 2.4rem;
+
   @media only screen and (max-width: 769px) {
     grid-template-columns: 100%;
     grid-row-gap: 1.6rem;

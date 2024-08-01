@@ -34,22 +34,23 @@ const PortfolioEdit = () => {
   ];
   const navigate = useNavigate();
 
+  const GetProjects = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(
+        `/project?page=${currentPage}${
+          search !== "" ? `&search=${search}` : ""
+        }${activeFilter !== "all" ? `&category=${activeFilter}` : ""}`
+      );
+      setProjects(data.results);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const GetProjects = async () => {
-      setLoading(true);
-      try {
-        const { data } = await api.get(
-          `/project?page=${currentPage}${
-            search !== "" ? `&search=${search}` : ""
-          }${activeFilter !== "all" ? `&category=${activeFilter}` : ""}`
-        );
-        setProjects(data.results);
-        setTotalPages(data.totalPages);
-      } catch (err) {
-      } finally {
-        setLoading(false);
-      }
-    };
     GetProjects();
   }, [currentPage, search, activeFilter]);
   return (
@@ -90,35 +91,9 @@ const PortfolioEdit = () => {
         <LoadingData />
       ) : projects.length > 0 ? (
         <ProjectGrid>
-          {projects.map(
-            (
-              {
-                category,
-                title,
-                description,
-                clientName,
-                date,
-                images,
-                published,
-                _id
-              },
-              i
-            ) => {
-              return (
-                <ProjectEditItem
-                  _id={_id}
-                  category={category}
-                  title={title}
-                  description={description}
-                  clientName={clientName}
-                  date={date}
-                  images={images}
-                  key={i}
-                  published={published}
-                />
-              );
-            }
-          )}
+          {projects.map((project, i) => {
+            return <ProjectEditItem {...project} refresh={GetProjects} />;
+          })}
         </ProjectGrid>
       ) : null}
 
