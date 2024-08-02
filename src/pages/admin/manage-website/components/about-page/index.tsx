@@ -7,6 +7,8 @@ import { ITeamItem } from "../../../../../utils/types/teamItem";
 import TeamItem from "./team-item";
 import PrimaryButton from "../../../../../components/buttons/primary";
 import PartnerItem from "./partner-item";
+import TopNav from "../top-nav";
+import MobileConfirmButtons from "../mobile-confirm";
 
 const AboutPageEdit = () => {
   const [sectionOne, setSectionOne] = useState({
@@ -159,6 +161,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
 
   return (
     <Container>
+      <TopNav />
       <Section
         header="Section 1 (Nice to meet you)"
         subheader="An introduction to the about us page"
@@ -327,6 +330,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
           />
         </ButtonContainer>
       </Section>
+      <MobileConfirmButtons />
     </Container>
   );
 };

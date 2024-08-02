@@ -3,10 +3,13 @@ import styled from "styled-components";
 import Section from "../section";
 import StyledInput from "../../../../../components/input/primaryInput";
 import StyledTextArea from "../../../../../components/input/textArea";
+import TopNav from "../top-nav";
+import MobileConfirmButtons from "../mobile-confirm";
 
 const OurServicesEdit = () => {
   return (
     <Container>
+      <TopNav />
       <Section
         header="Section 1 (Let’s work with you)"
         subheader="An introduction to the services page."
@@ -60,6 +63,7 @@ const OurServicesEdit = () => {
           <StyledInput label="Sub headline" height="6" limit={250} />
         </InputGrid>
       </Section>
+      <MobileConfirmButtons />
     </Container>
   );
 };

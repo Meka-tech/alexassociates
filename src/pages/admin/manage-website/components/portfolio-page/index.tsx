@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../../../utils/axiosInstance";
 import { IProject } from "../../../../../utils/types/project";
 import LoadingData from "../../../../../components/loading-component";
+import TopNav from "../top-nav";
+import MobileConfirmButtons from "../mobile-confirm";
 
 const PortfolioEdit = () => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -55,57 +57,61 @@ const PortfolioEdit = () => {
   }, [currentPage, search, activeFilter]);
   return (
     <Container>
-      <TopFlex>
-        <FilterMobileOverflow>
-          <FilterContainer>
-            {filters.map(({ filter, key }, i) => {
-              return (
-                <FilterItem
-                  isactive={activeFilter === key ? "true" : "false"}
-                  key={i}
-                  onClick={() => setActiveFilter(key)}
-                >
-                  <Typography size={TextSize.md} weight={TextWeight.semibold}>
-                    {filter}
-                  </Typography>
-                </FilterItem>
-              );
-            })}
-            <FilterOutline />
-          </FilterContainer>
-        </FilterMobileOverflow>
-        <UploadContainer>
-          <PrimaryButton
-            text="Upload new project"
-            icon={<TfiUpload size={15} />}
-            onClick={() => navigate("/admin/manage-website/upload-project")}
-          />
-        </UploadContainer>
-      </TopFlex>
-      <SearchInput
-        variant
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      {loading ? (
-        <LoadingData />
-      ) : projects.length > 0 ? (
-        <ProjectGrid>
-          {projects.map((project, i) => {
-            return <ProjectEditItem {...project} refresh={GetProjects} />;
-          })}
-        </ProjectGrid>
-      ) : null}
-
-      <PaginationContainer>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => {
-            setCurrentPage(page);
-          }}
+      <TopNav />
+      <Body>
+        <TopFlex>
+          <FilterMobileOverflow>
+            <FilterContainer>
+              {filters.map(({ filter, key }, i) => {
+                return (
+                  <FilterItem
+                    isactive={activeFilter === key ? "true" : "false"}
+                    key={i}
+                    onClick={() => setActiveFilter(key)}
+                  >
+                    <Typography size={TextSize.md} weight={TextWeight.semibold}>
+                      {filter}
+                    </Typography>
+                  </FilterItem>
+                );
+              })}
+              <FilterOutline />
+            </FilterContainer>
+          </FilterMobileOverflow>
+          <UploadContainer>
+            <PrimaryButton
+              text="Upload new project"
+              icon={<TfiUpload size={15} />}
+              onClick={() => navigate("/admin/manage-website/upload-project")}
+            />
+          </UploadContainer>
+        </TopFlex>
+        <SearchInput
+          variant
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-      </PaginationContainer>
+        {loading ? (
+          <LoadingData />
+        ) : projects.length > 0 ? (
+          <ProjectGrid>
+            {projects.map((project, i) => {
+              return <ProjectEditItem {...project} refresh={GetProjects} />;
+            })}
+          </ProjectGrid>
+        ) : null}
+
+        <PaginationContainer>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+            }}
+          />
+        </PaginationContainer>
+      </Body>
+      <MobileConfirmButtons />
     </Container>
   );
 };
@@ -113,6 +119,10 @@ const PortfolioEdit = () => {
 export default PortfolioEdit;
 
 const Container = styled.div`
+  width: 100%;
+`;
+
+const Body = styled.div`
   border-top: 1px solid #2e3b41;
   width: 100%;
   padding: 2.4rem 11.2rem;
@@ -122,7 +132,6 @@ const Container = styled.div`
     padding-bottom: 6.4rem;
   }
 `;
-
 const TopFlex = styled(FlexBox)`
   justify-content: space-between;
   width: 100%;

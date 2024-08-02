@@ -7,6 +7,8 @@ import ClientItem from "./client-item";
 import PrimaryButton from "../../../../../components/buttons/primary";
 import LogoArea from "./logos";
 import { IimageType } from "../../../../../utils/types/image";
+import TopNav from "../top-nav";
+import MobileConfirmButtons from "../mobile-confirm";
 
 const HomePageEdit = () => {
   const [heroSection, setHeroSection] = useState({
@@ -141,6 +143,7 @@ const HomePageEdit = () => {
   };
   return (
     <Container>
+      <TopNav />
       <Section
         header="Hero section"
         subheader="Brief introduction to the website."
@@ -339,6 +342,7 @@ const HomePageEdit = () => {
           <PrimaryButton text="Add Review" variant={true} onClick={AddReview} />
         </ButtonContainer>
       </Section>
+      <MobileConfirmButtons />
     </Container>
   );
 };
