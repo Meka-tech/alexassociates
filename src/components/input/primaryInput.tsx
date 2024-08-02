@@ -4,7 +4,7 @@ import Typography from "../typography";
 import { TextSize, TextWeight } from "../typography/enums";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   currency?: string;
   limit?: number;
 }
@@ -12,9 +12,17 @@ const StyledInput = ({ label, currency, limit, ...rest }: IProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <Container>
-      <Typography size={TextSize.sm} weight={TextWeight.medium} mb="0.6" lh="2">
-        {label}
-      </Typography>
+      {label && (
+        <Typography
+          size={TextSize.sm}
+          weight={TextWeight.medium}
+          mb="0.6"
+          lh="2"
+        >
+          {label}
+        </Typography>
+      )}
+
       <InputContainer>
         {currency && (
           <Typography lh="2.4" mr="0.4" color="#FAFAFA" size={TextSize.md}>
