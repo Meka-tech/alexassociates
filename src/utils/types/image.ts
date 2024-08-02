@@ -1,4 +1,4 @@
-export interface IimageType {
+export interface IimageType extends File {
   _id: string;
   name: string;
   url: string;

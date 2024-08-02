@@ -94,6 +94,7 @@ const Input = styled.textarea<{ height: string }>`
   resize: none;
   font-size: 1.6rem;
   font-weight: 400;
+  line-height: 2.4rem;
   &::placeholder {
     color: grey;
   }

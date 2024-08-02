@@ -67,6 +67,7 @@ const Input = styled.input`
   font-family: "Inter", sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
+  line-height: 2.4rem;
   &::placeholder {
     color: grey;
   }

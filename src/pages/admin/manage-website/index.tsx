@@ -8,6 +8,8 @@ import { TextSize, TextWeight } from "../../../components/typography/enums";
 import PrimaryButton from "../../../components/buttons/primary";
 import PortfolioEdit from "./components/portfolio-page";
 import OurServicesEdit from "./components/ourServices-page";
+import HomePageEdit from "./components/Home-page";
+import AboutPageEdit from "./components/about-page";
 
 const ManageWebsite = () => {
   const [searchParams] = useSearchParams();
@@ -63,7 +65,8 @@ const ManageWebsite = () => {
         </ConfirmButtons>
       </TopNav>
       <Body>
-        {active === "home" && null}{" "}
+        {active === "home" && <HomePageEdit />}
+        {active === "about" && <AboutPageEdit />}
         {active === "portfolio" && <PortfolioEdit />}
         {active === "services" && <OurServicesEdit />}
       </Body>
