@@ -5,5 +5,5 @@ export interface IClientItem {
   organization?: string;
   review?: string;
   rating?: number;
-  image?: IimageType | null;
+  image?: IimageType;
 }

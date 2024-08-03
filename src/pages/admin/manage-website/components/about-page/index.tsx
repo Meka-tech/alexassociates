@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Section from "../section";
 import StyledInput from "../../../../../components/input/primaryInput";
@@ -9,31 +9,30 @@ import PrimaryButton from "../../../../../components/buttons/primary";
 import PartnerItem from "./partner-item";
 import TopNav from "../top-nav";
 import MobileConfirmButtons from "../mobile-confirm";
+import api from "../../../../../utils/axiosInstance";
+import { UploadImage } from "../../../../../utils/upload-image";
+import LoadingData from "../../../../../components/loading-component";
 
 const AboutPageEdit = () => {
+  const [data, setData] = useState<any>();
+  const [loadingData, setLoadingData] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [changed, setChanged] = useState(false);
+
   const [sectionOne, setSectionOne] = useState({
-    headline:
-      "Our mission is to transform spaces into functional and aesthetically pleasing environments tailored to our clients’ needs.",
-    paragraph:
-      "Alex & Associates is a premier interior design and architectural firm based in Vizag, dedicated to transforming spaces with innovative and high-quality design solutions. Founded by Flight Lieutenant Alex Bennett (Retd.), our firm has built a reputation for excellence over 20 years of experience."
+    headline: "",
+    paragraph: ""
   });
 
   const [sectionTwo, setSectionTwo] = useState({
-    headline: "We do it better !",
-    subheadline:
-      "We’ve already helped over 4,000 companies achieve remarkable results.",
-    paragraph1:
-      "Alex & Associates...one of the finest interior designers and design converters from Vizag, spreading their wings beyond Vizag, redefining and transforming spaces and lives.",
-    paragraph2: `The firm was founded by Flight Lieutenant Alex Bennett (Retd).He re-invented himself as a designer after leaving the services. Initially, he was freelancing from 1997 and later started formal operations from 1st April 2006 under the firm name "Alex & Associates". The firm has an accumulated experience of over 20 years. The firm's field of expertise covers Interior designing, Landscaping and Project Management. They have also undertaken a few Architectural works. They are a major associate of Cipy Polyurethanes Pvt Ltd, into Industrial and Decorative flooring segment, Water proofing, Protective coatings.`,
-    paragraph3:
-      "At Alex & Associates, we are committed to quality, creativity, and ethical business practices. Our goal is to deliver exceptional design solutions that enhance the physical and psychological well-being of the occupants, creating harmonious and productive environments.",
-    paragraph4: `Design principle "Form follows function" which means we don't believe in design for the sake of design. Design or the form that is imparted must be guided by function.
-Interior designing in the context of any space must take into consideration the occupants comfort in terms of physical/ mental environment and operational requirement.
-Basically, evaluating the Space - Functional economics - Physical comfort / Ergonomics - Aesthetics which creates the psychological environment for optimum productivity in work spaces`,
-    paragraph5:
-      "We are committed to Quality, Innovation of form aimed at functionality, Creativity and Ethical business.",
-    paragraph6:
-      "Join us in our mission to redefine and transform spaces, bringing your vision to life with our expertise and passion for design"
+    headline: "",
+    subheadline: "",
+    paragraph1: "",
+    paragraph2: ``,
+    paragraph3: "",
+    paragraph4: ``,
+    paragraph5: "",
+    paragraph6: ""
   });
 
   const [teamSection, setTeamSection] = useState<{
@@ -41,15 +40,13 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
     subheadline: string;
     team: ITeamItem[];
   }>({
-    headline: "Meet our team",
-    subheadline:
-      "Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.",
+    headline: "",
+    subheadline: "",
     team: [
       {
-        fullname: "Amélie Laurent",
-        role: "Founder & CEO",
-        description:
-          "Former co-founder of Opendoor. Early staff at Spotify and Clearbit.",
+        fullname: "",
+        role: "",
+        description: "",
         image: undefined
       }
     ]
@@ -60,21 +57,20 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
     subheadline: string;
     partners: ITeamItem[];
   }>({
-    headline: "Meet our team",
-    subheadline:
-      "Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.",
+    headline: "",
+    subheadline: "",
     partners: [
       {
-        fullname: "Amélie Laurent",
-        role: "Founder & CEO",
-        description:
-          "Former co-founder of Opendoor. Early staff at Spotify and Clearbit.",
+        fullname: "",
+        role: "",
+        description: "",
         image: undefined
       }
     ]
   });
 
   const handleTeamChange = (index: number, newTeam: Partial<ITeamItem>) => {
+    setChanged(true);
     setTeamSection((prevSection) => ({
       ...prevSection,
       team: prevSection.team.map((member, i) =>
@@ -84,6 +80,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const RemoveTeamMember = (index: number) => {
+    setChanged(true);
     setTeamSection((prevSection) => ({
       ...prevSection,
       team: prevSection.team.filter((_, i) => i !== index)
@@ -91,15 +88,15 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const AddTeamMember = () => {
+    setChanged(true);
     setTeamSection((prev) => ({
       ...prev,
       team: [
         ...prev.team,
         {
-          name: "",
-          organization: "",
-          review: "",
-          rating: 0,
+          fullname: "",
+          role: "",
+          description: "",
           image: undefined
         }
       ]
@@ -107,6 +104,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const handlePartnerChange = (index: number, newTeam: Partial<ITeamItem>) => {
+    setChanged(true);
     setPartnerSection((prevSection) => ({
       ...prevSection,
       partners: prevSection.partners.map((partner, i) =>
@@ -116,6 +114,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const RemovePartner = (index: number) => {
+    setChanged(true);
     setPartnerSection((prevSection) => ({
       ...prevSection,
       partners: prevSection.partners.filter((_, i) => i !== index)
@@ -123,15 +122,15 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const AddPartner = () => {
+    setChanged(true);
     setPartnerSection((prev) => ({
       ...prev,
       partners: [
         ...prev.partners,
         {
-          name: "",
-          organization: "",
-          review: "",
-          rating: 0,
+          fullname: "",
+          role: "",
+          description: "",
           image: undefined
         }
       ]
@@ -139,6 +138,7 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
   };
 
   const handleInputChange = (key: string, value: string, object: string) => {
+    setChanged(true);
     if (object === "one") {
       setSectionOne((prevSection) => ({
         ...prevSection,
@@ -158,179 +158,298 @@ Basically, evaluating the Space - Functional economics - Physical comfort / Ergo
       }));
     }
   };
+  const PostTeamImages = async () => {
+    for (let i = 0; i < teamSection.team.length; i++) {
+      const member = teamSection.team[i];
+      let team: {
+        fullname?: string;
+        role?: string;
+        description?: string;
+        image?: string;
+      }[] = [];
+      if (member.image?.size) {
+        const MediaId = await UploadImage(member.image);
+        const newMemberItem = { ...member, image: MediaId };
+
+        team = [...team, newMemberItem];
+      } else if (member.image) {
+        const newReviewItem = { ...member, image: member.image._id };
+        team = [...team, newReviewItem];
+      }
+      return {
+        headline: teamSection.headline,
+        subheadline: teamSection.subheadline,
+        team
+      };
+    }
+  };
+
+  const PostPartnerImages = async () => {
+    for (let i = 0; i < partnerSection.partners.length; i++) {
+      const partner = partnerSection.partners[i];
+      let partners: {
+        fullname?: string;
+        role?: string;
+        description?: string;
+        image?: string;
+      }[] = [];
+      if (partner.image?.size) {
+        const MediaId = await UploadImage(partner.image);
+        const newpartnerItem = { ...partner, image: MediaId };
+
+        partners = [...partners, newpartnerItem];
+      } else if (partner.image) {
+        const newReviewItem = { ...partner, image: partner.image._id };
+        partners = [...partners, newReviewItem];
+      }
+      return {
+        headline: teamSection.headline,
+        subheadline: teamSection.subheadline,
+        partners
+      };
+    }
+  };
+  const PostEdit = async () => {
+    try {
+      setEditing(true);
+      const partnerSection = await PostPartnerImages();
+      const teamSection = await PostTeamImages();
+      const bodyData = {
+        sectionOne,
+        sectionTwo,
+        teamSection,
+        partnerSection
+      };
+      const { data } = await api.put(`/about`, bodyData);
+
+      setData(data.about);
+      SetOGData();
+    } catch (error) {
+    } finally {
+      setEditing(false);
+    }
+  };
+
+  const getAbout = async () => {
+    setLoadingData(true);
+    try {
+      const { data } = await api.get("/about");
+      const AboutData = data.about;
+      setData(AboutData);
+    } catch (err) {
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  const SetOGData = () => {
+    setLoadingData(true);
+    setSectionOne(data?.sectionOne);
+    setSectionTwo(data?.sectionTwo);
+    setTeamSection(data?.teamSection);
+    setPartnerSection(data?.partnerSection);
+    setLoadingData(false);
+  };
+
+  useEffect(() => {
+    getAbout();
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      SetOGData();
+    }
+  }, [data]);
 
   return (
     <Container>
-      <TopNav />
-      <Section
-        header="Section 1 (Nice to meet you)"
-        subheader="An introduction to the about us page"
-      >
-        <TwoInputGrid>
-          <StyledTextArea
-            label="Headline"
-            limit={160}
-            value={sectionOne.headline}
-            onChange={(e) =>
-              handleInputChange("headline", e.target.value, "one")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph"
-            value={sectionOne.paragraph}
-            onChange={(e) =>
-              handleInputChange("paragraph", e.target.value, "one")
-            }
-          />
-        </TwoInputGrid>
-      </Section>
-      <Section
-        header="Section 2 (Our story)"
-        subheader="Summary of the company’s story and approach to success."
-      >
-        <TwoInputGrid>
-          <StyledInput
-            label="Headline"
-            limit={50}
-            value={sectionTwo.headline}
-            onChange={(e) =>
-              handleInputChange("headline", e.target.value, "two")
-            }
-          />
-          <StyledInput
-            label="Sub headine"
-            value={sectionTwo.subheadline}
-            onChange={(e) =>
-              handleInputChange("subheadline", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 1"
-            value={sectionTwo.paragraph1}
-            onChange={(e) =>
-              handleInputChange("paragraph1", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 2"
-            value={sectionTwo.paragraph2}
-            onChange={(e) =>
-              handleInputChange("paragraph2", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 3"
-            value={sectionTwo.paragraph3}
-            onChange={(e) =>
-              handleInputChange("paragraph3", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 4"
-            value={sectionTwo.paragraph4}
-            onChange={(e) =>
-              handleInputChange("paragraph4", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 5"
-            value={sectionTwo.paragraph5}
-            onChange={(e) =>
-              handleInputChange("paragraph5", e.target.value, "two")
-            }
-          />
-          <StyledTextArea
-            label="Paragraph 6"
-            value={sectionTwo.paragraph6}
-            onChange={(e) =>
-              handleInputChange("paragraph6", e.target.value, "two")
-            }
-          />
-        </TwoInputGrid>
-      </Section>
-      <Section
-        header="Team Section"
-        subheader="Section consisting of members of the Alex & Associates team"
-      >
-        <TwoInputGrid>
-          <StyledInput
-            label="Headline"
-            limit={50}
-            value={teamSection.headline}
-            onChange={(e) =>
-              handleInputChange("headline", e.target.value, "team")
-            }
-          />
-          <StyledInput
-            limit={250}
-            label="Sub headline"
-            value={teamSection.subheadline}
-            onChange={(e) =>
-              handleInputChange("Subheadline", e.target.value, "team")
-            }
-          />
-        </TwoInputGrid>
-        {teamSection.team.map((member, i) => {
-          return (
-            <TeamItem
-              remove={RemoveTeamMember}
-              {...member}
-              key={i}
-              index={i}
-              handleChange={handleTeamChange}
-            />
-          );
-        })}
-        <ButtonContainer>
-          <PrimaryButton
-            text="Add member"
-            variant={true}
-            onClick={AddTeamMember}
-          />
-        </ButtonContainer>
-      </Section>
-      <Section
-        header="Partners Section"
-        subheader="Section consisting of the Alex & Associates partners"
-      >
-        <TwoInputGrid>
-          <StyledInput
-            label="Headline"
-            limit={50}
-            value={partnerSection.headline}
-            onChange={(e) =>
-              handleInputChange("headline", e.target.value, "team")
-            }
-          />
-          <StyledInput
-            limit={250}
-            label="Sub headline"
-            value={partnerSection.subheadline}
-            onChange={(e) =>
-              handleInputChange("Subheadline", e.target.value, "team")
-            }
-          />
-        </TwoInputGrid>
-        {partnerSection.partners.map((partner, i) => {
-          return (
-            <PartnerItem
-              remove={RemovePartner}
-              {...partner}
-              key={i}
-              index={i}
-              handleChange={handlePartnerChange}
-            />
-          );
-        })}
-        <ButtonContainer>
-          <PrimaryButton
-            text="Add Partner"
-            variant={true}
-            onClick={AddPartner}
-          />
-        </ButtonContainer>
-      </Section>
-      <MobileConfirmButtons />
+      <TopNav
+        save={PostEdit}
+        saving={editing}
+        changed={changed}
+        discard={SetOGData}
+      />
+      {loadingData ? (
+        <LoadingData />
+      ) : (
+        <>
+          <Section
+            header="Section 1 (Nice to meet you)"
+            subheader="An introduction to the about us page"
+          >
+            <TwoInputGrid>
+              <StyledTextArea
+                label="Headline"
+                limit={160}
+                value={sectionOne.headline}
+                onChange={(e) =>
+                  handleInputChange("headline", e.target.value, "one")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph"
+                value={sectionOne.paragraph}
+                onChange={(e) =>
+                  handleInputChange("paragraph", e.target.value, "one")
+                }
+              />
+            </TwoInputGrid>
+          </Section>
+          <Section
+            header="Section 2 (Our story)"
+            subheader="Summary of the company’s story and approach to success."
+          >
+            <TwoInputGrid>
+              <StyledInput
+                label="Headline"
+                limit={50}
+                value={sectionTwo.headline}
+                onChange={(e) =>
+                  handleInputChange("headline", e.target.value, "two")
+                }
+              />
+              <StyledInput
+                label="Sub headine"
+                value={sectionTwo.subheadline}
+                onChange={(e) =>
+                  handleInputChange("subheadline", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 1"
+                value={sectionTwo.paragraph1}
+                onChange={(e) =>
+                  handleInputChange("paragraph1", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 2"
+                value={sectionTwo.paragraph2}
+                onChange={(e) =>
+                  handleInputChange("paragraph2", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 3"
+                value={sectionTwo.paragraph3}
+                onChange={(e) =>
+                  handleInputChange("paragraph3", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 4"
+                value={sectionTwo.paragraph4}
+                onChange={(e) =>
+                  handleInputChange("paragraph4", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 5"
+                value={sectionTwo.paragraph5}
+                onChange={(e) =>
+                  handleInputChange("paragraph5", e.target.value, "two")
+                }
+              />
+              <StyledTextArea
+                label="Paragraph 6"
+                value={sectionTwo.paragraph6}
+                onChange={(e) =>
+                  handleInputChange("paragraph6", e.target.value, "two")
+                }
+              />
+            </TwoInputGrid>
+          </Section>
+          <Section
+            header="Team Section"
+            subheader="Section consisting of partners of the Alex & Associates team"
+          >
+            <TwoInputGrid>
+              <StyledInput
+                label="Headline"
+                limit={50}
+                value={teamSection.headline}
+                onChange={(e) =>
+                  handleInputChange("headline", e.target.value, "team")
+                }
+              />
+              <StyledInput
+                limit={250}
+                label="Sub headline"
+                value={teamSection.subheadline}
+                onChange={(e) =>
+                  handleInputChange("Subheadline", e.target.value, "team")
+                }
+              />
+            </TwoInputGrid>
+            {teamSection.team.map((member, i) => {
+              return (
+                <TeamItem
+                  remove={RemoveTeamMember}
+                  {...member}
+                  key={i}
+                  index={i}
+                  handleChange={handleTeamChange}
+                />
+              );
+            })}
+            <ButtonContainer>
+              <PrimaryButton
+                text="Add member"
+                variant={true}
+                onClick={AddTeamMember}
+              />
+            </ButtonContainer>
+          </Section>
+          <Section
+            header="Partners Section"
+            subheader="Section consisting of the Alex & Associates partners"
+          >
+            <TwoInputGrid>
+              <StyledInput
+                label="Headline"
+                limit={50}
+                value={partnerSection.headline}
+                onChange={(e) =>
+                  handleInputChange("headline", e.target.value, "team")
+                }
+              />
+              <StyledInput
+                limit={250}
+                label="Sub headline"
+                value={partnerSection.subheadline}
+                onChange={(e) =>
+                  handleInputChange("Subheadline", e.target.value, "team")
+                }
+              />
+            </TwoInputGrid>
+            {partnerSection.partners.map((partner, i) => {
+              return (
+                <PartnerItem
+                  remove={RemovePartner}
+                  {...partner}
+                  key={i}
+                  index={i}
+                  handleChange={handlePartnerChange}
+                />
+              );
+            })}
+            <ButtonContainer>
+              <PrimaryButton
+                text="Add Partner"
+                variant={true}
+                onClick={AddPartner}
+              />
+            </ButtonContainer>
+          </Section>
+        </>
+      )}
+
+      <MobileConfirmButtons
+        save={PostEdit}
+        saving={editing}
+        changed={changed}
+        discard={SetOGData}
+      />
     </Container>
   );
 };

@@ -2,18 +2,40 @@ import React from "react";
 import styled from "styled-components";
 import PrimaryButton from "../../../../../components/buttons/primary";
 
-const MobileConfirmButtons = () => {
-  const DiscardChanges = () => {};
+interface IProps {
+  save?: () => void;
+  saving?: boolean;
+  changed?: boolean;
+  discard?: () => void;
+}
+
+const MobileConfirmButtons = ({
+  save,
+  saving = false,
+  changed = false,
+  discard
+}: IProps) => {
+  const DiscardChanges = () => {
+    if (discard) {
+      discard();
+    }
+  };
 
   const SaveChanges = () => {
-    //if active === home , updateHome();
-    //pass home data desstructured from backend into home components ,  if backend home data not equal to the new set home data , able button and upload data to backend
+    if (save) {
+      save();
+    }
   };
   return (
     <Container>
       {" "}
       <PrimaryButton text="Discard" danger={true} onClick={DiscardChanges} />
-      <PrimaryButton text="Save changes" onClick={SaveChanges} />
+      <PrimaryButton
+        text="Save changes"
+        onClick={SaveChanges}
+        loading={saving}
+        disabled={!changed}
+      />
     </Container>
   );
 };

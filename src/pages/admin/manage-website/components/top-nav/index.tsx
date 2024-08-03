@@ -8,15 +8,26 @@ import {
 import PrimaryButton from "../../../../../components/buttons/primary";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-const TopNav = () => {
+interface IProps {
+  save?: () => void;
+  saving?: boolean;
+  changed?: boolean;
+  discard?: () => void;
+}
+const TopNav = ({ save, saving = false, changed = false, discard }: IProps) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const DiscardChanges = () => {};
+  const DiscardChanges = () => {
+    if (discard) {
+      discard();
+    }
+  };
 
   const SaveChanges = () => {
-    //if active === home , updateHome();
-    //pass home data desstructured from backend into home components ,  if backend home data not equal to the new set home data , able button and upload data to backend
+    if (save) {
+      save();
+    }
   };
 
   const activeparam = searchParams.get("key");
@@ -79,7 +90,12 @@ const TopNav = () => {
           variant={true}
           onClick={DiscardChanges}
         />
-        <PrimaryButton text="Save changes" onClick={SaveChanges} />
+        <PrimaryButton
+          text="Save changes"
+          onClick={SaveChanges}
+          loading={saving}
+          disabled={!changed}
+        />
       </ConfirmButtons>
     </Container>
   );

@@ -96,6 +96,11 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
   align-items: center;
+  @media only screen and (max-width: 769px) {
+    display: flex;
+    justify-content: center;
+    padding: 0 2rem;
+  }
 `;
 
 const Main = styled.div`
@@ -106,12 +111,19 @@ const Main = styled.div`
   justify-content: center;
   flex-direction: column;
   position: relative;
+  @media only screen and (max-width: 769px) {
+    height: 100vh;
+  }
 `;
 
 const Body = styled.div`
   width: 60%;
   height: 80%;
   color: white;
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+    height: 60%;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -139,6 +151,11 @@ const Footer = styled.div`
   height: 9.6rem;
   padding-left: 3.2rem;
   padding-top: 4.4rem;
+  @media only screen and (max-width: 769px) {
+    height: 6.6rem;
+    padding-left: 1.2rem;
+    padding-top: 2.2rem;
+  }
 `;
 
 const Side = styled.div`
@@ -151,6 +168,9 @@ const Side = styled.div`
   flex-direction: column;
   color: white;
   position: relative;
+  @media only screen and (max-width: 769px) {
+    display: none;
+  }
 `;
 
 const ImageContainer = styled.img`

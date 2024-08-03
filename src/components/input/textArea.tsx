@@ -9,14 +9,14 @@ interface IProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   limit?: number;
 }
 const StyledTextArea = ({ label, height = "12.4", limit, ...rest }: IProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   return (
     <Container>
       <Typography size={TextSize.sm} weight={TextWeight.medium} mb="0.6" lh="2">
         {label}
       </Typography>
       <InputContainer>
-        <Input height={height} {...rest} maxLength={limit} />
+        <Input height={height} {...rest} maxLength={limit} ref={inputRef} />
       </InputContainer>
       {limit && (
         <MaxCharacterContainer>

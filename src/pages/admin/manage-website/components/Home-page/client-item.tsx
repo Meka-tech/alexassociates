@@ -72,7 +72,9 @@ const ClientItem = ({
             src={
               image.fileId
                 ? `https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`
-                : URL.createObjectURL(image)
+                : image.size
+                ? URL.createObjectURL(image)
+                : ""
             }
             alt={image.name}
           />

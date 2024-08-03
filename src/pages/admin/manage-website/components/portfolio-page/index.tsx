@@ -96,7 +96,9 @@ const PortfolioEdit = () => {
         ) : projects.length > 0 ? (
           <ProjectGrid>
             {projects.map((project, i) => {
-              return <ProjectEditItem {...project} refresh={GetProjects} />;
+              return (
+                <ProjectEditItem {...project} refresh={GetProjects} key={i} />
+              );
             })}
           </ProjectGrid>
         ) : null}
