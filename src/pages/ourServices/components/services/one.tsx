@@ -6,7 +6,16 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Image from "../../../../images/png/interior-design.png";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentInterior.svg";
 
-const One = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline1: string;
+    listItems1: string[];
+    subheadline2: string;
+    listItems2: string[];
+  };
+}
+const One = ({ data }: IProps) => {
   return (
     <Container>
       <OrnamentContainer>
@@ -34,23 +43,27 @@ const One = () => {
             m_mb="3.2"
             m_lh="3.2"
           >
-            Interior Design Services
+            {data?.headline || "Interior Design Services"}
           </Typography>
           <Typography
             color="rgba(207, 206, 206, 1)"
             size={TextSize.xl}
             m_size={TextSize.lg}
           >
-            Space we design:
+            {data?.subheadline1 || "Space we design"}:
           </Typography>
+
           <List>
-            <ListItem>Homes & Residences</ListItem>
+            {data?.listItems1.map((item, i) => {
+              return <ListItem key={i}>{item}</ListItem>;
+            })}
+            {/* <ListItem>Homes & Residences</ListItem>
 
             <ListItem>Shops</ListItem>
             <ListItem>Hotels & Restaurants</ListItem>
             <ListItem>Clubs</ListItem>
             <ListItem> Schools</ListItem>
-            <ListItem>Offices</ListItem>
+            <ListItem>Offices</ListItem> */}
           </List>
         </HeaderTextArea>
         <ImageItem src={Image} alt="Interior design" />
@@ -63,10 +76,16 @@ const One = () => {
             m_size={TextSize.lg}
             mb="2"
           >
-            Scope of Work:
+            {data?.subheadline1 || "Scope of Work"}:
           </Typography>
           <List>
-            <ListItem>Pre-design study.</ListItem>
+            {data?.listItems2.map((item, i) => {
+              if (i > 6) {
+                return null;
+              }
+              return <ListItem key={i}>{item}</ListItem>;
+            })}
+            {/* <ListItem>Pre-design study.</ListItem>
             <ListItem>Overall space planning after taking detailed</ListItem>
             <ListItem>
               on-site measurements/construction drawings furnished by the
@@ -84,12 +103,18 @@ const One = () => {
             </ListItem>
             <ListItem>Electrical SLD.</ListItem>
             <ListItem>Generator power supply.</ListItem>
-            <ListItem>Electronic, communication systems and design.</ListItem>
+            <ListItem>Electronic, communication systems and design.</ListItem> */}
           </List>
         </ScopPage>
         <ScopPage>
           <List>
-            <ListItem>
+            {data?.listItems2.map((item, i) => {
+              if (i <= 6) {
+                return null;
+              }
+              return <ListItem key={i}>{item}</ListItem>;
+            })}
+            {/* <ListItem>
               Heating, ventilation and air conditioning design (HVAC) and other
               associated mechanical systems like Air curtains etc.
             </ListItem>
@@ -123,7 +148,7 @@ const One = () => {
             <ListItem>
               Design and selection of movable furniture and furnishings.
             </ListItem>
-            <ListItem>Selection of Interior accessories and graphics</ListItem>
+            <ListItem>Selection of Interior accessories and graphics</ListItem> */}
           </List>
         </ScopPage>
       </ScopeContainer>

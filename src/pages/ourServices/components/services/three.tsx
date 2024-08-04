@@ -6,7 +6,18 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Image from "../../../../images/png/furnishing.png";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentFurnish.svg";
 
-const Three = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline1: string;
+    listItems1: string[];
+    subheadline2: string;
+    listItems2: string[];
+    subheadline3: string;
+    listItems3: string[];
+  };
+}
+const Three = ({ data }: IProps) => {
   return (
     <Container>
       <OrnamentContainer>
@@ -34,7 +45,7 @@ const Three = () => {
             m_mb="3.2"
             m_lh="3.2"
           >
-            Furniture and Furnishings
+            {data?.headline || "Furniture and Furnishings"}
           </Typography>
 
           <GridContainer>
@@ -44,10 +55,13 @@ const Three = () => {
                 size={TextSize.xl}
                 m_size={TextSize.lg}
               >
-                Fixed Furniture:
+                {data?.subheadline1 || "Fixed Furniture"}:
               </Typography>
               <List>
-                <ListItem>Design and Hardware Selection</ListItem>
+                {data?.listItems1.map((item, i) => {
+                  return <ListItem key={i}>{item}</ListItem>;
+                })}
+                {/* <ListItem>Design and Hardware Selection</ListItem> */}
               </List>
             </GridItem>
             <GridItem>
@@ -56,10 +70,13 @@ const Three = () => {
                 size={TextSize.xl}
                 m_size={TextSize.lg}
               >
-                Moveable Furniture:
+                {data?.subheadline2 || "Moveable Furniture"}:
               </Typography>
               <List>
-                <ListItem>Space Planning and Design</ListItem>
+                {data?.listItems2.map((item, i) => {
+                  return <ListItem key={i}>{item}</ListItem>;
+                })}
+                {/* <ListItem>Space Planning and Design</ListItem> */}
               </List>
             </GridItem>
             <GridItem>
@@ -68,10 +85,13 @@ const Three = () => {
                 size={TextSize.xl}
                 m_size={TextSize.lg}
               >
-                Interior Accessories:
+                {data?.subheadline3 || "Interior Accessories"}:
               </Typography>
               <List>
-                <ListItem>Selection and Placement</ListItem>
+                {data?.listItems3.map((item, i) => {
+                  return <ListItem key={i}>{item}</ListItem>;
+                })}
+                {/* <ListItem>Selection and Placement</ListItem> */}
               </List>
             </GridItem>
           </GridContainer>

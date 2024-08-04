@@ -5,7 +5,19 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { ReactComponent as OrnamentTwo } from "../../../../images/svg/ornaments/OrnamentArchi.svg";
 import { ReactComponent as OrnamentOne } from "../../../../images/svg/ornaments/OrnamentStory.svg";
 
-const OurStory = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline: string;
+    paragraph1: string;
+    paragraph2: string;
+    paragraph3: string;
+    paragraph4: string;
+    paragraph5: string;
+    paragraph6: string;
+  };
+}
+const OurStory = ({ data }: IProps) => {
   return (
     <Container>
       <OrnamentContainerOne>
@@ -33,7 +45,7 @@ const OurStory = () => {
         m_lh="3.2"
         m_size={TextSize.DisplayXs}
       >
-        We do it better !
+        {data?.headline || "We do it better !"}
       </Typography>
       <Typography
         mb="6.4"
@@ -43,7 +55,8 @@ const OurStory = () => {
         m_size={TextSize.lg}
         color="rgba(228, 228, 228, 1)"
       >
-        We’ve already helped over 4,000 companies achieve remarkable results.
+        {data?.headline ||
+          "We’ve already helped over 4,000 companies achieve remarkable results."}
       </Typography>
       <TextFlexBox>
         <div>
@@ -55,18 +68,10 @@ const OurStory = () => {
             m_mb="2"
             m_lh="2.8"
           >
-            Alex & Associates...one of the finest interior designers and design
+            {data?.paragraph1 ||
+              `Alex & Associates...one of the finest interior designers and design
             converters from Vizag, spreading their wings beyond Vizag,
-            redefining and transforming spaces and lives.
-          </Typography>
-          <Typography
-            lh="3"
-            size={TextSize.xl}
-            m_size={TextSize.md}
-            m_mb="1"
-            m_lh="2.8"
-          >
-            The firm was founded by Flight Lieutenant Alex Bennett (Retd).
+            redefining and transforming spaces and lives.`}
           </Typography>
           <Typography
             mb="6.4"
@@ -76,7 +81,8 @@ const OurStory = () => {
             m_mb="2"
             m_lh="2.8"
           >
-            He re-invented himself as a designer after leaving the services.
+            {data?.paragraph2 ||
+              `He re-invented himself as a designer after leaving the services.
             Initially, he was freelancing from 1997 and later started formal
             operations from 1st April 2006 under the firm name "Alex &
             Associates". The firm has an accumulated experience of over 20
@@ -84,17 +90,7 @@ const OurStory = () => {
             Landscaping and Project Management. They have also undertaken a few
             Architectural works. They are a major associate of Cipy
             Polyurethanes Pvt Ltd, into Industrial and Decorative flooring
-            segment, Water proofing, Protective coatings.
-          </Typography>
-          <Typography
-            size={TextSize.xl}
-            weight={TextWeight.semibold}
-            lh="3"
-            m_mb="1"
-            m_size={TextSize.md}
-            m_lh="2.8"
-          >
-            Commitment to Excellence:
+            segment, Water proofing, Protective coatings.`}
           </Typography>
           <Typography
             lh="2.8"
@@ -102,45 +98,35 @@ const OurStory = () => {
             m_size={TextSize.md}
             m_lh="2.8"
           >
-            At Alex & Associates, we are committed to quality, creativity, and
+            {data?.paragraph3 ||
+              `At Alex & Associates, we are committed to quality, creativity, and
             ethical business practices. Our goal is to deliver exceptional
             design solutions that enhance the physical and psychological
             well-being of the occupants, creating harmonious and productive
-            environments.
+            environments.`}
           </Typography>
         </div>
         <div>
-          <Typography lh="3" size={TextSize.xl} m_size={TextSize.md} m_mb="1">
-            Design principle "Form follows function" which means we don't
-            believe in design for the sake of design. Design or the form that is
-            imparted must be guided by function.
-          </Typography>
-          <Typography lh="3" size={TextSize.xl} m_size={TextSize.md} m_mb="1">
-            Interior designing in the context of any space must take into
-            consideration the occupants comfort in terms of physical/ mental
-            environment and operational requirement.
-          </Typography>
           <Typography
-            mb="6.4"
             lh="3"
             size={TextSize.xl}
             m_size={TextSize.md}
             m_mb="2"
-            m_lh="2.8"
+            mb="6.4"
           >
-            Basically, evaluating the Space - Functional economics - Physical
+            {data?.paragraph4 ||
+              `Design principle "Form follows function" which means we don't
+            believe in design for the sake of design. Design or the form that is
+            imparted must be guided by function. Interior designing in the context of any space must take into
+            consideration the occupants comfort in terms of physical/ mental
+            environment and operational requirement.     Basically, evaluating the Space - Functional economics - Physical
             comfort / Ergonomics - Aesthetics which creates the psychological
-            environment for optimum productivity in work spaces
+            environment for optimum productivity in work spaces`}
           </Typography>
           <Typography size={TextSize.xl} lh="3" m_size={TextSize.md}>
-            We are committed to the following:
+            {data?.paragraph5 ||
+              "We are committed to Quality, Innovation of form aimed at functionality, Creativity and Ethical business."}
           </Typography>
-          <List>
-            <ListItem>Quality.</ListItem>
-            <ListItem>Innovation of form aimed at functionality.</ListItem>
-            <ListItem>Creativity.</ListItem>
-            <ListItem>Ethical business.</ListItem>
-          </List>
         </div>
       </TextFlexBox>
       <Typography
@@ -150,8 +136,9 @@ const OurStory = () => {
         m_size={TextSize.lg}
         color="rgba(228, 228, 228, 1)"
       >
-        Join us in our mission to redefine and transform spaces, bringing your
-        vision to life with our expertise and passion for design
+        {data?.paragraph6 ||
+          `Join us in our mission to redefine and transform spaces, bringing your
+        vision to life with our expertise and passion for design`}
       </Typography>
     </Container>
   );

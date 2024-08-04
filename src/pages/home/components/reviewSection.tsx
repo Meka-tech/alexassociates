@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
@@ -8,9 +8,31 @@ import { FlexBox } from "../../../components/container-styles/styles";
 import { ReactComponent as GoldStar } from "../../../images/svg/gold-star.svg";
 import { ReactComponent as WhiteStar } from "../../../images/svg/white-star.svg";
 import { ReactComponent as ReviewOrnament } from "../../../images/svg/ornaments/reviewOrnament.svg";
+import { IimageType } from "../../../utils/types/image";
 
-const ReviewSection = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    reviews: {
+      name: string;
+      organization: string;
+      review: string;
+      rating: Number;
+      image: IimageType;
+    }[];
+  };
+}
+const ReviewSection = ({ data }: IProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [reviews, setReviews] = useState<
+    {
+      name: string;
+      organization: string;
+      review: string;
+      rating: Number;
+      image: IimageType;
+    }[]
+  >([]);
   const DummyData = [
     {
       name: "John Doe",
@@ -54,11 +76,17 @@ const ReviewSection = () => {
     }
   };
   const SlideRight = () => {
-    if (activeIndex < DummyData.length - 1) {
+    if (activeIndex < reviews?.length - 1) {
       setActiveIndex(activeIndex + 1);
     }
   };
-  const Review = DummyData[activeIndex];
+
+  useEffect(() => {
+    if (data?.reviews) {
+      setReviews(data.reviews);
+    }
+  }, [data?.reviews]);
+  const Review = reviews[activeIndex];
   return (
     <Container>
       <Ornament>
@@ -72,12 +100,12 @@ const ReviewSection = () => {
         mb="6.4"
         m_mb="4.8"
       >
-        What our clients say about us
+        {data?.headline || "What our clients say about us"}
       </Typography>
       <Body>
         <TextArea>
           <GoldStars>
-            {new Array(Review.rating).fill(0).map((_, i) => {
+            {new Array(Review?.rating).fill(0).map((_, i) => {
               return <GoldStar key={i} />;
             })}
           </GoldStars>
@@ -90,7 +118,7 @@ const ReviewSection = () => {
             lh="4.4"
             m_lh="3.2"
           >
-            {Review.comment}
+            {Review?.review}
           </Typography>
           <TextAreaFooter>
             <div>
@@ -100,10 +128,10 @@ const ReviewSection = () => {
                 mb="0.4"
                 lh="2.8"
               >
-                {Review.name}
+                {Review?.name}
               </Typography>
               <Typography size={TextSize.md} lh="2.4" m_mb="2.4">
-                {Review.company}
+                {Review?.organization}
               </Typography>
             </div>
             <Buttons>
@@ -112,7 +140,7 @@ const ReviewSection = () => {
               </Button>
               <Button
                 onClick={SlideRight}
-                disabled={activeIndex === DummyData.length - 1}
+                disabled={activeIndex === reviews.length - 1}
               >
                 <IoMdArrowForward size={25} />
               </Button>
@@ -121,12 +149,12 @@ const ReviewSection = () => {
         </TextArea>
         <ImageArea>
           <ImagesArray offset={activeIndex}>
-            {DummyData.map((review, i) => {
+            {reviews.map((review, i) => {
               return (
                 <Image
                   key={i}
-                  src={review.image}
-                  alt={`${review.name}-images`}
+                  src={`https://drive.google.com/thumbnail?id=${review.image.fileId}&sz=w1000`}
+                  alt={`${review.image.name}`}
                 />
               );
             })}
@@ -141,20 +169,20 @@ const ReviewSection = () => {
                 lh="6"
                 m_lh="4.4"
               >
-                {Review.name}
+                {Review?.name}
               </Typography>
               <WhiteStars>
-                {new Array(Review.rating).fill(0).map((_, i) => {
+                {new Array(Review?.rating).fill(0).map((_, i) => {
                   return <WhiteStar key={i} />;
                 })}
               </WhiteStars>
             </IAFHeader>
             <Typography size={TextSize.md} mb="0.2" lh="2.8">
-              {Review.role}, {Review.company}
+              {Review?.organization}
             </Typography>
-            <Typography size={TextSize.md} lh="2.4">
+            {/* <Typography size={TextSize.md} lh="2.4">
               {Review.companyType}
-            </Typography>
+            </Typography> */}
           </ImageAreaFooter>
         </ImageArea>
       </Body>

@@ -5,8 +5,21 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import MemberItem from "../member-item";
 import { data } from "../dummyData";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentInterior.svg";
+import { IimageType } from "../../../../utils/types/image";
 
-const Partners = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline: string;
+    partners: {
+      fullname: string;
+      role: string;
+      description: string;
+      image: IimageType;
+    }[];
+  };
+}
+const Partners = ({ data }: IProps) => {
   return (
     <Container>
       <OrnamentContainer>
@@ -22,7 +35,7 @@ const Partners = () => {
           m_lh="3.8"
           m_mb="1.6"
         >
-          Partners
+          {data?.headline || "Partners"}
         </Typography>
         <Typography
           size={TextSize.xl}
@@ -31,16 +44,17 @@ const Partners = () => {
           lh="3"
           color="rgba(228, 228, 228, 1)"
         >
-          Our philosophy is simple — hire a team of diverse, passionate people
-          and foster a culture that empowers you to do your best work.
+          {data?.subheadline ||
+            `Our philosophy is simple — hire a team of diverse, passionate people
+          and foster a culture that empowers you to do your best work.`}
         </Typography>
       </Header>
       <TeamGrid>
-        {data.map(({ name, imageUrl, description, role }, i) => {
+        {data?.partners.map(({ fullname, image, description, role }, i) => {
           return (
             <MemberItem
-              name={name}
-              imageUrl={imageUrl}
+              name={fullname}
+              image={image}
               description={description}
               role={role}
               key={i}

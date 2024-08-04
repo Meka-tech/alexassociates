@@ -7,7 +7,10 @@ import Image from "../../../images/png/quoteImage.png";
 import { ReactComponent as QuoteOrnament } from "../../../images/svg/ornaments/quoteOrnament.svg";
 import { useNavigate } from "react-router-dom";
 
-const QuoteSection = () => {
+interface IProps {
+  data?: { headline: string; subheadline: string };
+}
+const QuoteSection = ({ data }: IProps) => {
   const navigate = useNavigate();
   return (
     <Container>
@@ -21,12 +24,13 @@ const QuoteSection = () => {
             weight={TextWeight.semibold}
             mb="2"
           >
-            Apply for a Quote
+            {data?.headline || "Apply for a Quote"}
           </Typography>
           <Typography size={TextSize.xl} mb="4" lh="3">
-            Ready to transform your space? Fill out our quick form to receive a
+            {data?.subheadline ||
+              ` Ready to transform your space? Fill out our quick form to receive a
             personalized quote tailored to your needs. Lets bring your vision to
-            life!
+            life!`}
           </Typography>
           <ButtonContainer>
             <PrimaryButton

@@ -10,7 +10,18 @@ import { ReactComponent as OrnamentOne } from "../../../images/svg/ornaments/orn
 import Slideshow from "./slideshow";
 import { useNavigate } from "react-router-dom";
 
-const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
+interface IProps {
+  handleContact: () => void;
+  data?: {
+    headline?: string;
+    subheadline?: string;
+    keypoint1?: string;
+    keypoint2?: string;
+    keypoint3?: string;
+  };
+}
+
+const HeroSection = ({ handleContact, data }: IProps) => {
   const navigate = useNavigate();
 
   return (
@@ -30,7 +41,8 @@ const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
             weight={TextWeight.semibold}
             color="white"
           >
-            Beautiful, Practical and Sustainable Spaces by Design
+            {data?.headline ||
+              "Beautiful, Practical and Sustainable Spaces by Design"}
           </Typography>
         </Header>
         <SubHeader>
@@ -43,8 +55,9 @@ const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
             m_mt="1.6"
             color="white"
           >
-            Discover the Art of Elegant Design and Innovative Architecture with
-            Alex & Associates.
+            {data?.subheadline ||
+              `Discover the Art of Elegant Design and Innovative Architecture with
+            Alex & Associates.`}
           </Typography>
         </SubHeader>
         <MobileFlip>
@@ -68,7 +81,8 @@ const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
                 weight={TextWeight.regular}
                 lh="2.8"
               >
-                Expert craftsmanship and innovative design
+                {data?.keypoint1 ||
+                  "Expert craftsmanship and innovative design"}
               </Typography>
             </HeroItem>
             <HeroItem>
@@ -78,7 +92,7 @@ const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
                 weight={TextWeight.regular}
                 lh="2.8"
               >
-                Tailored solutions for every space
+                {data?.keypoint2 || "Tailored solutions for every space"}
               </Typography>
             </HeroItem>
             <HeroItem>
@@ -88,7 +102,8 @@ const HeroSection = ({ handleContact }: { handleContact: () => void }) => {
                 weight={TextWeight.regular}
                 lh="2.8"
               >
-                Unmatched quality and client satisfaction
+                {data?.keypoint3 ||
+                  " Unmatched quality and client satisfaction"}
               </Typography>
             </HeroItem>
           </HeroItems>

@@ -2,17 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
+import { IimageType } from "../../../../utils/types/image";
 
 interface IProps {
   name: string;
   role: string;
   description: string;
-  imageUrl: string;
+  image: IimageType;
 }
-const MemberItem = ({ name, role, description, imageUrl }: IProps) => {
+const MemberItem = ({ name, role, description, image }: IProps) => {
   return (
     <Container>
-      <ImageContainer src={imageUrl} alt={name} />
+      <ImageContainer
+        src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+        alt={image.name}
+      />
       <Typography
         weight={TextWeight.semibold}
         size={TextSize.xl}

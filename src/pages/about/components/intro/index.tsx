@@ -5,7 +5,10 @@ import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { FlexBox } from "../../../../components/container-styles/styles";
 
-const Intro = () => {
+interface IProps {
+  data?: { headline: string; paragraph: string };
+}
+const Intro = ({ data }: IProps) => {
   return (
     <Container>
       <BackgroundGrid
@@ -32,9 +35,10 @@ const Intro = () => {
               lh="6"
               m_mb="2"
             >
-              Our mission is to transform spaces into functional and
+              {data?.headline ||
+                ` Our mission is to transform spaces into functional and
               aesthetically pleasing environments tailored to our clients’
-              needs.
+              needs.`}
             </Typography>
           </FlexItem>
           <FlexItemTwo>
@@ -44,11 +48,12 @@ const Intro = () => {
               m_lh="2.4"
               lh="3"
             >
-              Alex & Associates is a premier interior design and architectural
+              {data?.paragraph ||
+                `Alex & Associates is a premier interior design and architectural
               firm based in Vizag, dedicated to transforming spaces with
               innovative and high-quality design solutions. Founded by Flight
               Lieutenant Alex Bennett (Retd.), our firm has built a reputation
-              for excellence over 20 years of experience.
+              for excellence over 20 years of experience.`}
             </Typography>
           </FlexItemTwo>
         </TextFlex>

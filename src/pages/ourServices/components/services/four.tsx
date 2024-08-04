@@ -5,7 +5,14 @@ import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Image from "../../../../images/png/execution.png";
 
-const Four = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline1: string;
+    listItems1: string[];
+  };
+}
+const Four = ({ data }: IProps) => {
   return (
     <Container>
       <FlexHeader>
@@ -31,19 +38,22 @@ const Four = () => {
             m_mb="3.2"
             m_lh="3.2"
           >
-            Execution and Supervision
+            {data?.headline || "Execution and Supervision"}
           </Typography>
           <Typography
             color="rgba(207, 206, 206, 1)"
             size={TextSize.xl}
             m_size={TextSize.lg}
           >
-            Project Execution:
+            {data?.subheadline1 || "Project Execution"}:
           </Typography>
           <List>
-            <ListItem> Conversion of Designs into Reality</ListItem>
+            {data?.listItems1.map((item, i) => {
+              return <ListItem key={i}>{item}</ListItem>;
+            })}
+            {/* <ListItem> Conversion of Designs into Reality</ListItem>
             <ListItem> Employing Skilled Labor and Quality Materials</ListItem>
-            <ListItem> Supervision to Ensure High Standards</ListItem>
+            <ListItem> Supervision to Ensure High Standards</ListItem> */}
           </List>
         </HeaderTextArea>
       </FlexHeader>

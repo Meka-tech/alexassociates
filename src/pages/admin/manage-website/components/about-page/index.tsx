@@ -157,6 +157,12 @@ const AboutPageEdit = () => {
         [key]: value
       }));
     }
+    if (object === "partner") {
+      setPartnerSection((prevSection) => ({
+        ...prevSection,
+        [key]: value
+      }));
+    }
   };
   const PostTeamImages = async () => {
     for (let i = 0; i < teamSection.team.length; i++) {
@@ -203,8 +209,8 @@ const AboutPageEdit = () => {
         partners = [...partners, newReviewItem];
       }
       return {
-        headline: teamSection.headline,
-        subheadline: teamSection.subheadline,
+        headline: partnerSection.headline,
+        subheadline: partnerSection.subheadline,
         partners
       };
     }
@@ -410,7 +416,7 @@ const AboutPageEdit = () => {
                 limit={50}
                 value={partnerSection.headline}
                 onChange={(e) =>
-                  handleInputChange("headline", e.target.value, "team")
+                  handleInputChange("headline", e.target.value, "partner")
                 }
               />
               <StyledInput
@@ -418,7 +424,7 @@ const AboutPageEdit = () => {
                 label="Sub headline"
                 value={partnerSection.subheadline}
                 onChange={(e) =>
-                  handleInputChange("Subheadline", e.target.value, "team")
+                  handleInputChange("subheadline", e.target.value, "partner")
                 }
               />
             </TwoInputGrid>

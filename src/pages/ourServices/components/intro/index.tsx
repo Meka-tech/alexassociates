@@ -5,7 +5,13 @@ import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { FlexBox } from "../../../../components/container-styles/styles";
 
-const Intro = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    paragraph: string;
+  };
+}
+const Intro = ({ data }: IProps) => {
   return (
     <Container>
       <BackgroundGrid
@@ -32,8 +38,9 @@ const Intro = () => {
               lh="6"
               m_mb="2"
             >
-              Transforming spaces with innovative design, expert planning and
-              seamless execution.
+              {data?.headline ||
+                `Transforming spaces with innovative design, expert planning and
+              seamless execution.`}
             </Typography>
           </FlexItem>
           <FlexItemTwo>
@@ -43,11 +50,12 @@ const Intro = () => {
               m_lh="2.4"
               lh="3"
             >
-              At Alex & Associates, we offer a comprehensive range of interior
+              {data?.paragraph ||
+                `At Alex & Associates, we offer a comprehensive range of interior
               design and architectural services tailored to meet the unique
               needs of each client. Our expertise spans various sectors,
               ensuring that we deliver exceptional results for all types of
-              projects
+              projects`}
             </Typography>
           </FlexItemTwo>
         </TextFlex>

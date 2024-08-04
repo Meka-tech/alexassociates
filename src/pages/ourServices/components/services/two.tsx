@@ -6,7 +6,16 @@ import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Image from "../../../../images/png/architectural-design.png";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentArchi.svg";
 
-const Two = () => {
+interface IProps {
+  data?: {
+    headline: string;
+    subheadline1: string;
+    listItems1: string[];
+    subheadline2: string;
+    listItems2: string[];
+  };
+}
+const Two = ({ data }: IProps) => {
   return (
     <Container>
       <OrnamentContainer>
@@ -35,7 +44,7 @@ const Two = () => {
             m_mb="3.2"
             m_lh="3.2"
           >
-            Architectural Design Services
+            {data?.headline || "Architectural Design Services"}
           </Typography>
 
           <GridContainer>
@@ -45,16 +54,19 @@ const Two = () => {
                 size={TextSize.xl}
                 m_size={TextSize.lg}
               >
-                Scope of Work:
+                {data?.subheadline1 || "Scope of Work"}:
               </Typography>
               <List>
-                <ListItem>Exterior Elevation Glazing</ListItem>
+                {data?.listItems1.map((item, i) => {
+                  return <ListItem key={i}>{item}</ListItem>;
+                })}
+                {/* <ListItem>Exterior Elevation Glazing</ListItem>
 
                 <ListItem>Electrical Layouts</ListItem>
                 <ListItem>HVAC Design</ListItem>
                 <ListItem>Plumbing and Drainage Lines</ListItem>
                 <ListItem>Fire Protection and Security Systems</ListItem>
-                <ListItem>Audio/Video and Acoustics Design</ListItem>
+                <ListItem>Audio/Video and Acoustics Design</ListItem> */}
               </List>
             </Row>
             <Row>
@@ -63,11 +75,14 @@ const Two = () => {
                 size={TextSize.xl}
                 m_size={TextSize.lg}
               >
-                Specialization:
+                {data?.subheadline2 || "Specialization"}:
               </Typography>
               <List>
-                <ListItem>Individual Hoses</ListItem>
-                <ListItem>Villas</ListItem>
+                {data?.listItems2.map((item, i) => {
+                  return <ListItem key={i}>{item}</ListItem>;
+                })}
+                {/* <ListItem>Individual Hoses</ListItem>
+                <ListItem>Villas</ListItem> */}
               </List>
             </Row>
           </GridContainer>

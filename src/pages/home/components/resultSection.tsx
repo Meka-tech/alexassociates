@@ -3,7 +3,19 @@ import styled from "styled-components";
 import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 
-const ResultSection = () => {
+interface IProps {
+  data: {
+    headline: string;
+    subheadline: string;
+    metric1: string;
+    metric2: string;
+    metric3: string;
+    figure1: string;
+    figure2: string;
+    figure3: string;
+  };
+}
+const ResultSection = ({ data }: IProps) => {
   return (
     <Container>
       <Body>
@@ -14,10 +26,10 @@ const ResultSection = () => {
           mb="2"
           m_mb="1.6"
         >
-          Great results, better than ever
+          {data?.headline || "Great results, better than ever"}
         </Typography>
         <Typography size={TextSize.xl} mb="6.4">
-          Everything others do we do it better :)
+          {data?.subheadline || "Everything others do we do it better :)"}
         </Typography>
         <Results>
           <div>
@@ -26,14 +38,14 @@ const ResultSection = () => {
               m_size={TextSize.DisplayLg}
               weight={TextWeight.semibold}
             >
-              400+
+              {data?.figure1 || "400+"}
             </Typography>
             <Typography
               size={TextSize.lg}
               weight={TextWeight.medium}
               m_mb="3.2"
             >
-              Projects completed
+              {data?.metric1 || "Projects completed"}
             </Typography>
           </div>
           <div>
@@ -42,14 +54,14 @@ const ResultSection = () => {
               m_size={TextSize.DisplayLg}
               weight={TextWeight.semibold}
             >
-              600%
+              {data?.figure2 || "600%"}
             </Typography>
             <Typography
               size={TextSize.lg}
               weight={TextWeight.medium}
               m_mb="3.2"
             >
-              Return on investment
+              {data?.metric2 || "Return on investment"}
             </Typography>
           </div>
           <div>
@@ -58,14 +70,14 @@ const ResultSection = () => {
               m_size={TextSize.DisplayLg}
               weight={TextWeight.semibold}
             >
-              10k
+              {data?.figure3 || "10k"}
             </Typography>
             <Typography
               size={TextSize.lg}
               weight={TextWeight.medium}
               m_mb="3.2"
             >
-              Satisfied clients
+              {data?.metric3 || "Satisfied clients"}
             </Typography>
           </div>
         </Results>

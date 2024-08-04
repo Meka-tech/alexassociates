@@ -9,7 +9,10 @@ import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowRightUpLine } from "react-icons/ri";
 
-const PortfolioSection = () => {
+interface IProps {
+  data: { headline: string; subheadline: string };
+}
+const PortfolioSection = ({ data }: IProps) => {
   const [sliderOffset, setSliderOffset] = useState(0);
 
   const PortfolioList = [
@@ -97,13 +100,14 @@ const PortfolioSection = () => {
             mb="2"
             m_mb="1.6"
           >
-            We’ve helped hundreds of global clients
+            {data?.headline || "We’ve helped hundreds of global clients"}
           </Typography>
           <Typography size={TextSize.xl} lh="3" m_size={TextSize.lg}>
-            Discover how Alex & Associates transforms spaces with expert
+            {data?.subheadline ||
+              ` Discover how Alex & Associates transforms spaces with expert
             interior and architectural design. From elegant interiors to
             comprehensive architectural solutions, our portfolio reflects our
-            commitment to innovation and quality.
+            commitment to innovation and quality.`}
           </Typography>
         </HeaderTextContainer>
         <HeaderButtonContainer>
