@@ -162,8 +162,7 @@ const HomePageEdit = () => {
   };
 
   const PostReviewImages = async () => {
-    for (let i = 0; i < reviewSection.reviews.length; i++) {
-      const review = reviewSection.reviews[i];
+    try {
       let reviews: {
         name?: string;
         organization?: string;
@@ -171,17 +170,21 @@ const HomePageEdit = () => {
         rating?: number;
         image?: string;
       }[] = [];
-      if (review.image?.size) {
-        const MediaId = await UploadImage(review.image);
-        const newReviewItem = { ...review, image: MediaId };
+      for (let i = 0; i < reviewSection.reviews.length; i++) {
+        const review = reviewSection.reviews[i];
 
-        reviews = [...reviews, newReviewItem];
-      } else if (review.image) {
-        const newReviewItem = { ...review, image: review.image._id };
-        reviews = [...reviews, newReviewItem];
+        if (review.image?.size) {
+          const MediaId = await UploadImage(review.image);
+          const newReviewItem = { ...review, image: MediaId };
+
+          reviews = [...reviews, newReviewItem];
+        } else if (review.image?._id) {
+          const newReviewItem = { ...review, image: review.image._id };
+          reviews = [...reviews, newReviewItem];
+        }
       }
       return { headline: reviewSection.headline, reviews };
-    }
+    } catch (err) {}
   };
 
   const PostEdit = async () => {

@@ -113,6 +113,11 @@ const ImageArea = styled.div`
   padding: 0 0.8rem;
   @media only screen and (max-width: 769px) {
     padding: 0 1.4rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
   }
 `;
 
@@ -125,7 +130,7 @@ const ImageContainer = styled.div`
 const Img = styled.img`
   width: 16.7rem;
   height: 4.8rem;
-  object-fit: cover;
+  object-fit: scale-down;
   @media only screen and (max-width: 769px) {
     width: 11rem;
     height: 3.1rem;

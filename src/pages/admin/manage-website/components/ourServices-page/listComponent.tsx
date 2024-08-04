@@ -25,7 +25,7 @@ const ListComponent = ({ label, list, addItem, deleteItem }: IProps) => {
       <ItemsContainer>
         {list.map((item, i) => {
           return (
-            <ListItem>
+            <ListItem key={i}>
               <Typography size={TextSize.sm}>{item}</Typography>
               <DeleteContainer onClick={() => deleteItem(i)}>
                 <RxCross2 size={20} />

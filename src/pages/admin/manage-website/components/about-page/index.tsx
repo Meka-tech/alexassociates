@@ -165,55 +165,61 @@ const AboutPageEdit = () => {
     }
   };
   const PostTeamImages = async () => {
-    for (let i = 0; i < teamSection.team.length; i++) {
-      const member = teamSection.team[i];
+    try {
       let team: {
         fullname?: string;
         role?: string;
         description?: string;
         image?: string;
       }[] = [];
-      if (member.image?.size) {
-        const MediaId = await UploadImage(member.image);
-        const newMemberItem = { ...member, image: MediaId };
+      for (let i = 0; i < teamSection.team.length; i++) {
+        const member = teamSection.team[i];
 
-        team = [...team, newMemberItem];
-      } else if (member.image) {
-        const newReviewItem = { ...member, image: member.image._id };
-        team = [...team, newReviewItem];
+        if (member.image?.size) {
+          const MediaId = await UploadImage(member.image);
+          const newMemberItem = { ...member, image: MediaId };
+
+          team = [...team, newMemberItem];
+        } else if (member.image) {
+          const newReviewItem = { ...member, image: member.image._id };
+          team = [...team, newReviewItem];
+        }
       }
       return {
         headline: teamSection.headline,
         subheadline: teamSection.subheadline,
         team
       };
-    }
+    } catch (err) {}
   };
 
   const PostPartnerImages = async () => {
-    for (let i = 0; i < partnerSection.partners.length; i++) {
-      const partner = partnerSection.partners[i];
+    try {
       let partners: {
         fullname?: string;
         role?: string;
         description?: string;
         image?: string;
       }[] = [];
-      if (partner.image?.size) {
-        const MediaId = await UploadImage(partner.image);
-        const newpartnerItem = { ...partner, image: MediaId };
+      for (let i = 0; i < partnerSection.partners.length; i++) {
+        const partner = partnerSection.partners[i];
 
-        partners = [...partners, newpartnerItem];
-      } else if (partner.image) {
-        const newReviewItem = { ...partner, image: partner.image._id };
-        partners = [...partners, newReviewItem];
+        if (partner.image?.size) {
+          const MediaId = await UploadImage(partner.image);
+          const newpartnerItem = { ...partner, image: MediaId };
+
+          partners = [...partners, newpartnerItem];
+        } else if (partner.image) {
+          const newReviewItem = { ...partner, image: partner.image._id };
+          partners = [...partners, newReviewItem];
+        }
       }
       return {
         headline: partnerSection.headline,
         subheadline: partnerSection.subheadline,
         partners
       };
-    }
+    } catch (err) {}
   };
   const PostEdit = async () => {
     try {

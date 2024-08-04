@@ -49,27 +49,39 @@ const Container = styled.div`
 `;
 
 const ImageArea = styled.div`
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   padding: 0 0.8rem;
   @media only screen and (max-width: 769px) {
-    padding: 0 1.4rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    grid-column-gap: 3.2rem;
+    grid-row-gap: 1.6rem;
+    padding: 0 3.5rem;
   }
 `;
 
 const ImageContainer = styled.div`
-  margin-right: 1.6rem;
+  margin-right: 2.7rem;
   display: flex;
   align-items: center;
+  margin-bottom: 1.6rem;
+  @media only screen and (max-width: 769px) {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 `;
 
 const Img = styled.img`
   width: 16.7rem;
   height: 4.8rem;
-  object-fit: cover;
+  object-fit: scale-down;
   @media only screen and (max-width: 769px) {
-    width: 11rem;
-    height: 3.1rem;
+    width: 12.75rem;
+    height: 3.6rem;
   }
 `;
