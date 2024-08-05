@@ -224,6 +224,8 @@ const Body = styled.div`
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(8px);
+  min-height: 80rem;
+  max-height: 100rem;
   @media only screen and (max-width: 769px) {
     flex-direction: column;
     padding: 0rem 1.6rem;

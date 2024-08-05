@@ -288,7 +288,7 @@ const PortfolioContainer = styled.div`
 
 const PortItem = styled.div`
   padding: 0.9rem 1rem;
-  width: 16.7rem;
+  width: 18rem;
   height: 3.8rem;
   margin-bottom: 0.2rem;
   display: flex;

@@ -26,6 +26,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
     filterparam ? filterparam : "all"
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [sort, setSort] = useState("");
   const filters = [
     { filter: "View all", key: "all" },
     { filter: "Interior", key: "Interior design" },
@@ -45,7 +46,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
         const { data } = await api.get(
           `/project?page=${currentPage}${
             activeFilter !== "all" ? `&category=${activeFilter}` : ""
-          }&published=true`
+          }${sort !== "" ? `&sort=${sort}` : ""}&published=true`
         );
         setProjects(data.results);
         setTotalPages(data.totalPages);
@@ -55,7 +56,9 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
       }
     };
     GetProjects();
-  }, [currentPage, activeFilter]);
+  }, [currentPage, activeFilter, sort]);
+
+  console.log(sort);
   return (
     <Container>
       <TopFlex>
@@ -78,7 +81,13 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
           </FilterContainer>
         </FilterMobileOverflow>
         <SortContainer>
-          <Dropdown selectItem={(value) => {}} />
+          <Dropdown
+            placeholder="Sort By"
+            selectItem={(value) => {
+              setSort(value.toLowerCase());
+            }}
+            items={["Oldest", "Latest"]}
+          />
         </SortContainer>
       </TopFlex>
       {loading ? (
