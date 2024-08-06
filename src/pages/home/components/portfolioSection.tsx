@@ -8,6 +8,7 @@ import PrimaryButton from "../../../components/buttons/primary";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowRightUpLine } from "react-icons/ri";
+import { ReactComponent as Glow } from "../../../images/svg/glow/about-glow.svg";
 
 interface IProps {
   data: { headline: string; subheadline: string };
@@ -144,6 +145,9 @@ const PortfolioSection = ({ data }: IProps) => {
           </Button>
         </Buttons>
       </Slider>
+      <BackgroundGlowDiv>
+        <Glow />
+      </BackgroundGlowDiv>
     </Container>
   );
 };
@@ -263,6 +267,7 @@ const ItemContainer = styled.div`
   display: flex;
   align-items: end;
   position: relative;
+  z-index: 1;
   @media only screen and (max-width: 769px) {
     height: 47.2rem;
     width: 30.4rem;
@@ -327,5 +332,19 @@ const Button = styled.button<{ disabled: boolean }>`
   @media only screen and (max-width: 769px) {
     width: 4.8rem;
     height: 4.8rem;
+  }
+`;
+
+const BackgroundGlowDiv = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  @media only screen and (max-width: 769px) {
+    /* bottom: -50%; */
+    width: 250%;
   }
 `;

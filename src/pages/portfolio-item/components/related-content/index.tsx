@@ -6,6 +6,7 @@ import ProjectItem from "../../../portfolio/components/portfolio-projects/projec
 import api from "../../../../utils/axiosInstance";
 import { IProject } from "../../../../utils/types/project";
 import LoadingData from "../../../../components/loading-component";
+import { ReactComponent as Glow } from "../../../../images/svg/glow/rect-glow.svg";
 
 const RelatedContent = ({ id, category }: { id: string; category: string }) => {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -48,6 +49,9 @@ const RelatedContent = ({ id, category }: { id: string; category: string }) => {
               {projects.map((project, i) => {
                 return <ProjectItem {...project} key={i} />;
               })}
+              <RectContainer>
+                <Glow />
+              </RectContainer>
             </ProjectGrid>
           </Container>
         </>
@@ -89,5 +93,19 @@ const ProjectGrid = styled.div`
     grid-template-columns: 100%;
     grid-row-gap: 4.8rem;
     margin-bottom: 4.8rem;
+  }
+`;
+
+const RectContainer = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+
+  transform: translate(-50%, -50%);
+  @media only screen and (max-width: 769px) {
+    display: none;
   }
 `;

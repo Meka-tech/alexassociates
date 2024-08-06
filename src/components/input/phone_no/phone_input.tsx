@@ -161,7 +161,7 @@ const Dropdown = styled.div<{ isopen: string }>`
 const DropdownItem = styled.div`
   cursor: pointer;
   padding: 0.8rem;
-  color: rgba(0, 10, 15, 1);
+  color: rgba(0, 15, 34, 1);
   border-radius: 0.8rem;
   &:hover {
     background-color: #ecebeb;

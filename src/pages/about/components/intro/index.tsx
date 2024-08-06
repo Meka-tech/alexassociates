@@ -4,6 +4,7 @@ import BackgroundGrid from "../../../../components/BackgroundGrid";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { FlexBox } from "../../../../components/container-styles/styles";
+import { ReactComponent as HeroGlow } from "../../../../images/svg/glow/hero-glow.svg";
 
 interface IProps {
   data?: { headline: string; paragraph: string };
@@ -11,10 +12,12 @@ interface IProps {
 const Intro = ({ data }: IProps) => {
   return (
     <Container>
-      <BackgroundGrid
-        web={{ width: "1800px", height: "1350px" }}
-        mobile={{ width: "900px", height: "900px" }}
-      />
+      <Background>
+        <BackgroundGrid
+          web={{ width: "1800px", height: "1350px" }}
+          mobile={{ width: "900px", height: "900px" }}
+        />
+      </Background>
       <BodyText>
         <Typography
           color="rgba(0, 131, 226, 1)"
@@ -106,12 +109,20 @@ const Container = styled.div`
   /* border-bottom: 1px solid rgba(46, 59, 65, 1); */
   margin-bottom: 0.8rem;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 9.6rem 11.2rem;
   color: white;
   @media only screen and (max-width: 769px) {
     padding: 6.4rem 1.6rem;
+    overflow: hidden;
   }
+`;
+const Background = styled.div`
+  max-width: 100vw;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  overflow: hidden;
 `;
 
 const BodyText = styled.div`
@@ -155,7 +166,13 @@ const Results = styled.div`
   backdrop-filter: blur(5px);
   border: 1px solid #0496ff;
   border-radius: 1.6rem;
+  -webkit-box-shadow: 0px 0px 240px 4px rgba(0, 132, 226, 0.7);
+  -moz-box-shadow: 0px 0px 240px 4px rgba(0, 132, 226, 0.7);
+  box-shadow: 0px 0px 240px 4px rgba(0, 132, 226, 0.7);
   @media only screen and (max-width: 769px) {
+    -webkit-box-shadow: 0px 0px 34px 0px rgba(0, 132, 226, 0.7);
+    -moz-box-shadow: 0px 0px 34px 0px rgba(0, 132, 226, 0.7);
+    box-shadow: 0px 0px 34px 0px rgba(0, 132, 226, 0.7);
     grid-template-columns: 100%;
     padding: 4rem 2.4rem;
   }

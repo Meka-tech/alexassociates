@@ -40,7 +40,8 @@ export default Slideshow;
 
 const Container = styled.div`
   width: 100%;
-  background-color: rgba(0, 10, 15, 1);
+  /* background-color: rgba(0, 10, 15, 1); */
+  background-color: transparent;
   height: 44.7rem;
   border-radius: 16px;
   @media only screen and (max-width: 769px) {

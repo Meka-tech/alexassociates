@@ -109,7 +109,7 @@ const Container = styled.div`
   border-bottom: 1px solid rgba(46, 59, 65, 1);
   margin-bottom: 0.8rem;
   position: relative;
-  overflow: hidden;
+
   @media only screen and (max-width: 769px) {
     padding: 6rem 1.6rem;
   }
@@ -158,6 +158,9 @@ const ImageItem = styled.img`
   width: 57.6rem;
   height: 31.8rem;
   object-fit: cover;
+  -webkit-box-shadow: 0px 0px 134px 0px rgba(0, 132, 226, 0.7);
+  -moz-box-shadow: 0px 0px 134px 0px rgba(0, 132, 226, 0.7);
+  box-shadow: 0px 0px 134px 0px rgba(0, 132, 226, 0.7);
   @media only screen and (max-width: 769px) {
     width: 100%;
     height: 24rem;

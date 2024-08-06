@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
-import { ReactComponent as Svg } from "../../../../images/svg/message-svg.svg";
+import { ReactComponent as Svg } from "../../../../images/svg/quote-svg.svg";
 
 const NoData = () => {
   return (
@@ -18,10 +18,10 @@ const NoData = () => {
         lh="2.8"
         mb="0.8"
       >
-        No messages
+        No quotes
       </Typography>
       <Typography color="#CFCECE" size={TextSize.sm}>
-        You currently have no messages.
+        You currently have no quotes.
       </Typography>
     </Container>
   );

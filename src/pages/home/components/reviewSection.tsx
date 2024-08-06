@@ -186,6 +186,7 @@ const ReviewSection = ({ data }: IProps) => {
           </ImageAreaFooter>
         </ImageArea>
       </Body>
+      <BackgroundGlowDiv />
     </Container>
   );
 };
@@ -353,5 +354,26 @@ const WhiteStars = styled(GoldStars)`
   width: fit-content;
   @media only screen and (max-width: 769px) {
     margin-bottom: 1.6rem;
+  }
+`;
+
+const BackgroundGlowDiv = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 18rem;
+  left: 20rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: rgba(0, 131, 226, 0.4);
+  -webkit-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  -moz-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  border-radius: 50%;
+  @media only screen and (max-width: 769px) {
+    -webkit-box-shadow: 0px 0px 206px 131px rgba(0, 132, 226, 0.7);
+    -moz-box-shadow: 0px 0px 206px 131px rgba(0, 132, 226, 0.7);
+    box-shadow: 0px 0px 206px 131px rgba(0, 132, 226, 0.7);
+    top: 50%;
+    left: 50%;
   }
 `;

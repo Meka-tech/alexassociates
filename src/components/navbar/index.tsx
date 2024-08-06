@@ -218,7 +218,7 @@ const Container = styled.nav`
   width: 100%;
   top: 0;
   z-index: 100;
-  background-color: rgba(0, 10, 15, 1);
+  background-color: rgba(0, 15, 34, 1);
 
   @media only screen and (max-width: 769px) {
     padding: 1.6rem;

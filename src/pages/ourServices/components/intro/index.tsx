@@ -70,7 +70,7 @@ const Container = styled.div`
   border-bottom: 1px solid rgba(46, 59, 65, 1);
   margin-bottom: 0.8rem;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   @media only screen and (max-width: 769px) {
   }
 `;

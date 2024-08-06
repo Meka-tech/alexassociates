@@ -116,7 +116,7 @@ const DropdownBody = styled.div<{ isopen: string }>`
 const DropdownItem = styled.div`
   cursor: pointer;
   padding: 1rem 0.8rem;
-  color: rgba(0, 10, 15, 1);
+  color: rgba(0, 15, 34, 1);
   display: flex;
   align-items: center;
   justify-content: space-between;

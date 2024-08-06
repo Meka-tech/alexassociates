@@ -1,9 +1,10 @@
 html {
   font-size: 10px;
-  background-color: rgba(0, 10, 15, 1);
+  background-color: rgba(0, 15, 34, 1);
   max-width: 1920px;
   margin-left: auto;
   margin-right: auto;
+  overflow-x: hidden;
 }
 @media only screen and (max-width: 1500px) {
   html {

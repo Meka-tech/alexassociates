@@ -112,7 +112,7 @@ const Container = styled.div`
   position: fixed;
   width: 100%;
   top: 7.2rem;
-  background-color: rgba(0, 10, 15, 1);
+  background-color: rgba(0, 15, 34, 1);
   z-index: 99;
   @media only screen and (max-width: 769px) {
     padding: 1.2rem 1.6rem;

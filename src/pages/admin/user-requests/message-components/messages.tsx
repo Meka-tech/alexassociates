@@ -393,7 +393,7 @@ const TableContainer = styled.table`
     padding: 1.2rem 2.4rem;
     border-top: 1px solid #0083e2;
     border-bottom: 1px solid #0083e2;
-    background-color: rgba(0, 10, 15, 1);
+    background-color: rgba(0, 15, 34, 1);
     cursor: auto;
   }
   td {

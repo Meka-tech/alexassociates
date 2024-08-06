@@ -6,6 +6,7 @@ import PrimaryButton from "../../../components/buttons/primary";
 import Image from "../../../images/png/quoteImage.png";
 import { ReactComponent as QuoteOrnament } from "../../../images/svg/ornaments/quoteOrnament.svg";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Glow } from "../../../images/svg/glow/apply-glow.svg";
 
 interface IProps {
   data?: { headline: string; subheadline: string };
@@ -41,6 +42,7 @@ const QuoteSection = ({ data }: IProps) => {
         </TextArea>
         <QuoteImage src={Image} alt="quote images" />
       </Body>
+      <BackgroundGlowDiv />
     </Container>
   );
 };
@@ -51,6 +53,7 @@ const Container = styled.div`
   border-top: 1px solid rgba(46, 59, 65, 1);
   border-bottom: 1px solid rgba(46, 59, 65, 1);
   padding: 9.6rem 11.2rem;
+
   position: relative;
   @media only screen and (max-width: 769px) {
     padding: 6.4rem 1.6rem;
@@ -67,6 +70,7 @@ const Body = styled.div`
   background: #0133503b;
   backdrop-filter: blur(10px);
   overflow: hidden;
+  z-index: 2;
   @media only screen and (max-width: 769px) {
     flex-direction: column;
     padding: 0rem;
@@ -106,9 +110,30 @@ const Ornament = styled.div`
   top: 6.9rem;
   right: 8rem;
   width: 23.9rem;
+  z-index: 0;
   @media only screen and (max-width: 769px) {
     top: 1.8rem;
     right: 0;
     width: 12.8rem;
+  }
+`;
+const BackgroundGlowDiv = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 18rem;
+  right: 20rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: rgba(0, 131, 226, 0.4);
+  -webkit-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  -moz-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  border-radius: 50%;
+  @media only screen and (max-width: 769px) {
+    -webkit-box-shadow: 0px 0px 173px 81px rgba(0, 132, 226, 0.7);
+    -moz-box-shadow: 0px 0px 173px 81px rgba(0, 132, 226, 0.7);
+    box-shadow: 0px 0px 173px 81px rgba(0, 132, 226, 0.7);
+    top: 5rem;
+    right: 5rem;
   }
 `;

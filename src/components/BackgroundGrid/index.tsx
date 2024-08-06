@@ -186,6 +186,7 @@ const Container = styled.div`
   height: fit-content;
   width: 100%;
   height: 100%;
+  max-width: 100vw;
   left: 0;
   top: 0;
   z-index: -1;
@@ -201,6 +202,9 @@ const WebView = styled.div`
 const MobileView = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+
   display: none;
   @media only screen and (max-width: 769px) {
     display: block;

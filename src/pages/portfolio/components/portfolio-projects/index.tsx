@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import { IProject } from "../../../../utils/types/project";
 import api from "../../../../utils/axiosInstance";
 import LoadingData from "../../../../components/loading-component";
+import { ReactComponent as Glow } from "../../../../images/svg/glow/rect-glow.svg";
 
 interface IProps {
   inputValue: string;
@@ -58,7 +59,6 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
     GetProjects();
   }, [currentPage, activeFilter, sort]);
 
-  console.log(sort);
   return (
     <Container>
       <TopFlex>
@@ -115,6 +115,9 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
                 );
               }
             )}
+            <RectContainer>
+              <Glow />
+            </RectContainer>
           </ProjectGrid>
           <PaginationContainer>
             <Pagination
@@ -226,6 +229,8 @@ const ProjectGrid = styled.div`
   grid-column-gap: 3.2rem;
   grid-row-gap: 6.4rem;
   margin-bottom: 6.4rem;
+  position: relative;
+  overflow: visible;
   @media only screen and (max-width: 769px) {
     grid-template-columns: 100%;
     grid-row-gap: 4.8rem;
@@ -242,5 +247,19 @@ const PaginationContainer = styled.div`
   border-top: 1px solid rgba(234, 236, 240, 1);
   @media only screen and (max-width: 769px) {
     padding-top: 1.6rem;
+  }
+`;
+
+const RectContainer = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+
+  transform: translate(-50%, -50%);
+  @media only screen and (max-width: 769px) {
+    display: none;
   }
 `;

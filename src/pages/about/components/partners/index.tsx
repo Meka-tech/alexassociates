@@ -62,6 +62,7 @@ const Partners = ({ data }: IProps) => {
           );
         })}
       </TeamGrid>
+      <BackgroundGlowDiv />
     </Container>
   );
 };
@@ -70,10 +71,9 @@ export default Partners;
 
 const Container = styled.div`
   padding: 9.6rem 8rem;
-  border-bottom: 1px solid rgba(0, 10, 15, 1);
   color: rgba(250, 250, 250, 1);
   position: relative;
-  overflow: hidden;
+
   @media only screen and (max-width: 769px) {
     padding: 6.5rem 1.6rem;
   }
@@ -113,5 +113,22 @@ const OrnamentContainer = styled.div`
   @media only screen and (max-width: 769px) {
     top: -9.8rem;
     right: -4rem;
+  }
+`;
+
+const BackgroundGlowDiv = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 3rem;
+  height: 1rem;
+  background-color: rgba(0, 131, 226, 0.4);
+  -webkit-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  -moz-box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  box-shadow: 0px 0px 300px 183px rgba(0, 132, 226, 0.7);
+  border-radius: 50%;
+  @media only screen and (max-width: 769px) {
+    display: none;
   }
 `;

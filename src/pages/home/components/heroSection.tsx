@@ -9,6 +9,8 @@ import Check from "../../../images/png/check.png";
 import { ReactComponent as OrnamentOne } from "../../../images/svg/ornaments/ornamentOne.svg";
 import Slideshow from "./slideshow";
 import { useNavigate } from "react-router-dom";
+import BackgroundGlow from "../../../components/BackgroundGlow";
+import { ReactComponent as HeroGlow } from "../../../images/svg/glow/hero-glow.svg";
 
 interface IProps {
   handleContact: () => void;
@@ -122,6 +124,9 @@ const HeroSection = ({ handleContact, data }: IProps) => {
           ]}
         />
       </SlideshowContainer>
+      <BackgroundGlowDiv>
+        <HeroGlow />
+      </BackgroundGlowDiv>
     </Container>
   );
 };
@@ -247,5 +252,18 @@ const Ornament = styled.div`
   z-index: 0;
   @media only screen and (max-width: 769px) {
     display: none;
+  }
+`;
+
+const BackgroundGlowDiv = styled.div`
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  @media only screen and (max-width: 769px) {
+    top: -30%;
   }
 `;
