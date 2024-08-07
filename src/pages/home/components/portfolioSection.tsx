@@ -261,6 +261,7 @@ const ItemImage = styled.img`
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
 `;
 const ItemInnerContainer = styled.div`
   width: 100%;
@@ -270,6 +271,8 @@ const ItemInnerContainer = styled.div`
   border-radius: 0.8rem;
   backdrop-filter: blur(5px);
   color: white;
+  z-index: 2;
+  position: relative;
 `;
 
 const LinkText = styled(Link)`

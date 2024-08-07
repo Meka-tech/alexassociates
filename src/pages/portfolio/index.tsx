@@ -4,12 +4,14 @@ import Banner from "./components/banner";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import PortfolioProjects from "./components/portfolio-projects";
+import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const Portfolio = () => {
   const [searchInputValue, setSearchInputValue] = useState("");
   return (
     <Container>
       <Navbar />
+      <StickyWhatsapp />
       <Banner
         setInputValue={(value) => {
           setSearchInputValue(value);

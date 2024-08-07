@@ -9,6 +9,7 @@ import Team from "./components/team";
 import Partners from "./components/partners";
 import api from "../../utils/axiosInstance";
 import LoadingData from "../../components/loading-component";
+import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const About = () => {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ const About = () => {
       ) : (
         <>
           <Navbar />
+          <StickyWhatsapp />
           <Banner />
           <Intro data={data?.sectionOne} />
           <OurStory data={data?.sectionTwo} />

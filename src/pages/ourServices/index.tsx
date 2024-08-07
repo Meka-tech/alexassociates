@@ -11,6 +11,7 @@ import Three from "./components/services/three";
 import Four from "./components/services/four";
 import api from "../../utils/axiosInstance";
 import LoadingData from "../../components/loading-component";
+import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const OurServices = () => {
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const OurServices = () => {
       ) : (
         <>
           <Navbar />
+          <StickyWhatsapp />
           <Banner />
           <Intro data={data?.sectionOne} />
           <One data={data?.sectionTwo} />

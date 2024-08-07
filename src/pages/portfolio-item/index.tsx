@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../utils/axiosInstance";
 import { IProject } from "../../utils/types/project";
 import LoadingData from "../../components/loading-component";
+import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const PortfolioItem = () => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ const PortfolioItem = () => {
   return (
     <Container>
       <Navbar />
+      <StickyWhatsapp />
 
       {loading ? (
         <LoadingData />
