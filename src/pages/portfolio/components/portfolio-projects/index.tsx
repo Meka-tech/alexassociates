@@ -5,7 +5,6 @@ import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Dropdown from "../../../../components/input/dropdown";
 import ProjectItem from "./project-item";
-import { DummyData } from "./dummyData";
 import Pagination from "../../../../components/pagination";
 import { useSearchParams } from "react-router-dom";
 import { IProject } from "../../../../utils/types/project";
@@ -28,12 +27,13 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState("");
+
   const filters = [
     { filter: "View all", key: "all" },
-    { filter: "Interior", key: "Interior design" },
-    { filter: "Architectural", key: "Architectural design" },
-    { filter: "Furniture", key: "Furniture & Furnishings" },
-    { filter: "Project execution", key: "Project execution" }
+    { filter: "Interior", key: "interior-design" },
+    { filter: "Architectural", key: "architectural-design" },
+    { filter: "Furniture", key: "furniture-furnishing" },
+    { filter: "Project execution", key: "project-execution" }
   ];
 
   useEffect(() => {

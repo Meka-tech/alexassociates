@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../components/navbar";
 import HeroSection from "./components/heroSection";
@@ -11,6 +11,7 @@ import ContactUs from "../../components/contact-us";
 import Footer from "../../components/footer";
 import LoadingData from "../../components/loading-component";
 import api from "../../utils/axiosInstance";
+import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const Home = () => {
   const ContactRef = React.useRef<HTMLDivElement>(null);
@@ -45,6 +46,7 @@ const Home = () => {
       ) : (
         <>
           <Navbar />
+          <StickyWhatsapp />
           <HeroSection handleContact={handleContact} data={data?.heroSection} />
           <AssociateSection images={data?.workedWImages} />
           <PortfolioSection data={data?.portfolioSection} />

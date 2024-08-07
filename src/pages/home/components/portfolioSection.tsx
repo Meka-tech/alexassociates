@@ -20,56 +20,32 @@ const PortfolioSection = ({ data }: IProps) => {
     {
       title: "Interior design",
       content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
+        "Transforming interior spaces with innovative and aesthetic design solutions.",
+      link: "/portfolio?key=interior-design",
       image:
         "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
-      title: "Project execution",
+      title: "Architecture",
       content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
-    },
-    {
-      title: "Detailed design",
-      content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
+        "Crafting bespoke architectural plans for individual houses and villas.",
+      link: "/portfolio?key=architectural-design",
       image:
         "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
       title: "Furniture",
       content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
+        "Creating and selecting custom furniture and decor to enhance your space.",
+      link: "/portfolio?key=furniture-furnishing",
       image:
         "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     },
     {
-      title: "Quotient",
+      title: "Project Execution",
       content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
-    },
-    {
-      title: "Hourglass",
-      content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
-    },
-    {
-      title: "Command+R",
-      content:
-        "Untitled has saved us thousands of hours of work. We’re able to spin up projects faster.",
-      link: "/",
+        "Ensuring seamless implementation of designs with expert supervision and quality materials.",
+      link: "/portfolio?key=project-execution",
       image:
         "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
     }
@@ -175,12 +151,17 @@ const PortfolioItem = ({
         >
           {title}
         </Typography>
-        <Typography size={TextSize.lg} weight={TextWeight.medium} mb="3.2">
-          “{content}”
+        <Typography
+          size={TextSize.md}
+          lh="2.8"
+          weight={TextWeight.medium}
+          mb="3.2"
+        >
+          {content}
         </Typography>
         <LinkText to={link}>
           <Typography weight={TextWeight.semibold} size={TextSize.md} mr="0.8">
-            Read case study
+            View Projects
           </Typography>
           <RiArrowRightUpLine size={20} />
         </LinkText>
