@@ -8,6 +8,7 @@ import { PiInfo, PiUsers } from "react-icons/pi";
 import { HiOutlineBriefcase, HiOutlineLightningBolt } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "../../context/authContext";
+import { IoArchiveOutline } from "react-icons/io5";
 
 const Sidebar = () => {
   const path = useLocation().pathname;
@@ -266,6 +267,32 @@ const Sidebar = () => {
               </>
             )}
           </Dropdown>
+          <Nav to={"/admin/archived"}>
+            <NavItem>
+              <IoArchiveOutline
+                size={20}
+                color={
+                  path.includes("/admin/archived")
+                    ? "rgba(0, 131, 226, 1)"
+                    : "inherit"
+                }
+              />
+
+              <Typography
+                size={TextSize.sm}
+                weight={TextWeight.medium}
+                lh="2"
+                color={
+                  path.includes("/admin/archived")
+                    ? "rgba(0, 131, 226, 1)"
+                    : "inherit"
+                }
+                ml="0.8"
+              >
+                Archived
+              </Typography>
+            </NavItem>
+          </Nav>
         </>
       )}
     </Container>

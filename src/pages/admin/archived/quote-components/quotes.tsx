@@ -4,7 +4,7 @@ import { FlexBox } from "../../../../components/container-styles/styles";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Pagination from "../../../../components/pagination";
-import { LuMail } from "react-icons/lu";
+import { LuArchiveRestore, LuMail } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../../../components/input/searchInput";
@@ -32,7 +32,7 @@ const Quotes = () => {
       const { data } = await api.get(
         `/quote?page=${currentPage}${
           search !== "" ? `&search=${search}` : ""
-        }&archive=false`
+        }&archive=true`
       );
       setQuotes(data.results);
       setTotalPages(data.totalPages);
@@ -50,20 +50,21 @@ const Quotes = () => {
   const [modal, setModal] = useState(false);
   const [archiveModal, setArchiveModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
-  const [archiving, setArching] = useState(false);
+  const [actioning, setActioning] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const ArchiveQuote = async () => {
-    setArching(true);
+    setActioning(true);
     try {
-      await api.put(`quote/archive/${activeId}`, { archive: true });
+      await api.put(`quote/archive/${activeId}`, { archive: false });
       setArchiveModal(false);
       setSuccessModal(true);
     } catch (err) {
     } finally {
-      setArching(false);
+      setActioning(false);
     }
   };
-  const OnSucessfulArchive = async () => {
+  const OnSucessfull = async () => {
     try {
       setModal(false);
       setSuccessModal(false);
@@ -71,6 +72,24 @@ const Quotes = () => {
     } catch (err) {}
   };
 
+  const OnDeleteQuote = async () => {
+    setActioning(true);
+    try {
+      await api.delete(`quote/${activeId}`);
+      setDeleteModal(false);
+      setSuccessModal(true);
+    } catch (err) {
+    } finally {
+      setActioning(false);
+    }
+  };
+
+  const CloseModal = () => {
+    setModal(false);
+    setArchiveModal(false);
+    setSuccessModal(false);
+    setDeleteModal(false);
+  };
   return (
     <Container>
       <HeaderFlex>
@@ -92,27 +111,36 @@ const Quotes = () => {
       ) : quotes.length > 0 ? (
         <>
           <Body>
-            <Modal
-              isActive={modal}
-              closeModal={() => {
-                setModal(false);
-              }}
-            >
+            <Modal isActive={modal} closeModal={CloseModal}>
               {archiveModal ? (
                 <ModalChildTemplate
-                  header="Archive quote"
-                  subheader="Are you sure you want to archive this quote?"
-                  confirmText="Archive"
+                  header="Unarchive quote"
+                  subheader="Are you sure you want to unarchive this quote?"
+                  confirmText="Unarchive"
                   onConfirm={ArchiveQuote}
                   onClose={() => setModal(false)}
-                  loading={archiving}
-                  icon={<IoArchiveOutline color="#ffa800" size={20} />}
+                  loading={actioning}
+                  icon={<LuArchiveRestore color="#ffa800" size={20} />}
+                />
+              ) : deleteModal ? (
+                <ModalChildTemplate
+                  header="Delete quote"
+                  subheader="Are you sure you want to delete this quote?"
+                  type="red"
+                  confirmText="Delete"
+                  onConfirm={OnDeleteQuote}
+                  onClose={() => {
+                    setModal(false);
+                    setDeleteModal(false);
+                  }}
+                  loading={actioning}
+                  icon={<HiOutlineTrash color="#ef0000" size={20} />}
                 />
               ) : successModal ? (
                 <ModalChildTemplate
-                  header="Archived successfully!"
+                  header="Successfull"
                   confirmText="Confirm"
-                  onConfirm={OnSucessfulArchive}
+                  onConfirm={OnSucessfull}
                   onClose={() => setModal(false)}
                   icon={
                     <IoMdCheckmarkCircleOutline size={20} color="#079455" />
@@ -194,6 +222,11 @@ const Quotes = () => {
                   ) => {
                     return (
                       <QuoteItem
+                        onDelete={() => {
+                          setActiveId(_id);
+                          setDeleteModal(true);
+                          setModal(true);
+                        }}
                         onArchive={() => {
                           setActiveId(_id);
                           setArchiveModal(true);
@@ -237,7 +270,8 @@ const QuoteItem = ({
   phoneNumber,
   date,
   id,
-  onArchive
+  onArchive,
+  onDelete
 }: {
   firstname: string;
   lastname: string;
@@ -246,6 +280,7 @@ const QuoteItem = ({
   date: Date;
   id: string;
   onArchive: () => void;
+  onDelete: () => void;
 }) => {
   const navigate = useNavigate();
   function formatDate(dateString: string) {
@@ -318,8 +353,12 @@ const QuoteItem = ({
             </SendMail>
           </a>
           <ArchiveMail onClick={onArchive}>
-            <IoArchiveOutline size={20} />
+            <LuArchiveRestore size={20} />
           </ArchiveMail>
+
+          <DeleteMail onClick={onDelete}>
+            <HiOutlineTrash size={20} />
+          </DeleteMail>
         </ActionButtons>
       </td>
     </tr>
@@ -412,6 +451,10 @@ const SendMail = styled.div`
 const ArchiveMail = styled(SendMail)`
   color: #ffa800;
   border: 1px solid #ffa800;
+`;
+const DeleteMail = styled(SendMail)`
+  color: #ef0000;
+  border: 1px solid #ef0000;
 `;
 
 const PaginationContainer = styled.div`

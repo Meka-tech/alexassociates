@@ -183,6 +183,21 @@ const Navbar = () => {
                 </Typography>
               </Nav>
             </NavItem>
+            <NavItem>
+              <Nav to="/admin/archived">
+                <Typography
+                  size={TextSize.md}
+                  weight={TextWeight.semibold}
+                  color={
+                    path.includes("/admin/archived")
+                      ? "rgba(0, 131, 226, 1)"
+                      : "inherit"
+                  }
+                >
+                  Archived
+                </Typography>
+              </Nav>
+            </NavItem>
           </>
         )}
       </NavItems>

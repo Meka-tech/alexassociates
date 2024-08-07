@@ -18,10 +18,10 @@ const NoData = () => {
         lh="2.8"
         mb="0.8"
       >
-        No quotes
+        No archived quotes
       </Typography>
       <Typography color="#CFCECE" size={TextSize.sm}>
-        You currently have no quotes.
+        You currently have no archived quotes.
       </Typography>
     </Container>
   );

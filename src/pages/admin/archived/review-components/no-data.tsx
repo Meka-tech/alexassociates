@@ -18,10 +18,10 @@ const NoData = () => {
         lh="2.8"
         mb="0.8"
       >
-        No Reviews
+        No archived Reviews
       </Typography>
       <Typography color="#CFCECE" size={TextSize.sm}>
-        You currently have no reviews.
+        You currently have no archived reviews.
       </Typography>
     </Container>
   );

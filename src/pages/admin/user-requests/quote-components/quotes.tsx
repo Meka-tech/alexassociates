@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import api from "../../../../utils/axiosInstance";
-
 import NoData from "./no-data";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import Modal from "../../../../components/modal";

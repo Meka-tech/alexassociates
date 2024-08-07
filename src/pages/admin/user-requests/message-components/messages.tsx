@@ -7,7 +7,6 @@ import Pagination from "../../../../components/pagination";
 import { LuMail } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { data } from "./dummyData";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import api from "../../../../utils/axiosInstance";
@@ -110,7 +109,7 @@ const Messages = () => {
                 />
               ) : successModal ? (
                 <ModalChildTemplate
-                  header="Deleted successfully!"
+                  header="Archived successfully!"
                   confirmText="Confirm"
                   onConfirm={OnSucessfulDelete}
                   onClose={() => setModal(false)}

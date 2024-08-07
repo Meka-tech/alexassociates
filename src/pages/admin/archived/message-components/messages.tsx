@@ -4,10 +4,9 @@ import { FlexBox } from "../../../../components/container-styles/styles";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Pagination from "../../../../components/pagination";
-import { LuMail } from "react-icons/lu";
+import { LuArchiveRestore, LuMail } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { data } from "./dummyData";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import api from "../../../../utils/axiosInstance";
@@ -16,7 +15,6 @@ import NoData from "./no-data";
 import Modal from "../../../../components/modal";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import LoadingData from "../../../../components/loading-component";
-import { IoArchiveOutline } from "react-icons/io5";
 
 const Messages = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +30,7 @@ const Messages = () => {
       const { data } = await api.get(
         `/message?page=${currentPage}${
           search !== "" ? `&search=${search}` : ""
-        }&archive=false`
+        }&archive=true`
       );
       setMessages(data.results);
       setTotalPages(data.totalPages);
@@ -49,21 +47,33 @@ const Messages = () => {
 
   const [modal, setModal] = useState(false);
   const [archiveModal, setArchiveModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
-  const [archiving, setArchiving] = useState(false);
+  const [actioning, setActioning] = useState(false);
 
-  const ArchiveMessage = async () => {
-    setArchiving(true);
+  const UnarchiveMessage = async () => {
+    setActioning(true);
     try {
-      await api.put(`message/archive/${activeId}`, { archive: true });
+      await api.put(`message/archive/${activeId}`, { archive: false });
       setArchiveModal(false);
       setSuccessModal(true);
     } catch (err) {
     } finally {
-      setArchiving(false);
+      setActioning(false);
     }
   };
-  const OnSucessfulDelete = async () => {
+  const OnDeleteMessage = async () => {
+    setActioning(true);
+    try {
+      await api.delete(`message/${activeId}`);
+      setDeleteModal(false);
+      setSuccessModal(true);
+    } catch (err) {
+    } finally {
+      setActioning(false);
+    }
+  };
+  const OnSucessfull = async () => {
     try {
       setModal(false);
       setSuccessModal(false);
@@ -71,6 +81,12 @@ const Messages = () => {
     } catch (err) {}
   };
 
+  const CloseModal = () => {
+    setModal(false);
+    setArchiveModal(false);
+    setSuccessModal(false);
+    setDeleteModal(false);
+  };
   return (
     <Container>
       <HeaderFlex>
@@ -92,27 +108,39 @@ const Messages = () => {
       ) : messages.length > 0 ? (
         <>
           <Body>
-            <Modal
-              isActive={modal}
-              closeModal={() => {
-                setModal(false);
-              }}
-            >
+            <Modal isActive={modal} closeModal={CloseModal}>
               {archiveModal ? (
                 <ModalChildTemplate
-                  header="Archive message"
-                  subheader="Are you sure you want to archive this message?"
-                  confirmText="Archive"
-                  onConfirm={ArchiveMessage}
-                  onClose={() => setModal(false)}
-                  loading={archiving}
-                  icon={<IoArchiveOutline color="#ffa800" size={20} />}
+                  header="Unarchive message"
+                  subheader="Are you sure you want to unarchive this message?"
+                  confirmText="Unarchive"
+                  onConfirm={UnarchiveMessage}
+                  onClose={() => {
+                    setModal(false);
+                    setArchiveModal(false);
+                  }}
+                  loading={actioning}
+                  icon={<LuArchiveRestore color="#ffa800" size={20} />}
+                />
+              ) : deleteModal ? (
+                <ModalChildTemplate
+                  header="Delete message"
+                  subheader="Are you sure you want to delete this message?"
+                  type="red"
+                  confirmText="Delete"
+                  onConfirm={OnDeleteMessage}
+                  onClose={() => {
+                    setModal(false);
+                    setDeleteModal(false);
+                  }}
+                  loading={actioning}
+                  icon={<HiOutlineTrash color="#ef0000" size={20} />}
                 />
               ) : successModal ? (
                 <ModalChildTemplate
-                  header="Deleted successfully!"
+                  header="Successfull !"
                   confirmText="Confirm"
-                  onConfirm={OnSucessfulDelete}
+                  onConfirm={OnSucessfull}
                   onClose={() => setModal(false)}
                   icon={
                     <IoMdCheckmarkCircleOutline size={20} color="#079455" />
@@ -203,6 +231,11 @@ const Messages = () => {
                     return (
                       <MessageItem
                         message={message}
+                        onDelete={() => {
+                          setActiveId(_id);
+                          setDeleteModal(true);
+                          setModal(true);
+                        }}
                         onArchive={() => {
                           setActiveId(_id);
                           setArchiveModal(true);
@@ -247,7 +280,8 @@ const MessageItem = ({
   date = new Date(),
   id,
   message,
-  onArchive
+  onArchive,
+  onDelete
 }: {
   firstname: string;
   lastname: string;
@@ -257,6 +291,7 @@ const MessageItem = ({
   id: string;
   message: string;
   onArchive: () => void;
+  onDelete: () => void;
 }) => {
   const navigate = useNavigate();
   function formatDate(dateString: string) {
@@ -329,8 +364,12 @@ const MessageItem = ({
             </SendMail>
           </a>
           <ArchiveMail onClick={onArchive}>
-            <IoArchiveOutline size={20} />
+            <LuArchiveRestore size={20} />
           </ArchiveMail>
+
+          <DeleteMail onClick={onDelete}>
+            <HiOutlineTrash size={20} />
+          </DeleteMail>
         </ActionButtons>
       </td>
     </tr>
@@ -346,7 +385,6 @@ const Container = styled.div`
   @media only screen and (max-width: 769px) {
     padding: 2.4rem 1.6rem;
     padding-bottom: 6.4rem;
-    /* overflow-x: scroll; */
   }
 `;
 
@@ -423,6 +461,10 @@ const SendMail = styled.div`
 const ArchiveMail = styled(SendMail)`
   color: #ffa800;
   border: 1px solid #ffa800;
+`;
+const DeleteMail = styled(SendMail)`
+  color: #ef0000;
+  border: 1px solid #ef0000;
 `;
 
 const PaginationContainer = styled.div`

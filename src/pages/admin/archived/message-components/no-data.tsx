@@ -18,10 +18,10 @@ const NoData = () => {
         lh="2.8"
         mb="0.8"
       >
-        No messages
+        No archived messages
       </Typography>
       <Typography color="#CFCECE" size={TextSize.sm}>
-        You currently have no messages.
+        You currently have no archived messages.
       </Typography>
     </Container>
   );

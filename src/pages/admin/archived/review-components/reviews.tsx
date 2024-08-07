@@ -16,6 +16,7 @@ import ModalChildTemplate from "../../../../components/modal/modal-child-templat
 import LoadingData from "../../../../components/loading-component";
 import { IReview } from "../../../../utils/types/review";
 import { IoArchiveOutline } from "react-icons/io5";
+import { LuArchiveRestore } from "react-icons/lu";
 
 const Reviews = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +32,7 @@ const Reviews = () => {
       const { data } = await api.get(
         `/review?page=${currentPage}${
           search !== "" ? `&search=${search}` : ""
-        }&archive=false`
+        }&archive=true`
       );
       setReviews(data.results);
       setTotalPages(data.totalPages);
@@ -49,25 +50,44 @@ const Reviews = () => {
   const [modal, setModal] = useState(false);
   const [archiveModal, setArchiveModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
-  const [archiving, setArchiving] = useState(false);
+  const [actioning, setActioning] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const ArchiveReview = async () => {
-    setArchiving(true);
+    setActioning(true);
     try {
-      await api.put(`review/archive/${activeId}`, { archive: true });
+      await api.put(`review/archive/${activeId}`, { archive: false });
       setArchiveModal(false);
       setSuccessModal(true);
     } catch (err) {
     } finally {
-      setArchiving(false);
+      setActioning(false);
     }
   };
-  const OnSucessfulArchive = async () => {
+  const OnDeleteReview = async () => {
+    setActioning(true);
+    try {
+      await api.delete(`review/${activeId}`);
+      setDeleteModal(false);
+      setSuccessModal(true);
+    } catch (err) {
+    } finally {
+      setActioning(false);
+    }
+  };
+  const OnSucessfull = async () => {
     try {
       setModal(false);
       setSuccessModal(false);
       GetReviews();
     } catch (err) {}
+  };
+
+  const CloseModal = () => {
+    setModal(false);
+    setArchiveModal(false);
+    setSuccessModal(false);
+    setDeleteModal(false);
   };
 
   return (
@@ -91,27 +111,39 @@ const Reviews = () => {
       ) : reviews.length > 0 ? (
         <>
           <Body>
-            <Modal
-              isActive={modal}
-              closeModal={() => {
-                setModal(false);
-              }}
-            >
+            <Modal isActive={modal} closeModal={CloseModal}>
               {archiveModal ? (
                 <ModalChildTemplate
-                  header="Archive Review"
-                  subheader="Are you sure you want to Archive this review ?"
-                  confirmText="Archive"
+                  header="Unarchive Review"
+                  subheader="Are you sure you want to Unarchive this review ?"
+                  confirmText="Unarchive"
                   onConfirm={ArchiveReview}
-                  onClose={() => setModal(false)}
-                  loading={archiving}
-                  icon={<IoArchiveOutline color="#ffa800" size={20} />}
+                  onClose={() => {
+                    setModal(false);
+                    setArchiveModal(false);
+                  }}
+                  loading={actioning}
+                  icon={<LuArchiveRestore color="#ffa800" size={20} />}
+                />
+              ) : deleteModal ? (
+                <ModalChildTemplate
+                  header="Delete Review"
+                  subheader="Are you sure you want to delete this review?"
+                  type="red"
+                  confirmText="Delete"
+                  onConfirm={OnDeleteReview}
+                  onClose={() => {
+                    setModal(false);
+                    setDeleteModal(false);
+                  }}
+                  loading={actioning}
+                  icon={<HiOutlineTrash color="#ef0000" size={20} />}
                 />
               ) : successModal ? (
                 <ModalChildTemplate
-                  header="Archived successfully!"
+                  header="Successfull"
                   confirmText="Confirm"
-                  onConfirm={OnSucessfulArchive}
+                  onConfirm={OnSucessfull}
                   onClose={() => setModal(false)}
                   icon={
                     <IoMdCheckmarkCircleOutline size={20} color="#079455" />
@@ -191,6 +223,11 @@ const Reviews = () => {
                   ) => {
                     return (
                       <ReviewItem
+                        onDelete={() => {
+                          setActiveId(_id);
+                          setDeleteModal(true);
+                          setModal(true);
+                        }}
                         onArchive={() => {
                           setActiveId(_id);
                           setArchiveModal(true);
@@ -232,7 +269,8 @@ const ReviewItem = ({
   rating,
   date = new Date(),
   id,
-  onArchive
+  onArchive,
+  onDelete
 }: {
   name: string;
   organization: string;
@@ -240,6 +278,7 @@ const ReviewItem = ({
   date: Date;
   id: string;
   onArchive: () => void;
+  onDelete: () => void;
 }) => {
   const navigate = useNavigate();
   function formatDate(dateString: string) {
@@ -294,6 +333,9 @@ const ReviewItem = ({
           <ArchiveReview onClick={onArchive}>
             <IoArchiveOutline size={20} />
           </ArchiveReview>
+          <DeleteMail onClick={onDelete}>
+            <HiOutlineTrash size={20} />
+          </DeleteMail>
         </ActionButtons>
       </td>
     </tr>
@@ -386,6 +428,10 @@ const SendMail = styled.div`
 const ArchiveReview = styled(SendMail)`
   color: #ffa800;
   border: 1px solid #ffa800;
+`;
+const DeleteMail = styled(SendMail)`
+  color: #ef0000;
+  border: 1px solid #ef0000;
 `;
 
 const PaginationContainer = styled.div`

@@ -26,7 +26,7 @@ const Archived = () => {
           <Button
             isactive={active === "message" ? "true" : "false"}
             onClick={() => {
-              navigate("/admin/user-requests?key=message");
+              navigate("/admin/archived?key=message");
             }}
           >
             <Typography
@@ -40,7 +40,7 @@ const Archived = () => {
           <Button
             isactive={active === "quote" ? "true" : "false"}
             onClick={() => {
-              navigate("/admin/user-requests?key=quote");
+              navigate("/admin/archived?key=quote");
             }}
           >
             <Typography
@@ -54,7 +54,7 @@ const Archived = () => {
           <Button
             isactive={active === "review" ? "true" : "false"}
             onClick={() => {
-              navigate("/admin/user-requests?key=review");
+              navigate("/admin/archived?key=review");
             }}
           >
             <Typography
