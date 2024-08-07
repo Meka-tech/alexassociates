@@ -4,17 +4,23 @@ import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import { IimageType } from "../../../utils/types/image";
 
-const AssociateSection = ({ images }: { images: IimageType[] }) => {
+interface IProps {
+  images: { image: IimageType; url: string }[];
+}
+const AssociateSection = ({ images }: IProps) => {
   return (
     <Container>
       <Typography size={TextSize.md} weight={TextWeight.medium} mb="3.2">
         We’ve worked with the best
       </Typography>
       <ImageArea>
-        {images?.map((image, i) => {
+        {images?.map(({ image, url }, i) => {
           return (
             <ImageContainer key={i}>
               <Img
+                onClick={() => {
+                  window.open(`https://${url}`, "_blank");
+                }}
                 src={
                   image.fileId
                     ? `https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`
@@ -80,6 +86,7 @@ const Img = styled.img`
   width: 16.7rem;
   height: 4.8rem;
   object-fit: scale-down;
+  cursor: pointer;
   @media only screen and (max-width: 769px) {
     width: 12.75rem;
     height: 3.6rem;

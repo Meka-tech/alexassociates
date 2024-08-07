@@ -55,7 +55,8 @@ interface IButtonProps extends React.HTMLProps<HTMLButtonElement> {
 const Container = styled.button<IButtonProps>`
   cursor: pointer;
   border-radius: 0.8rem;
-  padding: 1.6rem;
+  padding: 1.2rem 2rem;
+  height: fit-content;
   background-color: ${(props) =>
     props.danger === "true"
       ? "#D92D20"

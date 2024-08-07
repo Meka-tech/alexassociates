@@ -16,6 +16,7 @@ const Home = () => {
   const ContactRef = React.useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>();
+  const [reviews, setReviews] = useState([]);
 
   const handleContact = () => {
     ContactRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -25,7 +26,9 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await api.get("/home");
+      const { data: reviewData } = await api.get(`/review?published=true`);
       setData(data.home);
+      setReviews(reviewData.results);
     } catch (err) {
     } finally {
       setLoading(false);
@@ -47,7 +50,7 @@ const Home = () => {
           <PortfolioSection data={data?.portfolioSection} />
           <ResultSection data={data?.resultSection} />
           <QuoteSection data={data?.quoteSection} />
-          <ReviewSection data={data?.reviewSection} />
+          {reviews.length > 0 && <ReviewSection Reviews={reviews} />}
           <ContactUs ref={ContactRef} />
           <Footer />
         </>

@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Section from "../section";
 import StyledInput from "../../../../../components/input/primaryInput";
 import { IClientItem } from "../../../../../utils/types/clientItem";
-import ClientItem from "./client-item";
-import PrimaryButton from "../../../../../components/buttons/primary";
 import LogoArea from "./logos";
 import { IimageType } from "../../../../../utils/types/image";
 import TopNav from "../top-nav";
@@ -12,6 +10,13 @@ import MobileConfirmButtons from "../mobile-confirm";
 import api from "../../../../../utils/axiosInstance";
 import { UploadImage } from "../../../../../utils/upload-image";
 import LoadingData from "../../../../../components/loading-component";
+import Typography from "../../../../../components/typography";
+import {
+  TextSize,
+  TextWeight
+} from "../../../../../components/typography/enums";
+import { RxCross2 } from "react-icons/rx";
+import { TbCamera } from "react-icons/tb";
 
 const HomePageEdit = () => {
   const [data, setData] = useState<any>();
@@ -19,15 +24,25 @@ const HomePageEdit = () => {
   const [editing, setEditing] = useState(false);
   const [changed, setChanged] = useState(false);
 
-  const [heroSection, setHeroSection] = useState({
+  const [heroSection, setHeroSection] = useState<{
+    headline: string;
+    subheadline: string;
+    keypoint1: string;
+    keypoint2: string;
+    keypoint3: string;
+    slideshow: IimageType[];
+  }>({
     headline: "",
     subheadline: "",
     keypoint1: "",
     keypoint2: "",
-    keypoint3: ""
+    keypoint3: "",
+    slideshow: []
   });
 
-  const [workedWImages, setWorkedWImages] = useState<IimageType[]>([]);
+  const [workedWImages, setWorkedWImages] = useState<
+    { image: IimageType; url: string }[]
+  >([]);
 
   const [portfolioSection, setPortfolioSection] = useState({
     headline: "",
@@ -48,14 +63,6 @@ const HomePageEdit = () => {
   const [quoteSection, setQuoteSection] = useState({
     headline: "",
     subheadline: ""
-  });
-
-  const [reviewSection, setReviewSection] = useState<{
-    headline: string;
-    reviews: IClientItem[];
-  }>({
-    headline: "",
-    reviews: []
   });
 
   const handleInputChange = (key: string, value: string, object: string) => {
@@ -84,32 +91,56 @@ const HomePageEdit = () => {
         [key]: value
       }));
     }
-    if (object === "review") {
-      setReviewSection((prevSection) => ({
-        ...prevSection,
-        [key]: value
-      }));
-    }
   };
 
-  const handleReviewChange = (
-    index: number,
-    newReview: Partial<IClientItem>
-  ) => {
+  const AddWeWorkedLogo = (Image: IimageType, url: string) => {
     setChanged(true);
-    setReviewSection((prevSection) => ({
-      ...prevSection,
-      reviews: prevSection.reviews.map((review, i) =>
-        i === index ? { ...review, ...newReview } : review
-      )
+    setWorkedWImages((prev) => {
+      return [...prev, { image: Image, url }];
+    });
+  };
+
+  const addSlideShowImage = (event: any) => {
+    setChanged(true);
+    const file = event.target.files[0];
+
+    setHeroSection((prev) => ({
+      ...prev,
+      slideshow: [...prev.slideshow, file]
+    }));
+
+    event.target.value = "";
+  };
+
+  const removeSlideShowImage = (i: number) => {
+    setChanged(true);
+    setHeroSection((prev) => ({
+      ...prev,
+      slideshow: prev.slideshow.filter((image, index) => i !== index)
     }));
   };
 
-  const AddWeWorkedLogo = (Image: IimageType) => {
-    setChanged(true);
-    setWorkedWImages((prev) => {
-      return [...prev, Image];
-    });
+  const PostSlideShowImages = async () => {
+    try {
+      let ImageIds: string[] = [];
+      for (let i = 0; i < heroSection.slideshow.length; i++) {
+        const image = heroSection.slideshow[i];
+        if (image.size) {
+          const MediaId = await UploadImage(image);
+          ImageIds = [...ImageIds, MediaId];
+        } else {
+          ImageIds = [...ImageIds, image._id];
+        }
+      }
+      return {
+        headline: heroSection.headline,
+        subheadline: heroSection.subheadline,
+        keypoint1: heroSection.keypoint1,
+        keypoint2: heroSection.keypoint2,
+        keypoint3: heroSection.keypoint3,
+        slideshow: ImageIds
+      };
+    } catch (err) {}
   };
 
   const RemoveWeWorkedLogo = (index: number) => {
@@ -119,41 +150,22 @@ const HomePageEdit = () => {
     setWorkedWImages([...filtered]);
   };
 
-  const AddReview = () => {
-    setChanged(true);
-    setReviewSection((prev) => ({
-      ...prev,
-      reviews: [
-        ...prev.reviews,
-        {
-          name: "",
-          organization: "",
-          review: "",
-          rating: 0,
-          image: undefined
-        }
-      ]
-    }));
-  };
-
-  const RemoveReview = (index: number) => {
-    setChanged(true);
-    setReviewSection((prevSection) => ({
-      ...prevSection,
-      reviews: prevSection.reviews.filter((_, i) => i !== index)
-    }));
-  };
-
   const PostWeworkedWithImages = async () => {
     try {
-      let ImageIds: string[] = [];
+      let ImageIds: { url: string; image: string }[] = [];
       for (let i = 0; i < workedWImages.length; i++) {
-        const Image = workedWImages[i];
+        const Image = workedWImages[i].image;
         if (Image.size) {
           const MediaId = await UploadImage(Image);
-          ImageIds = [...ImageIds, MediaId];
+          ImageIds = [
+            ...ImageIds,
+            { url: workedWImages[i].url, image: MediaId }
+          ];
         } else {
-          ImageIds = [...ImageIds, Image._id];
+          ImageIds = [
+            ...ImageIds,
+            { url: workedWImages[i].url, image: Image._id }
+          ];
         }
       }
 
@@ -161,44 +173,18 @@ const HomePageEdit = () => {
     } catch (err) {}
   };
 
-  const PostReviewImages = async () => {
-    try {
-      let reviews: {
-        name?: string;
-        organization?: string;
-        review?: string;
-        rating?: number;
-        image?: string;
-      }[] = [];
-      for (let i = 0; i < reviewSection.reviews.length; i++) {
-        const review = reviewSection.reviews[i];
-
-        if (review.image?.size) {
-          const MediaId = await UploadImage(review.image);
-          const newReviewItem = { ...review, image: MediaId };
-
-          reviews = [...reviews, newReviewItem];
-        } else if (review.image?._id) {
-          const newReviewItem = { ...review, image: review.image._id };
-          reviews = [...reviews, newReviewItem];
-        }
-      }
-      return { headline: reviewSection.headline, reviews };
-    } catch (err) {}
-  };
-
   const PostEdit = async () => {
     try {
       setEditing(true);
       const workedWImages = await PostWeworkedWithImages();
-      const reviewSection = await PostReviewImages();
+      const heroSection = await PostSlideShowImages();
+
       const bodyData = {
         heroSection,
         workedWImages,
         portfolioSection,
         resultSection,
-        quoteSection,
-        reviewSection
+        quoteSection
       };
       const { data } = await api.put(`/home`, bodyData);
 
@@ -228,7 +214,6 @@ const HomePageEdit = () => {
     setPortfolioSection(data?.portfolioSection);
     setResultSection(data?.resultSection);
     setQuoteSection(data?.quoteSection);
-    setReviewSection(data?.reviewSection);
     setWorkedWImages(data?.workedWImages);
     setLoadingData(false);
   };
@@ -301,6 +286,56 @@ const HomePageEdit = () => {
                 }
               />
             </ThreeInputGrid>
+            <Typography
+              color="#CFCECE"
+              mt="6.4"
+              mb="1.6"
+              size={TextSize.sm}
+              weight={TextWeight.medium}
+              lh="2"
+              m_mt="2.4"
+            >
+              Slideshow Images
+            </Typography>
+            <SlideshowImages>
+              {heroSection.slideshow?.map((image: IimageType, i) => {
+                return (
+                  <ImageContainer key={i}>
+                    <Img
+                      src={
+                        image.fileId
+                          ? `https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`
+                          : URL.createObjectURL(image)
+                      }
+                      alt={image.name}
+                    />
+                    <DeleteImageContainer
+                      onClick={() => {
+                        removeSlideShowImage(i);
+                      }}
+                    >
+                      <RxCross2 size={18} />
+                    </DeleteImageContainer>
+                  </ImageContainer>
+                );
+              })}
+            </SlideshowImages>
+            <UploadContainer>
+              <FormInput
+                type="file"
+                accept="image/*"
+                onChange={addSlideShowImage}
+                multiple={false}
+              />
+              <TbCamera size={20} />
+              <Typography
+                size={TextSize.md}
+                weight={TextWeight.semibold}
+                ml="0.8"
+              >
+                Upload image
+              </Typography>
+            </UploadContainer>
           </Section>
           <LogoArea
             images={workedWImages}
@@ -425,39 +460,6 @@ const HomePageEdit = () => {
               />
             </TwoInputGrid>
           </Section>
-          <Section
-            header="Client reviews"
-            subheader="Section made to upload client reviews"
-          >
-            <div style={{ marginBottom: "3.2rem" }}>
-              <StyledInput
-                label="Headline"
-                limit={50}
-                value={reviewSection.headline}
-                onChange={(e) =>
-                  handleInputChange("headline", e.target.value, "review")
-                }
-              />
-            </div>
-            {reviewSection.reviews.map((review, i) => {
-              return (
-                <ClientItem
-                  remove={RemoveReview}
-                  {...review}
-                  key={i}
-                  index={i}
-                  handleChange={handleReviewChange}
-                />
-              );
-            })}
-            <ButtonContainer>
-              <PrimaryButton
-                text="Add Review"
-                variant={true}
-                onClick={AddReview}
-              />
-            </ButtonContainer>
-          </Section>
         </>
       )}
 
@@ -496,10 +498,61 @@ const ThreeInputGrid = styled(TwoInputGrid)`
   }
 `;
 
-const ButtonContainer = styled.div`
-  margin-left: auto;
-  width: 15.5rem;
+const SlideshowImages = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 10rem;
+  margin-bottom: 1.6rem;
+  overflow: auto;
+`;
+
+const ImageContainer = styled.div`
+  margin-right: 1.6rem;
+  display: flex;
+  align-items: center;
+`;
+
+const Img = styled.img`
+  width: 10rem;
+  height: 10rem;
+  object-fit: contain;
+  @media only screen and (max-width: 769px) {
+    width: 11rem;
+    height: 3.1rem;
+  }
+`;
+
+const DeleteImageContainer = styled.div`
+  cursor: pointer;
+  color: #00365c;
+  margin-left: 1.6rem;
+  @media only screen and (max-width: 769px) {
+    margin-left: 0.6rem;
+  }
+`;
+
+const UploadContainer = styled.div`
+  padding: 1.2rem 2rem;
+  border-radius: 8px;
+  border: 1px solid #0083e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: fit-content;
+  color: #0083e2;
+  position: relative;
   @media only screen and (max-width: 769px) {
     width: 100%;
   }
+`;
+const FormInput = styled.input`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
 `;

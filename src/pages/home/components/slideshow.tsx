@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { IimageType } from "../../../utils/types/image";
 
-const Slideshow = ({ images }: { images: string[] }) => {
+const Slideshow = ({ images }: { images: IimageType[] }) => {
   const [index, setIndex] = useState(0);
-  const [visible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const Next = () => {
-      setIsVisible(false);
       const current = index;
       setTimeout(() => {
         if (current < images.length - 1) {
@@ -15,10 +14,7 @@ const Slideshow = ({ images }: { images: string[] }) => {
         } else {
           setIndex(0);
         }
-      }, 300);
-      setTimeout(() => {
-        setIsVisible(true);
-      }, 500);
+      }, 100);
     };
 
     const interval = setInterval(() => {
@@ -29,8 +25,11 @@ const Slideshow = ({ images }: { images: string[] }) => {
 
   return (
     <Container>
-      <ImageArea isvisible={visible ? "true" : "false"}>
-        <ImageItem src={images[index]} alt={`${index}`} />
+      <ImageArea>
+        <ImageItem
+          src={`https://drive.google.com/thumbnail?id=${images[index]?.fileId}&sz=w1000`}
+          alt={images[index]?.name}
+        />
       </ImageArea>
     </Container>
   );
@@ -40,7 +39,7 @@ export default Slideshow;
 
 const Container = styled.div`
   width: 100%;
-  /* background-color: rgba(0, 10, 15, 1); */
+
   background-color: transparent;
   height: 44.7rem;
   border-radius: 16px;
@@ -50,12 +49,11 @@ const Container = styled.div`
   }
 `;
 
-const ImageArea = styled.div<{ isvisible: string }>`
+const ImageArea = styled.div`
   height: 100%;
   width: 100%;
   overflow: hidden;
   margin-bottom: 2.4rem;
-  opacity: ${(props) => (props.isvisible === "true" ? 1 : 0)};
   transition: ease-in-out 0.3s all;
   border-radius: 1.6rem;
   @media only screen and (max-width: 769px) {

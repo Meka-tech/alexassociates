@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Typography from "../../../../../components/typography";
 import {
@@ -8,23 +8,95 @@ import {
 import { RxCross2 } from "react-icons/rx";
 import { IimageType } from "../../../../../utils/types/image";
 import { TbCamera } from "react-icons/tb";
+import StyledInput from "../../../../../components/input/primaryInput";
+import PrimaryButton from "../../../../../components/buttons/primary";
+import { Link } from "react-router-dom";
 
 interface IProps {
-  images: IimageType[];
-  addImage: (image: IimageType) => void;
+  images: { image: IimageType; url: string }[];
+  addImage: (image: IimageType, url: string) => void;
   removeImage: (index: number) => void;
 }
 const LogoArea = ({ images, addImage, removeImage }: IProps) => {
-  const AddImage = (event: any) => {
+  const [imageFile, setImageFile] = useState<IimageType>();
+  const [url, setUrl] = useState("");
+  const SelectImage = (event: any) => {
     const file = event.target.files[0];
 
     if (file) {
-      addImage(file);
+      setImageFile(file);
+    }
+  };
+
+  const AddImageNurl = () => {
+    if (imageFile) {
+      addImage(imageFile, url);
+      setImageFile(undefined);
+      setUrl("");
     }
   };
 
   return (
     <Container>
+      <Body>
+        <Typography
+          weight={TextWeight.medium}
+          size={TextSize.DisplayMd}
+          m_size={TextSize.DisplayXs}
+          lh="4.4"
+          mb="1.6"
+          m_lh="3.2"
+        >
+          Add Logo & Company URL
+        </Typography>
+        <UploadContainer>
+          <FormInput
+            type="file"
+            accept=".png"
+            onChange={SelectImage}
+            multiple={false}
+          />
+          <TbCamera size={20} />
+          <Typography size={TextSize.md} weight={TextWeight.semibold} ml="0.8">
+            Upload logo
+          </Typography>
+        </UploadContainer>
+        <Typography color="#475467" size={TextSize.sm} lh="2" mt="0.6">
+          PNG documents only*
+        </Typography>
+
+        {imageFile && (
+          <ImageShowContainer>
+            <ImgShow
+              src={URL.createObjectURL(imageFile)}
+              alt={imageFile.name}
+            />
+            <DeleteImageContainer
+              onClick={() => {
+                setImageFile(undefined);
+              }}
+            >
+              <RxCross2 size={18} />
+            </DeleteImageContainer>
+          </ImageShowContainer>
+        )}
+        <InputButtonContainer>
+          <StyledInput
+            label="URL"
+            placeholder="www.company.com"
+            disabled={imageFile ? false : true}
+            value={url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+          />
+          <PrimaryButton
+            text="Add"
+            disabled={url.length > 0 ? false : true}
+            onClick={AddImageNurl}
+          />
+        </InputButtonContainer>
+      </Body>
       <BannerArea>
         <Typography
           align="center"
@@ -36,10 +108,13 @@ const LogoArea = ({ images, addImage, removeImage }: IProps) => {
           We’ve worked with the best
         </Typography>
         <ImageArea>
-          {images.map((image, i) => {
+          {images.map(({ image, url }, i) => {
             return (
               <ImageContainer key={i}>
                 <Img
+                  onClick={() => {
+                    window.open(`https://${url}`, "_blank");
+                  }}
                   src={
                     image.fileId
                       ? `https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`
@@ -59,33 +134,6 @@ const LogoArea = ({ images, addImage, removeImage }: IProps) => {
           })}
         </ImageArea>
       </BannerArea>
-      <Body>
-        <Typography
-          weight={TextWeight.medium}
-          size={TextSize.DisplayMd}
-          m_size={TextSize.DisplayXs}
-          lh="4.4"
-          mb="1.6"
-          m_lh="3.2"
-        >
-          Add Logo
-        </Typography>
-        <UploadContainer>
-          <FormInput
-            type="file"
-            accept=".png"
-            onChange={AddImage}
-            multiple={false}
-          />
-          <TbCamera size={20} />
-          <Typography size={TextSize.md} weight={TextWeight.semibold} ml="0.8">
-            Upload image
-          </Typography>
-        </UploadContainer>
-        <Typography color="#475467" size={TextSize.sm} lh="2" mt="0.6">
-          PNG documents only*
-        </Typography>
-      </Body>
     </Container>
   );
 };
@@ -131,11 +179,26 @@ const Img = styled.img`
   width: 16.7rem;
   height: 4.8rem;
   object-fit: scale-down;
+  cursor: pointer;
   @media only screen and (max-width: 769px) {
     width: 11rem;
     height: 3.1rem;
   }
 `;
+const ImageShowContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1.6rem;
+  @media only screen and (max-width: 769px) {
+    justify-content: center;
+  }
+`;
+const ImgShow = styled.img`
+  width: 16.7rem;
+  height: 4.8rem;
+  object-fit: scale-down;
+`;
+
 const DeleteImageContainer = styled.div`
   cursor: pointer;
   color: #00365c;
@@ -178,4 +241,16 @@ const FormInput = styled.input`
   left: 0;
   opacity: 0;
   cursor: pointer;
+`;
+
+const InputButtonContainer = styled.div`
+  display: grid;
+  grid-template-columns: 38.2rem 7.2rem;
+  align-items: end;
+  margin-top: 1.6rem;
+  grid-column-gap: 3.2rem;
+  @media only screen and (max-width: 769px) {
+    grid-template-columns: 100%;
+    grid-row-gap: 1.6rem;
+  }
 `;

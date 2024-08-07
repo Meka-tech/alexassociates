@@ -75,9 +75,9 @@ const Container = styled.div`
   color: rgba(250, 250, 250, 1);
   position: relative;
 
-  /* overflow: hidden; */
   @media only screen and (max-width: 769px) {
     padding: 6.5rem 1.6rem;
+    overflow: hidden;
   }
 `;
 

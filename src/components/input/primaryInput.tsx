@@ -18,6 +18,7 @@ const StyledInput = ({ label, currency, limit, ...rest }: IProps) => {
           weight={TextWeight.medium}
           mb="0.6"
           lh="2"
+          align="left"
         >
           {label}
         </Typography>

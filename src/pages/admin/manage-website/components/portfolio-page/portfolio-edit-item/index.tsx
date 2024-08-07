@@ -199,8 +199,9 @@ const ProjectEditItem = ({
         <DeleteContainer
           published={isPublished ? "false" : "true"}
           onClick={() => {
+            if(!isPublished){
             setModalActive(true);
-            setDeleteModal(true);
+            setDeleteModal(true);}
           }}
         >
           {deleting ? <LoadingAnimation /> : <TbTrash size={15} />}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Typography from "../../../components/typography";
 import { TextSize, TextWeight } from "../../../components/typography/enums";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import PlaceholderImage from "../../../images/png/reviewPlaceholder.png";
+
 import { FlexBox } from "../../../components/container-styles/styles";
 import { ReactComponent as GoldStar } from "../../../images/svg/gold-star.svg";
 import { ReactComponent as WhiteStar } from "../../../images/svg/white-star.svg";
@@ -11,18 +11,15 @@ import { ReactComponent as ReviewOrnament } from "../../../images/svg/ornaments/
 import { IimageType } from "../../../utils/types/image";
 
 interface IProps {
-  data?: {
-    headline: string;
-    reviews: {
-      name: string;
-      organization: string;
-      review: string;
-      rating: Number;
-      image: IimageType;
-    }[];
-  };
+  Reviews: {
+    name: string;
+    organization: string;
+    review: string;
+    rating: Number;
+    image: IimageType;
+  }[];
 }
-const ReviewSection = ({ data }: IProps) => {
+const ReviewSection = ({ Reviews }: IProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reviews, setReviews] = useState<
     {
@@ -33,42 +30,6 @@ const ReviewSection = ({ data }: IProps) => {
       image: IimageType;
     }[]
   >([]);
-  const DummyData = [
-    {
-      name: "John Doe",
-      rating: 4,
-      comment:
-        "Alex & Associates provided exceptional service, significantly improving our workflow efficiency.",
-      role: "developer",
-      company: "Tech Solutions",
-      companyType: "Software Development Firm",
-      image:
-        "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb"
-    },
-    {
-      name: "Lulu Meyers",
-      rating: 5,
-      comment:
-        "Alex & Associates has saved us thousands of hours of work. We’re able to spin up projects and features faster.",
-      role: "pm",
-      company: "Hourglass",
-      companyType: "Web Design Agency",
-      image:
-        "https://images.pexels.com/photos/5325840/pexels-photo-5325840.jpeg?auto=compress&cs=tinysrgb"
-    },
-
-    {
-      name: "Jane Smith",
-      rating: 5,
-      comment:
-        "Working with Alex & Associates has been a game-changer for us. Their expertise is unmatched.",
-      role: "cto",
-      company: "Innovative Creations",
-      companyType: "Product Development",
-      image:
-        "https://images.pexels.com/photos/6962024/pexels-photo-6962024.jpeg?auto=compress&cs=tinysrgb"
-    }
-  ];
 
   const SlideLeft = () => {
     if (activeIndex !== 0) {
@@ -82,10 +43,10 @@ const ReviewSection = ({ data }: IProps) => {
   };
 
   useEffect(() => {
-    if (data?.reviews) {
-      setReviews(data.reviews);
+    if (Reviews) {
+      setReviews(Reviews);
     }
-  }, [data?.reviews]);
+  }, [Reviews]);
   const Review = reviews[activeIndex];
   return (
     <Container>
@@ -100,7 +61,7 @@ const ReviewSection = ({ data }: IProps) => {
         mb="6.4"
         m_mb="4.8"
       >
-        {data?.headline || "What our clients say about us"}
+        What our clients say about us
       </Typography>
       <Body>
         <TextArea>

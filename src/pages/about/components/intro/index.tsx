@@ -106,10 +106,8 @@ const Intro = ({ data }: IProps) => {
 export default Intro;
 
 const Container = styled.div`
-  /* border-bottom: 1px solid rgba(46, 59, 65, 1); */
   margin-bottom: 0.8rem;
   position: relative;
-  /* overflow: hidden; */
   padding: 9.6rem 11.2rem;
   color: white;
   @media only screen and (max-width: 769px) {

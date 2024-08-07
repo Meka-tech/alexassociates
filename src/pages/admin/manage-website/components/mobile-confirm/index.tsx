@@ -28,8 +28,12 @@ const MobileConfirmButtons = ({
   };
   return (
     <Container>
-      {" "}
-      <PrimaryButton text="Discard" danger={true} onClick={DiscardChanges} />
+      <PrimaryButton
+        text="Discard"
+        danger={true}
+        onClick={DiscardChanges}
+        disabled={saving}
+      />
       <PrimaryButton
         text="Save changes"
         onClick={SaveChanges}

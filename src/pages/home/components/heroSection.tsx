@@ -11,6 +11,7 @@ import Slideshow from "./slideshow";
 import { useNavigate } from "react-router-dom";
 import BackgroundGlow from "../../../components/BackgroundGlow";
 import { ReactComponent as HeroGlow } from "../../../images/svg/glow/hero-glow.svg";
+import { IimageType } from "../../../utils/types/image";
 
 interface IProps {
   handleContact: () => void;
@@ -20,8 +21,18 @@ interface IProps {
     keypoint1?: string;
     keypoint2?: string;
     keypoint3?: string;
+    slideshow?: IimageType[];
   };
 }
+// [
+//   "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/279648/pexels-photo-279648.jpeg?auto=compress&cs=tinysrgb",
+//   "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb"
+// ]
 
 const HeroSection = ({ handleContact, data }: IProps) => {
   const navigate = useNavigate();
@@ -113,15 +124,7 @@ const HeroSection = ({ handleContact, data }: IProps) => {
       </TextArea>
       <SlideshowContainer>
         <Slideshow
-          images={[
-            "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/279648/pexels-photo-279648.jpeg?auto=compress&cs=tinysrgb",
-            "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb"
-          ]}
+          images={data?.slideshow || []}
         />
       </SlideshowContainer>
       <BackgroundGlowDiv>

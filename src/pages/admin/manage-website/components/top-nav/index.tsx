@@ -89,6 +89,7 @@ const TopNav = ({ save, saving = false, changed = false, discard }: IProps) => {
           text="Discard changes"
           variant={true}
           onClick={DiscardChanges}
+          disabled={saving}
         />
         <PrimaryButton
           text="Save changes"
