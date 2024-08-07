@@ -76,6 +76,20 @@ const Quote = () => {
               Quote
             </Typography>
           </Button>
+          <Button
+            isactive={"false"}
+            onClick={() => {
+              navigate("/admin/user-requests?key=review");
+            }}
+          >
+            <Typography
+              size={TextSize.md}
+              weight={TextWeight.semibold}
+              lh="2.4"
+            >
+              Reviews
+            </Typography>
+          </Button>
         </Buttons>
       </TopNav>
       {loading ? (

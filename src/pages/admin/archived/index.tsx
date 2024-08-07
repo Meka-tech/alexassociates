@@ -9,7 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Quotes from "./quote-components/quotes";
 import Reviews from "./review-components/reviews";
 
-const UserRequests = () => {
+const Archived = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const activeparam = searchParams.get("key");
@@ -79,7 +79,7 @@ const UserRequests = () => {
   );
 };
 
-export default UserRequests;
+export default Archived;
 
 const Main = styled.div`
   max-width: 100vw;

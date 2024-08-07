@@ -53,8 +53,8 @@ const StepFour = ({
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
-
-    if (file) {
+    const size = Number((file.size / 1024 / 1024).toFixed(4));
+    if (file && size < 1) {
       setFile(file);
       handleUpload(file);
     }
@@ -62,11 +62,13 @@ const StepFour = ({
 
   const handleDrop = (e: any) => {
     e.preventDefault();
-    const file = e.dataTransfer.files;
+    const file = e.dataTransfer.files[0];
 
-    if (file) {
-      setFile(file[0]);
-      handleUpload(file[0]);
+    const size = Number(file.size / 1024 / 1024);
+
+    if (file && size < 1) {
+      setFile(file);
+      handleUpload(file);
     }
   };
 
@@ -122,7 +124,7 @@ const StepFour = ({
             >
               <FormInput
                 type="file"
-                accept="image/*"
+                accept="application/pdf"
                 onChange={handleFileChange}
                 ref={inputRef}
                 multiple={false}
@@ -145,7 +147,7 @@ const StepFour = ({
               </span>
               <div style={{ width: "60%" }}>
                 <Typography lh="1.8" size={TextSize.xs}>
-                  SVG, PNG, JPG or GIF (max. 800x400px)
+                  PDF (max. 1MB)
                 </Typography>
               </div>
             </UploadArea>

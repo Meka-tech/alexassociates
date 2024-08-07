@@ -26,6 +26,9 @@ import PrivateRoute from "./components/private-route";
 import ManageWebsite from "./pages/admin/manage-website";
 import UploadProject from "./pages/admin/portfolio/upload-project";
 import EditProject from "./pages/admin/portfolio/edit-project";
+import PostReview from "./pages/post-review";
+import Review from "./pages/admin/review-item";
+import Archived from "./pages/admin/archived";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -44,12 +47,21 @@ root.render(
               <Route path="/portfolio/:id" element={<PortfolioItem />} />
               <Route path="/about" element={<About />} />
               <Route path="/get-quote" element={<GetQuote />} />
+              <Route path="/review" element={<PostReview />} />
               <Route path="/auth" element={<Auth />} />
               <Route
                 path="/admin/user-requests"
                 element={
                   <PrivateRoute>
                     <UserRequests />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/archived"
+                element={
+                  <PrivateRoute>
+                    <Archived />
                   </PrivateRoute>
                 }
               />
@@ -66,6 +78,14 @@ root.render(
                 element={
                   <PrivateRoute>
                     <Quote />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/review/:id"
+                element={
+                  <PrivateRoute>
+                    <Review />
                   </PrivateRoute>
                 }
               />

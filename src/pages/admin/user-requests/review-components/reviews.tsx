@@ -4,37 +4,36 @@ import { FlexBox } from "../../../../components/container-styles/styles";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import Pagination from "../../../../components/pagination";
-import { LuMail } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { data } from "./dummyData";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import api from "../../../../utils/axiosInstance";
-import { IMessage } from "../../../../utils/types/message";
+
 import NoData from "./no-data";
 import Modal from "../../../../components/modal";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import LoadingData from "../../../../components/loading-component";
+import { IReview } from "../../../../utils/types/review";
 import { IoArchiveOutline } from "react-icons/io5";
 
-const Messages = () => {
+const Reviews = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [reviews, setReviews] = useState<IReview[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeId, setActiveId] = useState("");
 
-  const GetMessages = async () => {
+  const GetReviews = async () => {
     setLoading(true);
     try {
       const { data } = await api.get(
-        `/message?page=${currentPage}${
+        `/review?page=${currentPage}${
           search !== "" ? `&search=${search}` : ""
         }&archive=false`
       );
-      setMessages(data.results);
+      setReviews(data.results);
       setTotalPages(data.totalPages);
     } catch (err) {
       console.error(err);
@@ -44,7 +43,7 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    GetMessages();
+    GetReviews();
   }, [currentPage, search]);
 
   const [modal, setModal] = useState(false);
@@ -52,10 +51,10 @@ const Messages = () => {
   const [successModal, setSuccessModal] = useState(false);
   const [archiving, setArchiving] = useState(false);
 
-  const ArchiveMessage = async () => {
+  const ArchiveReview = async () => {
     setArchiving(true);
     try {
-      await api.put(`message/archive/${activeId}`, { archive: true });
+      await api.put(`review/archive/${activeId}`, { archive: true });
       setArchiveModal(false);
       setSuccessModal(true);
     } catch (err) {
@@ -63,11 +62,11 @@ const Messages = () => {
       setArchiving(false);
     }
   };
-  const OnSucessfulDelete = async () => {
+  const OnSucessfulArchive = async () => {
     try {
       setModal(false);
       setSuccessModal(false);
-      GetMessages();
+      GetReviews();
     } catch (err) {}
   };
 
@@ -79,7 +78,7 @@ const Messages = () => {
           lh="3.2"
           size={TextSize.DisplayXs}
         >
-          Messages
+          Reviews
         </Typography>
         <SearchInput
           variant={true}
@@ -89,7 +88,7 @@ const Messages = () => {
       </HeaderFlex>
       {loading ? (
         <LoadingData />
-      ) : messages.length > 0 ? (
+      ) : reviews.length > 0 ? (
         <>
           <Body>
             <Modal
@@ -100,19 +99,19 @@ const Messages = () => {
             >
               {archiveModal ? (
                 <ModalChildTemplate
-                  header="Archive message"
-                  subheader="Are you sure you want to archive this message?"
+                  header="Archive Review"
+                  subheader="Are you sure you want to Archive this review ?"
                   confirmText="Archive"
-                  onConfirm={ArchiveMessage}
+                  onConfirm={ArchiveReview}
                   onClose={() => setModal(false)}
                   loading={archiving}
                   icon={<IoArchiveOutline color="#ffa800" size={20} />}
                 />
               ) : successModal ? (
                 <ModalChildTemplate
-                  header="Deleted successfully!"
+                  header="Archived successfully!"
                   confirmText="Confirm"
-                  onConfirm={OnSucessfulDelete}
+                  onConfirm={OnSucessfulArchive}
                   onClose={() => setModal(false)}
                   icon={
                     <IoMdCheckmarkCircleOutline size={20} color="#079455" />
@@ -134,7 +133,7 @@ const Messages = () => {
                         lh="2"
                         mr="1"
                       >
-                        First name
+                        Name
                       </Typography>
                       <IoMdArrowDown size={15} />
                     </div>
@@ -145,7 +144,7 @@ const Messages = () => {
                       size={TextSize.sm}
                       lh="2"
                     >
-                      Last name
+                      Organization
                     </Typography>
                   </th>
                   <th scope="col">
@@ -154,16 +153,7 @@ const Messages = () => {
                       size={TextSize.sm}
                       lh="2"
                     >
-                      Email
-                    </Typography>
-                  </th>
-                  <th scope="col">
-                    <Typography
-                      weight={TextWeight.medium}
-                      size={TextSize.sm}
-                      lh="2"
-                    >
-                      Phone number
+                      Rating
                     </Typography>
                   </th>
                   <th scope="col">
@@ -187,32 +177,29 @@ const Messages = () => {
                 </tr>
               </thead>
               <tbody>
-                {messages.map(
+                {reviews.map(
                   (
                     {
-                      firstname,
-                      lastname,
+                      name,
+                      organization,
                       createdAt,
-                      email,
-                      phone,
-                      _id,
-                      message
+                      rating,
+
+                      _id
                     },
                     i
                   ) => {
                     return (
-                      <MessageItem
-                        message={message}
+                      <ReviewItem
                         onArchive={() => {
                           setActiveId(_id);
                           setArchiveModal(true);
                           setModal(true);
                         }}
-                        firstname={firstname}
-                        lastname={lastname}
+                        name={name}
+                        organization={organization}
+                        rating={rating}
                         date={createdAt}
-                        email={email}
-                        phoneNumber={phone}
                         key={i}
                         id={_id}
                       />
@@ -239,23 +226,19 @@ const Messages = () => {
   );
 };
 
-const MessageItem = ({
-  firstname,
-  lastname,
-  email,
-  phoneNumber,
+const ReviewItem = ({
+  name,
+  organization,
+  rating,
   date = new Date(),
   id,
-  message,
   onArchive
 }: {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phoneNumber: string;
+  name: string;
+  organization: string;
+  rating: number;
   date: Date;
   id: string;
-  message: string;
   onArchive: () => void;
 }) => {
   const navigate = useNavigate();
@@ -267,54 +250,39 @@ const MessageItem = ({
     return `${day}-${month}-${year}`;
   }
 
-  const subject = "Reply to Message : Alex associates";
-  const body = `re:${message}`;
-
-  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
-    subject
-  )}&body=${encodeURIComponent(body)}`;
-
   return (
     <tr>
       <td
         onClick={() => {
-          navigate(`/admin/message/${id}`);
+          navigate(`/admin/review/${id}`);
         }}
       >
         <Typography lh="2" size={TextSize.sm}>
-          {firstname}
+          {name}
         </Typography>
       </td>
       <td
         onClick={() => {
-          navigate(`/admin/message/${id}`);
+          navigate(`/admin/review/${id}`);
         }}
       >
         <Typography lh="2" size={TextSize.sm}>
-          {lastname}
+          {organization}
         </Typography>
       </td>
       <td
         onClick={() => {
-          navigate(`/admin/message/${id}`);
+          navigate(`/admin/review/${id}`);
         }}
       >
         <Typography lh="2" size={TextSize.sm}>
-          {email}
+          {rating} stars
         </Typography>
       </td>
+
       <td
         onClick={() => {
-          navigate(`/admin/message/${id}`);
-        }}
-      >
-        <Typography lh="2" size={TextSize.sm}>
-          {phoneNumber}
-        </Typography>
-      </td>
-      <td
-        onClick={() => {
-          navigate(`/admin/message/${id}`);
+          navigate(`/admin/review/${id}`);
         }}
       >
         <Typography lh="2" size={TextSize.sm}>
@@ -323,21 +291,16 @@ const MessageItem = ({
       </td>
       <td>
         <ActionButtons>
-          <a href={mailtoLink} style={{ all: "unset" }}>
-            <SendMail onClick={() => {}}>
-              <LuMail size={20} />
-            </SendMail>
-          </a>
-          <ArchiveMail onClick={onArchive}>
+          <ArchiveReview onClick={onArchive}>
             <IoArchiveOutline size={20} />
-          </ArchiveMail>
+          </ArchiveReview>
         </ActionButtons>
       </td>
     </tr>
   );
 };
 
-export default Messages;
+export default Reviews;
 
 const Container = styled.div`
   border-top: 1px solid #2e3b41;
@@ -420,7 +383,7 @@ const SendMail = styled.div`
   color: #58b9ff;
   margin-right: 0.4rem;
 `;
-const ArchiveMail = styled(SendMail)`
+const ArchiveReview = styled(SendMail)`
   color: #ffa800;
   border: 1px solid #ffa800;
 `;

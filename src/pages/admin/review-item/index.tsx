@@ -9,20 +9,27 @@ import { ReactComponent as Ornament } from "../../../images/svg/ornaments/quoteO
 import BackgroundGrid from "../../../components/BackgroundGrid";
 import PrimaryButton from "../../../components/buttons/primary";
 import api from "../../../utils/axiosInstance";
-import { IMessage } from "../../../utils/types/message";
 import LoadingData from "../../../components/loading-component";
+import { IReview } from "../../../utils/types/review";
+import StyledInput from "../../../components/input/primaryInput";
+import StyledTextArea from "../../../components/input/textArea";
+import { ReactComponent as GoldStar } from "../../../images/svg/gold-star.svg";
+import { ReactComponent as BlueStar } from "../../../images/svg/BlueStar.svg";
 
-const Message = () => {
+const Review = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [message, setMessage] = useState<IMessage | null>();
+  const [review, setReview] = useState<IReview | null>();
   const [loading, setLoading] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [published, setPublished] = useState(false);
 
-  const GetMessage = async () => {
+  const GetReview = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get(`/message/${id}`);
-      setMessage(data.data.message);
+      const { data } = await api.get(`/review/${id}`);
+      setReview(data.data.review);
+      setPublished(data.data.review.published);
     } catch (err) {
       navigate("/admin/manage-website");
     } finally {
@@ -31,20 +38,28 @@ const Message = () => {
   };
 
   useEffect(() => {
-    GetMessage();
+    GetReview();
   }, []);
-  const subject = "Reply to Message : Alex associates";
-  const body = `re:${message?.message}`;
 
-  const mailtoLink = `mailto:${message?.email}?subject=${encodeURIComponent(
-    subject
-  )}&body=${encodeURIComponent(body)}`;
+  const PublishReview = async () => {
+    try {
+      setPublishing(true);
+      await api.put(`/review/publish/${id}`, { publish: !published });
+      setPublished(!published);
+    } catch (err) {
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  const image = review?.image;
+
   return (
     <Main>
       <Navbar />
       <TopNav>
         <Buttons>
-          <Button isactive={"true"}>
+          <Button isactive={"false"}>
             <Typography
               size={TextSize.md}
               weight={TextWeight.semibold}
@@ -67,12 +82,7 @@ const Message = () => {
               Quote
             </Typography>
           </Button>
-          <Button
-            isactive={"false"}
-            onClick={() => {
-              navigate("/admin/user-requests?key=review");
-            }}
-          >
+          <Button isactive={"true"}>
             <Typography
               size={TextSize.md}
               weight={TextWeight.semibold}
@@ -102,7 +112,7 @@ const Message = () => {
               m_lh="4.4"
               m_size={TextSize.DisplayMd}
             >
-              Message
+              Review
             </Typography>
             <TextFlex>
               <Typography
@@ -113,7 +123,7 @@ const Message = () => {
                 Name:{" "}
               </Typography>
               <Typography ml="1" size={TextSize.xl} lh="3">
-                {message?.firstname} {message?.lastname}
+                {review?.name}
               </Typography>
             </TextFlex>
             <TextFlex>
@@ -122,53 +132,84 @@ const Message = () => {
                 size={TextSize.xl}
                 lh="3"
               >
-                Email:
+                organization
               </Typography>
               <Typography ml="1" size={TextSize.xl} lh="3">
-                {message?.email}
+                {review?.organization}
               </Typography>
             </TextFlex>
-            <TextFlex>
-              <Typography
-                weight={TextWeight.semibold}
-                size={TextSize.xl}
-                lh="3"
-              >
-                Phone number:
-              </Typography>
-              <Typography ml="1" size={TextSize.xl} lh="3">
-                {message?.phone}
-              </Typography>
-            </TextFlex>
+
             <OrnamentContainer>
               <Ornament />
             </OrnamentContainer>
           </TopSection>
           <Body>
-            <Typography
-              color="#CFCECE"
-              size={TextSize.sm}
-              weight={TextWeight.medium}
-              lh="2"
-              mb="0.6"
-            >
-              Message
-            </Typography>
-            <TextBox>
-              <Typography size={TextSize.md} lh="2.4">
-                {message?.message}
-              </Typography>
-            </TextBox>
-            <ButtonGrid>
-              <PrimaryButton
-                variant={true}
-                text="Back"
-                onClick={() => navigate(-1)}
+            <TwoInputGrid>
+              <StyledInput
+                label="Full name"
+                value={review?.name || ""}
+                disabled
               />
-              <a href={mailtoLink} style={{ all: "unset" }}>
-                <PrimaryButton text="Send mail" />
-              </a>
-            </ButtonGrid>
+              <StyledInput
+                label="Organization"
+                value={review?.organization || ""}
+                disabled
+              />
+            </TwoInputGrid>
+            <StyledTextArea
+              label="Review"
+              value={review?.review || ""}
+              disabled
+            />
+            {image && (
+              <ImageContainer>
+                <Img
+                  src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+                  alt={image.name}
+                />
+              </ImageContainer>
+            )}
+
+            <StarRatingContainer>
+              <Typography
+                size={TextSize.sm}
+                weight={TextWeight.medium}
+                mb="0.6"
+                color="white"
+              >
+                Star rating
+              </Typography>
+              <GoldStars>
+                {new Array(review?.rating).fill(0).map((_, i) => {
+                  return (
+                    <Star key={i}>
+                      <GoldStar width={"3.2rem"} height={"3.2rem"} />
+                    </Star>
+                  );
+                })}
+                {new Array(5 - (review?.rating || 0)).fill(0).map((_, i) => {
+                  return (
+                    <Star key={i}>
+                      <BlueStar width={"3.2rem"} height={"3.2rem"} />
+                    </Star>
+                  );
+                })}
+              </GoldStars>
+            </StarRatingContainer>
+            <ButtonContainer>
+              <PrimaryButton
+                text="Back"
+                variant
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+              <PrimaryButton
+                text={published ? "Unpublish Review" : "Publish Review"}
+                onClick={PublishReview}
+                loading={publishing}
+              />
+            </ButtonContainer>
           </Body>
         </>
       )}
@@ -178,7 +219,7 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default Review;
 
 const Main = styled.div`
   max-width: 100vw;
@@ -259,24 +300,59 @@ const Body = styled.div`
   }
 `;
 
-const TextBox = styled.div`
+const TwoInputGrid = styled.div`
   width: 100%;
-  margin-bottom: 12.8rem;
-  border: 1px solid #fafafa;
-  color: #e4e4e4;
-  border-radius: 0.8rem;
-  padding: 1.2rem 1.4rem;
+  display: grid;
+  align-items: start;
+  justify-content: space-between;
+  grid-template-columns: 48% 48%;
+  grid-row-gap: 6.4rem;
+  margin-bottom: 2.4rem;
   @media only screen and (max-width: 769px) {
-    margin-bottom: 2.8rem;
+    grid-template-columns: 100%;
+  }
+`;
+const ImageContainer = styled.div`
+  margin-top: 3.2rem;
+  display: flex;
+  align-items: start;
+  @media only screen and (max-width: 769px) {
+    width: 100%;
+    justify-content: center;
   }
 `;
 
-const ButtonGrid = styled.div`
+const Img = styled.img`
+  width: 14rem;
+  height: 14rem;
+  object-fit: cover;
+  @media only screen and (max-width: 769px) {
+    width: 18rem;
+    height: 18rem;
+  }
+`;
+
+const StarRatingContainer = styled.div`
+  margin-top: 3.2rem;
+`;
+const GoldStars = styled.div`
   display: grid;
-  grid-template-columns: 12rem 12rem;
+  grid-template-columns: auto auto auto auto auto;
+  grid-column-gap: 0.8rem;
+  margin-bottom: 3.2rem;
+  width: fit-content;
+`;
+const Star = styled.div``;
+
+const ButtonContainer = styled.div`
+  margin-top: 4.4rem;
+  width: 15.5rem;
+  display: grid;
+  grid-template-columns: 10.5rem 20rem;
   grid-column-gap: 3.2rem;
   @media only screen and (max-width: 769px) {
-    grid-template-columns: 100%;
-    grid-row-gap: 1.6rem;
+    width: 100%;
+    grid-template-columns: 43% 43%;
+    justify-content: space-between;
   }
 `;

@@ -70,7 +70,7 @@ const Body = styled.div`
   justify-content: center;
   color: white;
   z-index: 3;
-  background-color: #000a0f;
+  background-color: rgba(0, 15, 34, 1);
 `;
 
 const InputContainer = styled.div`
