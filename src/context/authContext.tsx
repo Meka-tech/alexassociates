@@ -1,5 +1,12 @@
 // AuthContext.tsx
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect
+} from "react";
+import { isTokenValid } from "../utils/token/isTokenValid";
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -14,7 +21,17 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (isTokenValid(token || "")) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   const login = () => setIsLoggedIn(true);
   const logout = () => setIsLoggedIn(false);

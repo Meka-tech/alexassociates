@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import StyledInput from "../../components/input/primaryInput";
 import Typography from "../../components/typography";
@@ -10,13 +10,25 @@ import { Link, useNavigate } from "react-router-dom";
 import Mockup from "../../images/png/homepage-mockup.png";
 import { ReactComponent as Lines } from "../../images/svg/auth-line.svg";
 import { useAuth } from "../../context/authContext";
+import api from "../../utils/axiosInstance";
 
 const Auth = () => {
   const { login } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const Login = () => {
-    login();
-    navigate("/admin/user-requests");
+  const Login = async () => {
+    try {
+      setLoading(true);
+      const { data } = await api.post(`/auth/login`, { username, password });
+      localStorage.setItem("token", data.token);
+      login();
+      navigate("/admin/user-requests");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Container>
@@ -37,10 +49,24 @@ const Auth = () => {
             Welcome back! Please enter your details.
           </Typography>
           <InputItem>
-            <StyledInput label="Email" placeholder="Enter your email" />
+            <StyledInput
+              label="Username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+            />
           </InputItem>
           <InputItem>
-            <StyledInput label="Password" placeholder="••••••••" />
+            <StyledInput
+              label="Password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </InputItem>
           <AboveButton>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -59,7 +85,7 @@ const Auth = () => {
               </Typography>
             </Link>
           </AboveButton>
-          <PrimaryButton text="Sign in" onClick={Login} />
+          <PrimaryButton text="Sign in" onClick={Login} loading={loading} />
         </Body>
         <Footer>
           <Typography color="#BAB8B8" size={TextSize.sm}>

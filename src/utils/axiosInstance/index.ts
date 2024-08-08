@@ -13,21 +13,21 @@ const api: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json"
   }
-  // timeout: 20000
 });
 
 // Interceptor to add Bearer token to the headers
-// api.interceptors.request.use(
-//   (config: AxiosRequestConfig) => {
-//     const token = getToken();
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+
+api.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default api;
