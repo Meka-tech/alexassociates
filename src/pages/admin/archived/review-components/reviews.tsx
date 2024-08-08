@@ -331,7 +331,7 @@ const ReviewItem = ({
       <td>
         <ActionButtons>
           <ArchiveReview onClick={onArchive}>
-            <IoArchiveOutline size={20} />
+            <LuArchiveRestore size={20} />
           </ArchiveReview>
           <DeleteMail onClick={onDelete}>
             <HiOutlineTrash size={20} />

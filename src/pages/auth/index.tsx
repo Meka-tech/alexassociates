@@ -17,11 +17,13 @@ const Auth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(true);
   const navigate = useNavigate();
   const Login = async () => {
     try {
       setLoading(true);
       const { data } = await api.post(`/auth/login`, { username, password });
+
       localStorage.setItem("token", data.token);
       login();
       navigate("/admin/user-requests");
@@ -70,12 +72,15 @@ const Auth = () => {
           </InputItem>
           <AboveButton>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Check />
+              <Check
+                state={remember}
+                setCheck={(state) => setRemember(state)}
+              />
               <Typography ml="0.8" size={TextSize.sm}>
-                Remember for 30 days
+                Remember
               </Typography>
             </div>
-            <Link to={"/"} style={{ all: "unset", cursor: "pointer" }}>
+            {/* <Link to={"/"} style={{ all: "unset", cursor: "pointer" }}>
               <Typography
                 size={TextSize.sm}
                 weight={TextWeight.semibold}
@@ -83,7 +88,7 @@ const Auth = () => {
               >
                 Forgot password
               </Typography>
-            </Link>
+            </Link> */}
           </AboveButton>
           <PrimaryButton text="Sign in" onClick={Login} loading={loading} />
         </Body>

@@ -161,7 +161,13 @@ const ContactUs = forwardRef<HTMLDivElement, any>(function ContactUs(
             />
           </Form>
         </TextArea>
-        <Image src={MapImage} alt="map-image" />
+        <Image
+          src={MapImage}
+          alt="map-image"
+          onClick={() => {
+            window.open(`https://maps.app.goo.gl/ASgAjYQTRH9mosLR7`, "_blank");
+          }}
+        />
       </Container>
     </>
   );
@@ -180,6 +186,7 @@ const Image = styled.img`
   width: 45%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
   @media only screen and (max-width: 769px) {
     display: none;
   }

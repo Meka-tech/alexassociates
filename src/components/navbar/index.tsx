@@ -9,17 +9,22 @@ import Hamburger from "hamburger-react";
 import Sidebar from "./mobileSidebar";
 import { useClickOutside } from "../../hooks/UseClickOutside";
 import { useAuth } from "../../context/authContext";
+import { PiCaretDownBold } from "react-icons/pi";
+import { TbLogout } from "react-icons/tb";
 
 const Navbar = () => {
   const path = useLocation().pathname;
   const [isOpen, setOpen] = useState(false);
   const [isportOpen, setPortOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
   const portRef = useRef(null);
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
   const Hamref = useRef(null);
+  const LogOutref = useRef(null);
+
   useClickOutside(Hamref, () => {
     setOpen(false);
   });
@@ -28,6 +33,9 @@ const Navbar = () => {
     setPortOpen(false);
   });
 
+  useClickOutside(LogOutref, () => {
+    setLogoutOpen(false);
+  });
   return (
     <Container ref={Hamref}>
       <Logo />
@@ -203,15 +211,37 @@ const Navbar = () => {
       </NavItems>
       <NavRight>
         {isLoggedIn && (
-          <ProfileIcon>
-            <Typography
-              weight={TextWeight.semibold}
-              lh="4"
-              size={TextSize.DisplayXs}
+          <ProfileContainer>
+            <ProfileIcon>
+              <Typography
+                weight={TextWeight.semibold}
+                lh="4"
+                size={TextSize.DisplayXs}
+              >
+                A
+              </Typography>
+            </ProfileIcon>
+            <CaretContainer
+              visible={logoutOpen ? "true" : "false"}
+              onClick={() => setLogoutOpen(!logoutOpen)}
             >
-              A
-            </Typography>
-          </ProfileIcon>
+              <PiCaretDownBold size={20} />
+            </CaretContainer>
+            <LogOutArea
+              visible={logoutOpen ? "true" : "false"}
+              ref={LogOutref}
+              onClick={logout}
+            >
+              <TbLogout size={20} />
+              <Typography
+                weight={TextWeight.medium}
+                ml="0.8"
+                size={TextSize.sm}
+              >
+                Log out
+              </Typography>
+            </LogOutArea>
+          </ProfileContainer>
         )}
 
         <HamburgerButton>
@@ -256,6 +286,41 @@ const NavItem = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+`;
+const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+const CaretContainer = styled.div<{ visible: string }>`
+  color: white;
+  margin-left: 1rem;
+  cursor: pointer;
+  transform: ${(props) =>
+    props.visible === "true" ? "rotate(180deg)" : "rotate(0deg)"};
+  transition: all 0.2s ease-in-out;
+  @media only screen and (max-width: 769px) {
+    display: none;
+  }
+`;
+
+const LogOutArea = styled.div<{ visible: string }>`
+  background-color: white;
+  padding: 2rem 1.6rem;
+  position: absolute;
+  border-radius: 0.8rem;
+  opacity: ${(props) => (props.visible === "true" ? 1 : 0)};
+  top: ${(props) => (props.visible === "true" ? "130% " : "0")};
+  z-index: ${(props) => (props.visible === "true" ? "2" : "-1")};
+
+  right: 10%;
+  width: 15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e71c23;
+  transition: all 0.2s ease-in-out;
 `;
 const ProfileIcon = styled.div`
   width: 4rem;
@@ -316,6 +381,7 @@ const NavRight = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const HamburgerButton = styled.div`
   color: white;
   display: none;

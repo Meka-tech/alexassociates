@@ -9,13 +9,14 @@ import { HiOutlineBriefcase, HiOutlineLightningBolt } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "../../context/authContext";
 import { IoArchiveOutline } from "react-icons/io5";
+import { TbLogout } from "react-icons/tb";
 
 const Sidebar = () => {
   const path = useLocation().pathname;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownAuthOpen, setDropdownAuthOpen] = useState(false);
   const navigation = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   return (
     <Container>
       <Nav to={"/"}>
@@ -293,6 +294,18 @@ const Sidebar = () => {
               </Typography>
             </NavItem>
           </Nav>
+          <NavItem onClick={logout}>
+            <TbLogout size={20} color={"#E71C23"} />
+            <Typography
+              size={TextSize.sm}
+              weight={TextWeight.medium}
+              lh="2"
+              color={"#E71C23"}
+              ml="0.8"
+            >
+              Log out
+            </Typography>
+          </NavItem>
         </>
       )}
     </Container>
