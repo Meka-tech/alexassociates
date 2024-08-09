@@ -22,7 +22,11 @@ const Auth = () => {
   const Login = async () => {
     try {
       setLoading(true);
-      const { data } = await api.post(`/auth/login`, { username, password });
+      const { data } = await api.post(`/auth/login`, {
+        username,
+        password,
+        remember
+      });
 
       localStorage.setItem("token", data.token);
       login();
@@ -77,7 +81,7 @@ const Auth = () => {
                 setCheck={(state) => setRemember(state)}
               />
               <Typography ml="0.8" size={TextSize.sm}>
-                Remember
+                Keep me Logged In
               </Typography>
             </div>
             {/* <Link to={"/"} style={{ all: "unset", cursor: "pointer" }}>
