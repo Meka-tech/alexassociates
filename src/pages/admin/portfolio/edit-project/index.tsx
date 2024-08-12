@@ -22,6 +22,8 @@ import { IProject } from "../../../../utils/types/project";
 import { IimageType } from "../../../../utils/types/image";
 import LoadingData from "../../../../components/loading-component";
 import { UploadImage } from "../../../../utils/upload-image";
+import VideoThumbnail from "../../../../components/video-thumbnail";
+import { IoVideocam } from "react-icons/io5";
 
 const EditProject = () => {
   const navigate = useNavigate();
@@ -218,11 +220,46 @@ const EditProject = () => {
     );
   };
 
+  const OldVideoItem = ({ image }: { image: IimageType }) => {
+    return (
+      <ImageContainer>
+        <ThumbnailContainer>
+          <VideoIcon>
+            <IoVideocam size={16} />
+          </VideoIcon>
+          <Img
+            src={`https://drive.google.com/thumbnail?id=${image.fileId}&sz=w1000`}
+            alt={image.name}
+          />
+        </ThumbnailContainer>
+        <DeleteImageContainer onClick={() => RemoveOldImage(image)}>
+          <RxCross2 size={18} />
+        </DeleteImageContainer>
+      </ImageContainer>
+    );
+  };
+
   const NewImageItem = ({ image }: { image: File }) => {
     return (
       <ImageContainer>
         <Img src={URL.createObjectURL(image)} alt={image.name} />
         <DeleteImageContainer onClick={() => RemoveNewImage(image)}>
+          <RxCross2 size={18} />
+        </DeleteImageContainer>
+      </ImageContainer>
+    );
+  };
+
+  const NewVideoItem = ({ video }: { video: File }) => {
+    return (
+      <ImageContainer>
+        <ThumbnailContainer>
+          <VideoIcon>
+            <IoVideocam size={16} />
+          </VideoIcon>
+          <VideoThumbnail videoFile={video} />
+        </ThumbnailContainer>
+        <DeleteImageContainer onClick={() => RemoveNewImage(video)}>
           <RxCross2 size={18} />
         </DeleteImageContainer>
       </ImageContainer>
@@ -331,18 +368,26 @@ const EditProject = () => {
           </TextGrid>
           {(images.length > 0 || newImages.length > 0) && (
             <ImagesContainer>
-              {images.map((image, i) => {
-                return <OldImageItem image={image} key={i} />;
+              {images.map((media, i) => {
+                if (media.type.includes("video")) {
+                  return <OldVideoItem image={media} key={i} />;
+                } else {
+                  return <OldImageItem image={media} key={i} />;
+                }
               })}
-              {newImages.map((image, i) => {
-                return <NewImageItem image={image} key={i} />;
+              {newImages.map((media, i) => {
+                if (media.type.includes("video")) {
+                  return <NewVideoItem video={media} key={i} />;
+                } else {
+                  return <NewImageItem image={media} key={i} />;
+                }
               })}
             </ImagesContainer>
           )}
           <UploadContainer>
             <FormInput
               type="file"
-              accept="image/*"
+              accept="image/*,video/*"
               onChange={AddImage}
               multiple={false}
             />
@@ -358,7 +403,7 @@ const EditProject = () => {
           <ButtonGrid>
             <PrimaryButton danger={true} text="Discard" onClick={Back} />
             <PrimaryButton
-              text="Upload project"
+              text="Edit project"
               loading={buttonLoading}
               onClick={PostEdit}
               disabled={disabled}
@@ -514,6 +559,23 @@ const Img = styled.img`
   height: 10rem;
   object-fit: cover;
 `;
+
+const ThumbnailContainer = styled.div`
+  width: 10rem;
+  height: 10rem;
+  position: relative;
+`;
+
+const VideoIcon = styled.div`
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: rgba(4, 150, 255, 1);
+  z-index: 2;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
+`;
 const DeleteImageContainer = styled.div`
   cursor: pointer;
   color: #2ea7ff;
@@ -522,7 +584,7 @@ const DeleteImageContainer = styled.div`
 const ButtonGrid = styled.div`
   display: grid;
   margin-top: 3.2rem;
-  grid-template-columns: 15.4rem 15.4rem;
+  grid-template-columns: 15.4rem max-content;
   grid-column-gap: 3.2rem;
 
   @media only screen and (max-width: 769px) {

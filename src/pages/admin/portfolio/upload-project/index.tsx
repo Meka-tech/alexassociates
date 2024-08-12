@@ -22,6 +22,8 @@ import Modal from "../../../../components/modal";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { IoVideocam } from "react-icons/io5";
+import VideoThumbnail from "../../../../components/video-thumbnail";
 
 const UploadProject = () => {
   const navigate = useNavigate();
@@ -92,6 +94,22 @@ const UploadProject = () => {
       <ImageContainer>
         <Img src={URL.createObjectURL(image)} alt={image.name} />
         <DeleteImageContainer onClick={() => RemoveImage(image)}>
+          <RxCross2 size={18} />
+        </DeleteImageContainer>
+      </ImageContainer>
+    );
+  };
+
+  const VideoItem = ({ video }: { video: File }) => {
+    return (
+      <ImageContainer>
+        <ThumbnailContainer>
+          <VideoIcon>
+            <IoVideocam size={16} />
+          </VideoIcon>
+          <VideoThumbnail videoFile={video} />
+        </ThumbnailContainer>
+        <DeleteImageContainer onClick={() => RemoveImage(video)}>
           <RxCross2 size={18} />
         </DeleteImageContainer>
       </ImageContainer>
@@ -288,15 +306,19 @@ const UploadProject = () => {
         </TextGrid>
         {images.length > 0 && (
           <ImagesContainer>
-            {images.map((image, i) => {
-              return <ImageItem image={image} key={i} />;
+            {images.map((media, i) => {
+              if (media.type.includes("video")) {
+                return <VideoItem key={i} video={media} />;
+              } else {
+                return <ImageItem image={media} key={i} />;
+              }
             })}
           </ImagesContainer>
         )}
         <UploadContainer>
           <FormInput
             type="file"
-            accept="image/*"
+            accept="image/*,video/*"
             onChange={AddImage}
             multiple={false}
           />
@@ -473,7 +495,7 @@ const DeleteImageContainer = styled.div`
 const ButtonGrid = styled.div`
   display: grid;
   margin-top: 3.2rem;
-  grid-template-columns: 15.4rem 15.4rem;
+  grid-template-columns: 15.4rem max-content;
   grid-column-gap: 3.2rem;
 
   @media only screen and (max-width: 769px) {
@@ -483,4 +505,21 @@ const ButtonGrid = styled.div`
     margin-right: auto;
     margin-top: 4.8rem;
   }
+`;
+
+const ThumbnailContainer = styled.div`
+  width: 10rem;
+  height: 10rem;
+  position: relative;
+`;
+
+const VideoIcon = styled.div`
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: rgba(4, 150, 255, 1);
+  z-index: 2;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
 `;

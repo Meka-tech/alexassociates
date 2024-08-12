@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
@@ -6,6 +6,7 @@ import { IimageType } from "../../../../utils/types/image";
 
 const Carousel = ({ images }: { images: IimageType[] }) => {
   const [index, setIndex] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   const Previous = () => {
     const current = index;
@@ -25,18 +26,50 @@ const Carousel = ({ images }: { images: IimageType[] }) => {
     setIndex(0);
   }, [images]);
 
+  const reloadIframe = () => {
+    if (iframeRef.current) {
+      iframeRef.current.src = iframeRef.current.src;
+    }
+  };
+
+  useEffect(() => {
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].type.includes("video") && i !== index) {
+        console.log("now");
+        reloadIframe();
+      }
+    }
+  }, [index, images]);
+
   return (
     <Container>
       <ImageArea>
         <ImageArray index={index}>
-          {images.map((img, i) => {
-            return (
-              <ImageItem
-                src={`https://drive.google.com/thumbnail?id=${img.fileId}&sz=w1000`}
-                alt={img.name}
-                key={i}
-              />
-            );
+          {images.map((media, i) => {
+            if (media.type.includes("video")) {
+              return (
+                <VideoItem>
+                  <iframe
+                    ref={iframeRef}
+                    src={`https://drive.google.com/file/d/${media.fileId}/preview`}
+                    width="100%"
+                    height="100%"
+                    allow="autoplay"
+                    allowFullScreen
+                    title="Google Drive Video"
+                    frameBorder="0"
+                  ></iframe>
+                </VideoItem>
+              );
+            } else {
+              return (
+                <ImageItem
+                  src={`https://drive.google.com/thumbnail?id=${media.fileId}&sz=w1000`}
+                  alt={media.name}
+                  key={i}
+                />
+              );
+            }
           })}
         </ImageArray>
       </ImageArea>
@@ -105,6 +138,12 @@ const ImageItem = styled.img`
   height: 100%;
   @media only screen and (max-width: 769px) {
   }
+`;
+const VideoItem = styled.div`
+  min-width: 100%;
+  object-fit: cover;
+  background-color: gray;
+  height: 100%;
 `;
 
 const Flex = styled(FlexBox)`
