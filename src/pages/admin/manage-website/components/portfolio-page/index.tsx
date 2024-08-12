@@ -31,7 +31,7 @@ const PortfolioEdit = () => {
     { filter: "View all", key: "all" },
     { filter: "Interior", key: "Interior design" },
     { filter: "Architectural", key: "Architectural design" },
-    { filter: "Furniture", key: "Furniture & Furnishings" },
+    { filter: "Furniture", key: "furniture-furnishing" },
     { filter: "Project execution", key: "Project execution" }
   ];
   const navigate = useNavigate();

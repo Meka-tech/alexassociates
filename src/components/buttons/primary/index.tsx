@@ -80,6 +80,13 @@ const Container = styled.button<IButtonProps>`
 
   transition: all ease-in-out 0.2s;
 
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: -2px 28px 21px -12px rgba(1, 10, 20, 0.5);
+    -webkit-box-shadow: -2px 28px 21px -12px rgba(1, 10, 20, 0.5);
+    -moz-box-shadow: -2px 28px 21px -12px rgba(1, 10, 20, 0.5);
+  }
+
   &:disabled {
     cursor: auto;
     background-color: ${(props) =>

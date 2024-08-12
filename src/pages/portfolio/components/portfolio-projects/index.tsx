@@ -30,10 +30,10 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
 
   const filters = [
     { filter: "View all", key: "all" },
-    { filter: "Interior", key: "interior-design" },
-    { filter: "Architectural", key: "architectural-design" },
+    { filter: "Interior", key: "Interior design" },
+    { filter: "Architectural", key: "Architectural design" },
     { filter: "Furniture", key: "furniture-furnishing" },
-    { filter: "Project execution", key: "project-execution" }
+    { filter: "Project execution", key: "Project execution" }
   ];
 
   useEffect(() => {
