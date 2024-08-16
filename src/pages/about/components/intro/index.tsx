@@ -7,8 +7,16 @@ import { FlexBox } from "../../../../components/container-styles/styles";
 
 interface IProps {
   data?: { headline: string; paragraph: string };
+  metrics?: {
+    metric1: string;
+    metric2: string;
+    metric3: string;
+    figure1: string;
+    figure2: string;
+    figure3: string;
+  };
 }
-const Intro = ({ data }: IProps) => {
+const Intro = ({ data, metrics }: IProps) => {
   return (
     <Container>
       <Background>
@@ -67,10 +75,10 @@ const Intro = ({ data }: IProps) => {
             m_size={TextSize.DisplayLg}
             weight={TextWeight.semibold}
           >
-            400+
+            {metrics?.figure1 || "400+"}
           </Typography>
           <Typography size={TextSize.lg} weight={TextWeight.medium} m_mb="3.2">
-            Projects completed
+            {metrics?.metric1 || "Projects completed"}
           </Typography>
         </ResultItem>
         <ResultItem>
@@ -79,10 +87,10 @@ const Intro = ({ data }: IProps) => {
             m_size={TextSize.DisplayLg}
             weight={TextWeight.semibold}
           >
-            600%
+            {metrics?.figure2 || "600%"}
           </Typography>
           <Typography size={TextSize.lg} weight={TextWeight.medium} m_mb="3.2">
-            Return on investment
+            {metrics?.metric2 || "Return on investment"}
           </Typography>
         </ResultItem>
         <ResultItem>
@@ -91,10 +99,10 @@ const Intro = ({ data }: IProps) => {
             m_size={TextSize.DisplayLg}
             weight={TextWeight.semibold}
           >
-            10k
+            {metrics?.figure3 || "10k"}
           </Typography>
           <Typography size={TextSize.lg} weight={TextWeight.medium} m_mb="3.2">
-            Satisfied clients
+            {metrics?.metric3 || " Satisfied clients"}
           </Typography>
         </ResultItem>
       </Results>

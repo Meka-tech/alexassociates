@@ -33,7 +33,7 @@ const Footer = () => {
             Our Services
           </Typography>
         </FooterLink>
-        <FooterLink to="/">
+        <FooterLink to="https://wa.link/w8lzhk">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
             Help
           </Typography>

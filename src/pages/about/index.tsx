@@ -14,12 +14,14 @@ import StickyWhatsapp from "../../components/sticky-whatsapp";
 const About = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>();
+  const [metrics, setMetrics] = useState<any>();
 
   const GetData = async () => {
     try {
       setLoading(true);
       const { data } = await api.get("/about");
       setData(data.about);
+      setMetrics(data.metrics);
     } catch (err) {
     } finally {
       setLoading(false);
@@ -38,7 +40,7 @@ const About = () => {
           <Navbar />
           <StickyWhatsapp />
           <Banner />
-          <Intro data={data?.sectionOne} />
+          <Intro data={data?.sectionOne} metrics={metrics} />
           <OurStory data={data?.sectionTwo} />
           <Team data={data?.teamSection} />
           <Partners data={data?.partnerSection} />

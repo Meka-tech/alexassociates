@@ -148,7 +148,7 @@ const ContactUs = forwardRef<HTMLDivElement, any>(function ContactUs(
               <Check setCheck={(state) => setChecked(state)} />
               <Typography size={TextSize.md} ml="1.2">
                 You agree to our friendly{" "}
-                <Link to={"/"} style={{ color: "white" }}>
+                <Link to={"/privacy-policy"} style={{ color: "white" }}>
                   privacy policy.
                 </Link>
               </Typography>
