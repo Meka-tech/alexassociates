@@ -147,6 +147,7 @@ const StepTwo = ({
               <DateInput
                 selectDate={(date) => setStartDate(date)}
                 placeholder={startDate ? DateConvert(startDate) : "Select date"}
+                minDate={new Date()}
               />
             </DateContainer>
           </div>
@@ -156,6 +157,8 @@ const StepTwo = ({
               <DateInput
                 selectDate={(date) => setEndDate(date)}
                 placeholder={endDate ? DateConvert(endDate) : "Select date"}
+                minDate={startDate || new Date()}
+                disabled={startDate ? false : true}
               />
             </DateContainer>
           </div>

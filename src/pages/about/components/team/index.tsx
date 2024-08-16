@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import MemberItem from "../member-item";
-import { data } from "../dummyData";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentInterior.svg";
 import { IimageType } from "../../../../utils/types/image";
 
@@ -94,16 +93,13 @@ const Header = styled.div`
 `;
 
 const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: 28rem 28rem 28rem 28rem;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   padding: 0rem 3.2rem;
-  grid-row-gap: 6.4rem;
-  grid-column-gap: 3.2rem;
-  justify-content: space-between;
-  @media only screen and (max-width: 769px) {
-    grid-template-columns: 100%;
-    grid-row-gap: 4rem;
-  }
+  flex-direction: column;
 `;
 
 const OrnamentContainer = styled.div`

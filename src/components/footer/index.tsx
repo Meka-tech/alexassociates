@@ -38,21 +38,21 @@ const Footer = () => {
             Help
           </Typography>
         </FooterLink>
-        <FooterLink to="/">
+        {/* <FooterLink to="/">
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
             Privacy
           </Typography>
-        </FooterLink>
+        </FooterLink> */}
       </Links>
       <Bottom>
         <Typography size={TextSize.md} m_mt="1.6">
           © {new Date().getFullYear()} Alex & Associates. All rights reserved.
         </Typography>
         <FlexBox>
-          <BottomLink to="">
+          {/* <BottomLink to="">
             <Typography size={TextSize.md}>Terms</Typography>
-          </BottomLink>
-          <BottomLink to="">
+          </BottomLink> */}
+          <BottomLink to="/privacy-policy">
             <Typography size={TextSize.md}>Privacy</Typography>
           </BottomLink>
         </FlexBox>

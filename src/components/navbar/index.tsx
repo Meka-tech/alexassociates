@@ -22,6 +22,11 @@ const Navbar = () => {
 
   const { isLoggedIn, logout } = useAuth();
 
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    logout();
+  };
+
   const Hamref = useRef(null);
   const LogOutref = useRef(null);
 
@@ -230,7 +235,7 @@ const Navbar = () => {
             <LogOutArea
               visible={logoutOpen ? "true" : "false"}
               ref={LogOutref}
-              onClick={logout}
+              onClick={LogOut}
             >
               <TbLogout size={20} />
               <Typography

@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .react-datepicker__header {
   background-color: white;
   border-bottom: none;
@@ -37,4 +38,13 @@
   color: #667085;
   right: 3.95rem;
   top: 2.5rem;
+}
+
+.react-datepicker__day {
+  border-radius: 50% !important;
+  background-color: white;
+}
+
+.react-datepicker__day--selected {
+  background: #0083e2 !important;
 }

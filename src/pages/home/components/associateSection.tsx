@@ -58,6 +58,8 @@ const ImageArea = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   width: 100%;
   padding: 0 0.8rem;

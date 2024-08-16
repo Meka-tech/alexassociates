@@ -49,13 +49,18 @@ const MemberItem = ({ name, role, description, image }: IProps) => {
 export default MemberItem;
 
 const Container = styled.div`
-  width: 100%;
+  width: 28rem;
+  margin-right: 3.2rem;
   display: flex;
   flex-direction: column;
   align-items: start;
+  margin-bottom: 6.4rem;
   @media only screen and (max-width: 769px) {
+    width: 100%;
     justify-content: center;
     align-items: center;
+    margin-bottom: 4rem;
+    margin-right: 0rem;
   }
 `;
 

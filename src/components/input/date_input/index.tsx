@@ -11,8 +11,15 @@ import DateConvert from "../../../utils/dateConvert";
 interface IProps {
   placeholder?: string;
   selectDate?: (date: Date | null) => void;
+  minDate?: Date | null;
+  disabled?: boolean;
 }
-const DateInput = ({ placeholder = "Select date", selectDate }: IProps) => {
+const DateInput = ({
+  placeholder = "Select date",
+  selectDate,
+  minDate,
+  disabled = false
+}: IProps) => {
   const [date, setDate] = useState<Date | null>();
   const datePickerRef = useRef<any>(null);
 
@@ -26,6 +33,7 @@ const DateInput = ({ placeholder = "Select date", selectDate }: IProps) => {
         <DatePicker
           ref={datePickerRef}
           selected={date}
+          disabled={disabled}
           onChange={(date) => {
             setDate(date);
             if (selectDate) {
@@ -33,6 +41,7 @@ const DateInput = ({ placeholder = "Select date", selectDate }: IProps) => {
             }
           }}
           startDate={new Date()}
+          minDate={minDate ? minDate : undefined}
         />
       </InputContainer>
       <Body onClick={handleButtonClick}>

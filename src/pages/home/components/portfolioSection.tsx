@@ -9,6 +9,10 @@ import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { ReactComponent as Glow } from "../../../images/svg/glow/about-glow.svg";
+import ITCard from "../../../images/png/cards/Interior-card.png";
+import PCard from "../../../images/png/cards/project-card.png";
+import ACard from "../../../images/png/cards/archi-card.png";
+import FCard from "../../../images/png/cards/furniture-card.png";
 
 interface IProps {
   data: { headline: string; subheadline: string };
@@ -22,32 +26,28 @@ const PortfolioSection = ({ data }: IProps) => {
       content:
         "Transforming interior spaces with innovative and aesthetic design solutions.",
       link: "/portfolio?key=interior-design",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
-    },
-    {
-      title: "Architecture",
-      content:
-        "Crafting bespoke architectural plans for individual houses and villas.",
-      link: "/portfolio?key=architectural-design",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
-    },
-    {
-      title: "Furniture",
-      content:
-        "Creating and selecting custom furniture and decor to enhance your space.",
-      link: "/portfolio?key=furniture-furnishing",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
+      image: ITCard
     },
     {
       title: "Project Execution",
       content:
         "Ensuring seamless implementation of designs with expert supervision and quality materials.",
       link: "/portfolio?key=project-execution",
-      image:
-        "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&"
+      image: PCard
+    },
+    {
+      title: "Architecture",
+      content:
+        "Crafting bespoke architectural plans for individual houses and villas.",
+      link: "/portfolio?key=architectural-design",
+      image: ACard
+    },
+    {
+      title: "Furniture",
+      content:
+        "Creating and selecting custom furniture and decor to enhance your space.",
+      link: "/portfolio?key=furniture-furnishing",
+      image: FCard
     }
   ];
 
@@ -266,6 +266,7 @@ const ItemImage = styled.img`
 const ItemInnerContainer = styled.div`
   width: 100%;
   padding: 3.2rem 2.4rem;
+  height: 25.8rem;
   background-color: rgba(0, 22, 33, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 0.8rem;

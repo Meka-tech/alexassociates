@@ -17,6 +17,11 @@ const Sidebar = () => {
   const [dropdownAuthOpen, setDropdownAuthOpen] = useState(false);
   const navigation = useNavigate();
   const { isLoggedIn, logout } = useAuth();
+
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    logout();
+  };
   return (
     <Container>
       <Nav to={"/"}>
@@ -294,7 +299,7 @@ const Sidebar = () => {
               </Typography>
             </NavItem>
           </Nav>
-          <NavItem onClick={logout}>
+          <NavItem onClick={LogOut}>
             <TbLogout size={20} color={"#E71C23"} />
             <Typography
               size={TextSize.sm}

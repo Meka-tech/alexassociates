@@ -94,7 +94,7 @@ const OurStory = ({ data }: IProps) => {
           </Typography>
           <Typography
             lh="2.8"
-            size={TextSize.lg}
+            size={TextSize.xl}
             m_size={TextSize.md}
             m_lh="2.8"
           >

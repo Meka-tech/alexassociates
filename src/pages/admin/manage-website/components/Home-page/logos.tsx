@@ -159,6 +159,8 @@ const ImageArea = styled.div`
   flex-wrap: wrap;
   width: 100%;
   padding: 0 0.8rem;
+  align-items: center;
+  justify-content: center;
   @media only screen and (max-width: 769px) {
     padding: 0 1.4rem;
     display: grid;
