@@ -48,7 +48,7 @@ const OurStory = ({ data }: IProps) => {
         {data?.headline || "We do it better !"}
       </Typography>
       <Typography
-        mb="6.4"
+        mb="3.2"
         size={TextSize.xl}
         lh="3"
         m_lh="2.8"
@@ -61,7 +61,7 @@ const OurStory = ({ data }: IProps) => {
       <TextFlexBox>
         <div>
           <Typography
-            mb="6.4"
+            mb="3.2"
             lh="3"
             size={TextSize.xl}
             m_size={TextSize.md}
@@ -74,7 +74,7 @@ const OurStory = ({ data }: IProps) => {
             redefining and transforming spaces and lives.`}
           </Typography>
           <Typography
-            mb="6.4"
+            mb="3.2"
             lh="3"
             size={TextSize.xl}
             m_size={TextSize.md}
@@ -112,7 +112,7 @@ const OurStory = ({ data }: IProps) => {
             size={TextSize.xl}
             m_size={TextSize.md}
             m_mb="2"
-            mb="6.4"
+            mb="3.2"
           >
             {data?.paragraph4 ||
               `Design principle "Form follows function" which means we don't
@@ -163,7 +163,7 @@ const Container = styled.div`
 const TextFlexBox = styled.div`
   display: grid;
   grid-template-columns: 40% 40%;
-  margin-bottom: 6.4rem;
+  margin-bottom: 3.2rem;
   justify-content: space-between;
   color: rgba(228, 228, 228, 1);
   padding-bottom: 6rem;
@@ -173,20 +173,6 @@ const TextFlexBox = styled.div`
     margin-bottom: 2rem;
     padding-bottom: 0;
   }
-`;
-
-const List = styled.ul`
-  color: rgba(207, 206, 206, 1);
-  padding-left: 2rem;
-  @media only screen and (max-width: 769px) {
-    padding-left: 2.5rem;
-  }
-`;
-
-const ListItem = styled.li`
-  font-size: 1.8rem;
-  font-weight: 400;
-  line-height: 2.8rem;
 `;
 
 const OrnamentContainerOne = styled.div`

@@ -273,6 +273,9 @@ const ItemInnerContainer = styled.div`
   backdrop-filter: blur(5px);
   color: white;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   position: relative;
 `;
 
@@ -283,6 +286,8 @@ const LinkText = styled(Link)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
+  text-align: left;
 `;
 const Buttons = styled.div`
   display: grid;

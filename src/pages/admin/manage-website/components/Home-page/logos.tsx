@@ -10,7 +10,6 @@ import { IimageType } from "../../../../../utils/types/image";
 import { TbCamera } from "react-icons/tb";
 import StyledInput from "../../../../../components/input/primaryInput";
 import PrimaryButton from "../../../../../components/buttons/primary";
-import { Link } from "react-router-dom";
 
 interface IProps {
   images: { image: IimageType; url: string }[];

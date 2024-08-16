@@ -1,15 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import { StyleSheetManager } from "styled-components";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  BrowserRouter as Router,
-  Route,
-  Routes
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import OurServices from "./pages/ourServices";
 import Portfolio from "./pages/portfolio";

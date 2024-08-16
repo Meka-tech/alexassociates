@@ -4,7 +4,6 @@ import BackgroundGrid from "../../../../components/BackgroundGrid";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import { FlexBox } from "../../../../components/container-styles/styles";
-import { ReactComponent as HeroGlow } from "../../../../images/svg/glow/hero-glow.svg";
 
 interface IProps {
   data?: { headline: string; paragraph: string };
