@@ -12,6 +12,7 @@ interface IProps extends React.HTMLProps<HTMLButtonElement> {
   type?: string;
   loading?: boolean;
   disabled?: boolean;
+  iconPosition?: string;
 }
 const PrimaryButton = ({
   text = "Button",
@@ -21,6 +22,7 @@ const PrimaryButton = ({
   loading,
   disabled,
   icon,
+  iconPosition = "right",
   ...rest
 }: IProps) => {
   return (
@@ -35,10 +37,15 @@ const PrimaryButton = ({
         <LoadingAnimation />
       ) : (
         <>
+          {icon && iconPosition === "left" && (
+            <IconContainer position={iconPosition}>{icon}</IconContainer>
+          )}
           <Typography size={TextSize.md} weight={TextWeight.semibold} lh="2.4">
             {text}
           </Typography>
-          {icon && <IconContainer>{icon}</IconContainer>}
+          {icon && iconPosition === "right" && (
+            <IconContainer position={iconPosition}>{icon}</IconContainer>
+          )}
         </>
       )}
     </Container>
@@ -106,6 +113,7 @@ const Container = styled.button<IButtonProps>`
   }
 `;
 
-const IconContainer = styled.div`
-  margin-left: 1.2rem;
+const IconContainer = styled.div<{ position: string }>`
+  margin-left: ${(props) => (props.position === "right" ? "1.2rem" : "0")};
+  margin-right: ${(props) => (props.position === "left" ? "1.2rem" : "0")};
 `;

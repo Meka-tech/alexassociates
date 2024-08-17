@@ -10,14 +10,14 @@ import PrimaryButton from "../../../../../components/buttons/primary";
 import { TfiUpload } from "react-icons/tfi";
 import SearchInput from "../../../../../components/input/searchInput";
 import Pagination from "../../../../../components/pagination";
-import ProjectEditItem from "./portfolio-edit-item";
-import { DummyData } from "../../../../portfolio/components/portfolio-projects/dummyData";
+import ProjectEditItem from "./components/portfolio-edit-item";
 import { useNavigate } from "react-router-dom";
 import api from "../../../../../utils/axiosInstance";
 import { IProject } from "../../../../../utils/types/project";
 import LoadingData from "../../../../../components/loading-component";
 import TopNav from "../top-nav";
 import MobileConfirmButtons from "../mobile-confirm";
+import NoData from "./components/noData";
 
 const PortfolioEdit = () => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -101,7 +101,13 @@ const PortfolioEdit = () => {
               );
             })}
           </ProjectGrid>
-        ) : null}
+        ) : (
+          <NoData
+            searchInput={search}
+            admin={true}
+            clearSearch={() => setSearch("")}
+          />
+        )}
 
         <PaginationContainer>
           <Pagination

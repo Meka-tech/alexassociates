@@ -4,20 +4,20 @@ import styled from "styled-components";
 import { LuArrowUpRight } from "react-icons/lu";
 
 import { useNavigate } from "react-router-dom";
-import Typography from "../../../../../../components/typography";
+import Typography from "../../../../../../../components/typography";
 import {
   TextSize,
   TextWeight
-} from "../../../../../../components/typography/enums";
-import { FlexBox } from "../../../../../../components/container-styles/styles";
-import PrimaryButton from "../../../../../../components/buttons/primary";
+} from "../../../../../../../components/typography/enums";
+import { FlexBox } from "../../../../../../../components/container-styles/styles";
+import PrimaryButton from "../../../../../../../components/buttons/primary";
 import { TbBookUpload, TbTrash } from "react-icons/tb";
-import DateConvert from "../../../../../../utils/dateConvert";
-import { IProject } from "../../../../../../utils/types/project";
-import api from "../../../../../../utils/axiosInstance";
-import LoadingAnimation from "../../../../../../components/loading-animation";
-import Modal from "../../../../../../components/modal";
-import ModalChildTemplate from "../../../../../../components/modal/modal-child-template";
+import DateConvert from "../../../../../../../utils/dateConvert";
+import { IProject } from "../../../../../../../utils/types/project";
+import api from "../../../../../../../utils/axiosInstance";
+import LoadingAnimation from "../../../../../../../components/loading-animation";
+import Modal from "../../../../../../../components/modal";
+import ModalChildTemplate from "../../../../../../../components/modal/modal-child-template";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi";
 

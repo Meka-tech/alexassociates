@@ -18,7 +18,10 @@ const Portfolio = () => {
         }}
         inputValue={searchInputValue}
       />
-      <PortfolioProjects inputValue={searchInputValue} />
+      <PortfolioProjects
+        inputValue={searchInputValue}
+        clearValue={() => setSearchInputValue("")}
+      />
       <Footer />
     </Container>
   );

@@ -11,11 +11,13 @@ import { IProject } from "../../../../utils/types/project";
 import api from "../../../../utils/axiosInstance";
 import LoadingData from "../../../../components/loading-component";
 import { ReactComponent as Glow } from "../../../../images/svg/glow/rect-glow.svg";
+import NoData from "../../../admin/manage-website/components/portfolio-page/components/noData";
 
 interface IProps {
   inputValue: string;
+  clearValue: () => void;
 }
-const PortfolioProjects = ({ inputValue }: IProps) => {
+const PortfolioProjects = ({ inputValue, clearValue }: IProps) => {
   const [searchParams] = useSearchParams();
   const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,19 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
 
   useEffect(() => {
     setActiveFilter(filterparam ? filterparam : "all");
+
+    //update active filter because filter params !== keys.
+    //using keys directly for the backend
+
+    if (filterparam?.includes("interior")) {
+      setActiveFilter("Interior design");
+    }
+    if (filterparam?.includes("architectural")) {
+      setActiveFilter("Architectural design");
+    }
+    if (filterparam?.includes("project")) {
+      setActiveFilter("Project execution");
+    }
   }, [filterparam]);
 
   useEffect(() => {
@@ -131,7 +146,13 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
             />
           </PaginationContainer>
         </>
-      ) : null}
+      ) : (
+        <NoData
+          searchInput={inputValue}
+          clearSearch={clearValue}
+          category={activeFilter}
+        />
+      )}
     </Container>
   );
 };
