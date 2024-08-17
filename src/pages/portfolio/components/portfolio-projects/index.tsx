@@ -47,7 +47,9 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
         const { data } = await api.get(
           `/project?page=${currentPage}${
             activeFilter !== "all" ? `&category=${activeFilter}` : ""
-          }${sort !== "" ? `&sort=${sort}` : ""}&published=true`
+          }${sort !== "" ? `&sort=${sort}` : ""}&published=true${
+            inputValue !== "" ? `&search=${inputValue}` : ""
+          }`
         );
         setProjects(data.results);
         setTotalPages(data.totalPages);
@@ -57,7 +59,7 @@ const PortfolioProjects = ({ inputValue }: IProps) => {
       }
     };
     GetProjects();
-  }, [currentPage, activeFilter, sort]);
+  }, [currentPage, activeFilter, sort, inputValue]);
 
   return (
     <Container>
