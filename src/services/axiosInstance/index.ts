@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 const BaseUrl =
   process.env.NODE_ENV === "development"
@@ -14,8 +14,6 @@ const api: AxiosInstance = axios.create({
     "Content-Type": "application/json"
   }
 });
-
-// Interceptor to add Bearer token to the headers
 
 api.interceptors.request.use(
   (config) => {
