@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios";
 const BaseUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080"
-    : process.env.REACT_APP_BASE_URL;
+    : "https://alex-associates.onrender.com";
 
 const getToken = (): string | null => {
   return localStorage.getItem("token");
