@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import ProjectItem from "../../../portfolio/components/portfolio-projects/project-item";
-import api from "../../../../utils/axiosInstance";
-import { IProject } from "../../../../utils/types/project";
+import api from "../../../../services/axiosInstance";
+import { IProject } from "../../../../types/project";
 import LoadingData from "../../../../components/loading-component";
 import { ReactComponent as Glow } from "../../../../images/svg/glow/rect-glow.svg";
 

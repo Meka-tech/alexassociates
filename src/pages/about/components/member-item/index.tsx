@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
-import { IimageType } from "../../../../utils/types/image";
+import { IimageType } from "../../../../types/image";
 
 interface IProps {
   name: string;

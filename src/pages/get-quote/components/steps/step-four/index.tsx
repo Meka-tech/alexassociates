@@ -10,10 +10,10 @@ import {
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { CiFileOn } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
-import api from "../../../../../utils/axiosInstance";
+import api from "../../../../../services/axiosInstance";
 import LoadingAnimation from "../../../../../components/loading-animation";
 import { HiOutlineTrash } from "react-icons/hi";
-import { UploadImage } from "../../../../../utils/upload-image";
+import { UploadImage } from "../../../../../services/upload-image";
 
 interface IProps {
   goBack: () => void;

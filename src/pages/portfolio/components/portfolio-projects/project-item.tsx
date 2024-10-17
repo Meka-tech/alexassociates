@@ -7,7 +7,7 @@ import { LuArrowUpRight } from "react-icons/lu";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { useNavigate } from "react-router-dom";
 import DateConvert from "../../../../utils/dateConvert";
-import { IProject } from "../../../../utils/types/project";
+import { IProject } from "../../../../types/project";
 
 const ProjectItem = ({
   category,

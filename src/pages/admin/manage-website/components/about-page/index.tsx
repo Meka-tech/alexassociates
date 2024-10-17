@@ -3,14 +3,14 @@ import styled from "styled-components";
 import Section from "../section";
 import StyledInput from "../../../../../components/input/primaryInput";
 import StyledTextArea from "../../../../../components/input/textArea";
-import { ITeamItem } from "../../../../../utils/types/teamItem";
+import { ITeamItem } from "../../../../../types/teamItem";
 import TeamItem from "./team-item";
 import PrimaryButton from "../../../../../components/buttons/primary";
 import PartnerItem from "./partner-item";
 import TopNav from "../top-nav";
 import MobileConfirmButtons from "../mobile-confirm";
-import api from "../../../../../utils/axiosInstance";
-import { UploadImage } from "../../../../../utils/upload-image";
+import api from "../../../../../services/axiosInstance";
+import { UploadImage } from "../../../../../services/upload-image";
 import LoadingData from "../../../../../components/loading-component";
 
 const AboutPageEdit = () => {

@@ -9,7 +9,7 @@ import One from "./components/services/one";
 import Two from "./components/services/two";
 import Three from "./components/services/three";
 import Four from "./components/services/four";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 import LoadingData from "../../components/loading-component";
 import StickyWhatsapp from "../../components/sticky-whatsapp";
 

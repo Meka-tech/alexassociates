@@ -6,7 +6,7 @@ import {
   TextWeight
 } from "../../../../../components/typography/enums";
 import { RxCross2 } from "react-icons/rx";
-import { IimageType } from "../../../../../utils/types/image";
+import { IimageType } from "../../../../../types/image";
 import { TbCamera } from "react-icons/tb";
 import StyledInput from "../../../../../components/input/primaryInput";
 import PrimaryButton from "../../../../../components/buttons/primary";

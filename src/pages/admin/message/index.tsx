@@ -8,8 +8,8 @@ import { TextSize, TextWeight } from "../../../components/typography/enums";
 import { ReactComponent as Ornament } from "../../../images/svg/ornaments/quoteOrnament.svg";
 import BackgroundGrid from "../../../components/BackgroundGrid";
 import PrimaryButton from "../../../components/buttons/primary";
-import api from "../../../utils/axiosInstance";
-import { IMessage } from "../../../utils/types/message";
+import api from "../../../services/axiosInstance";
+import { IMessage } from "../../../types/message";
 import LoadingData from "../../../components/loading-component";
 
 const Message = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
-import { IProject } from "../../../../utils/types/project";
+import { IProject } from "../../../../types/project";
 import DateConvert from "../../../../utils/dateConvert";
 
 const Information = ({

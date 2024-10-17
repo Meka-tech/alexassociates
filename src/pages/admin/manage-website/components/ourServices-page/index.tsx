@@ -6,7 +6,7 @@ import StyledTextArea from "../../../../../components/input/textArea";
 import TopNav from "../top-nav";
 import MobileConfirmButtons from "../mobile-confirm";
 import ListComponent from "./listComponent";
-import api from "../../../../../utils/axiosInstance";
+import api from "../../../../../services/axiosInstance";
 import LoadingData from "../../../../../components/loading-component";
 
 const OurServicesEdit = () => {

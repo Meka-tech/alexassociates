@@ -4,7 +4,7 @@ import Typography from "../../../../components/typography";
 import { TextSize, TextWeight } from "../../../../components/typography/enums";
 import MemberItem from "../member-item";
 import { ReactComponent as Ornament } from "../../../../images/svg/ornaments/OrnamentInterior.svg";
-import { IimageType } from "../../../../utils/types/image";
+import { IimageType } from "../../../../types/image";
 
 interface IProps {
   data?: {

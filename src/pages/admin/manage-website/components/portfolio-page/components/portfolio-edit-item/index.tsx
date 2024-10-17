@@ -13,8 +13,8 @@ import { FlexBox } from "../../../../../../../components/container-styles/styles
 import PrimaryButton from "../../../../../../../components/buttons/primary";
 import { TbBookUpload, TbTrash } from "react-icons/tb";
 import DateConvert from "../../../../../../../utils/dateConvert";
-import { IProject } from "../../../../../../../utils/types/project";
-import api from "../../../../../../../utils/axiosInstance";
+import { IProject } from "../../../../../../../types/project";
+import api from "../../../../../../../services/axiosInstance";
 import LoadingAnimation from "../../../../../../../components/loading-animation";
 import Modal from "../../../../../../../components/modal";
 import ModalChildTemplate from "../../../../../../../components/modal/modal-child-template";

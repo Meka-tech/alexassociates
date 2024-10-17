@@ -12,11 +12,11 @@ import Check from "../../../components/input/check";
 import { LuCalendar } from "react-icons/lu";
 import { CiFileOn } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
-import api from "../../../utils/axiosInstance";
+import api from "../../../services/axiosInstance";
 
-import { IQuote } from "../../../utils/types/quote";
+import { IQuote } from "../../../types/quote";
 import DateConvert from "../../../utils/dateConvert";
-import { companyservices } from "../../../utils/company-services";
+import { companyservices } from "../../../constants/company-services";
 import LoadingData from "../../../components/loading-component";
 
 const Quote = () => {

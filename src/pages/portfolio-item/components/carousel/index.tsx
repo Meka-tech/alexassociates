@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { FlexBox } from "../../../../components/container-styles/styles";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { IimageType } from "../../../../utils/types/image";
+import { IimageType } from "../../../../types/image";
 
 const Carousel = ({ images }: { images: IimageType[] }) => {
   const [index, setIndex] = useState(0);

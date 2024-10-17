@@ -7,7 +7,7 @@ import Intro from "./components/intro";
 import OurStory from "./components/our-story";
 import Team from "./components/team";
 import Partners from "./components/partners";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 import LoadingData from "../../components/loading-component";
 import StickyWhatsapp from "../../components/sticky-whatsapp";
 

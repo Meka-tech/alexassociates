@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Section from "../section";
 import StyledInput from "../../../../../components/input/primaryInput";
-import { IClientItem } from "../../../../../utils/types/clientItem";
+import { IClientItem } from "../../../../../types/clientItem";
 import LogoArea from "./logos";
-import { IimageType } from "../../../../../utils/types/image";
+import { IimageType } from "../../../../../types/image";
 import TopNav from "../top-nav";
 import MobileConfirmButtons from "../mobile-confirm";
-import api from "../../../../../utils/axiosInstance";
-import { UploadImage } from "../../../../../utils/upload-image";
+import api from "../../../../../services/axiosInstance";
+import { UploadImage } from "../../../../../services/upload-image";
 import LoadingData from "../../../../../components/loading-component";
 import Typography from "../../../../../components/typography";
 import {

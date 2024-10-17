@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Mockup from "../../images/png/homepage-mockup.png";
 import { ReactComponent as Lines } from "../../images/svg/auth-line.svg";
 import { useAuth } from "../../context/authContext";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 
 const Auth = () => {
   const { login } = useAuth();

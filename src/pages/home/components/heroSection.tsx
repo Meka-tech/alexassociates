@@ -11,7 +11,7 @@ import Slideshow from "./slideshow";
 import { useNavigate } from "react-router-dom";
 import BackgroundGlow from "../../../components/BackgroundGlow";
 import { ReactComponent as HeroGlow } from "../../../images/svg/glow/hero-glow.svg";
-import { IimageType } from "../../../utils/types/image";
+import { IimageType } from "../../../types/image";
 
 interface IProps {
   handleContact: () => void;
@@ -123,9 +123,7 @@ const HeroSection = ({ handleContact, data }: IProps) => {
         </MobileFlip>
       </TextArea>
       <SlideshowContainer>
-        <Slideshow
-          images={data?.slideshow || []}
-        />
+        <Slideshow images={data?.slideshow || []} />
       </SlideshowContainer>
       <BackgroundGlowDiv>
         <HeroGlow />

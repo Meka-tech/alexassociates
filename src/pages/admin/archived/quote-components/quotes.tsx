@@ -9,12 +9,12 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../../../components/input/searchInput";
 import { IoMdArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
-import api from "../../../../utils/axiosInstance";
+import api from "../../../../services/axiosInstance";
 
 import NoData from "./no-data";
 import ModalChildTemplate from "../../../../components/modal/modal-child-template";
 import Modal from "../../../../components/modal";
-import { IQuote } from "../../../../utils/types/quote";
+import { IQuote } from "../../../../types/quote";
 import LoadingData from "../../../../components/loading-component";
 import { IoArchiveOutline } from "react-icons/io5";
 

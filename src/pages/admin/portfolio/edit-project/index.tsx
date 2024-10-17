@@ -16,12 +16,12 @@ import DateInput from "../../../../components/input/date_input";
 import { TbCamera } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import DateConvert from "../../../../utils/dateConvert";
-import { companyservices } from "../../../../utils/company-services";
-import api from "../../../../utils/axiosInstance";
-import { IProject } from "../../../../utils/types/project";
-import { IimageType } from "../../../../utils/types/image";
+import { companyservices } from "../../../../constants/company-services";
+import api from "../../../../services/axiosInstance";
+import { IProject } from "../../../../types/project";
+import { IimageType } from "../../../../types/image";
 import LoadingData from "../../../../components/loading-component";
-import { UploadImage } from "../../../../utils/upload-image";
+import { UploadImage } from "../../../../services/upload-image";
 import VideoThumbnail from "../../../../components/video-thumbnail";
 import { IoVideocam } from "react-icons/io5";
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import StyledInput from "../../../../../components/input/primaryInput";
-import { IClientItem } from "../../../../../utils/types/clientItem";
+import { IClientItem } from "../../../../../types/clientItem";
 import Typography from "../../../../../components/typography";
 import {
   TextSize,
@@ -11,7 +11,7 @@ import StyledTextArea from "../../../../../components/input/textArea";
 import PrimaryButton from "../../../../../components/buttons/primary";
 import { TbCamera } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
-import { ITeamItem } from "../../../../../utils/types/teamItem";
+import { ITeamItem } from "../../../../../types/teamItem";
 
 interface IProps extends ITeamItem {
   index: number;

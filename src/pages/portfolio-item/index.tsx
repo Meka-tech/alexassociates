@@ -6,8 +6,8 @@ import Carousel from "./components/carousel";
 import Information from "./components/Information";
 import RelatedContent from "./components/related-content";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../utils/axiosInstance";
-import { IProject } from "../../utils/types/project";
+import api from "../../services/axiosInstance";
+import { IProject } from "../../types/project";
 import LoadingData from "../../components/loading-component";
 import StickyWhatsapp from "../../components/sticky-whatsapp";
 

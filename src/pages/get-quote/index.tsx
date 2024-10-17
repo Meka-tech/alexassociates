@@ -13,7 +13,7 @@ import StepThree from "./components/steps/step-three";
 import StepFour from "./components/steps/step-four";
 import Modal from "../../components/modal";
 import SuccessModal from "./components/success-modal";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const GetQuote = () => {

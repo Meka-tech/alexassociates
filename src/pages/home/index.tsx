@@ -10,7 +10,7 @@ import ReviewSection from "./components/reviewSection";
 import ContactUs from "../../components/contact-us";
 import Footer from "../../components/footer";
 import LoadingData from "../../components/loading-component";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 import StickyWhatsapp from "../../components/sticky-whatsapp";
 
 const Home = () => {

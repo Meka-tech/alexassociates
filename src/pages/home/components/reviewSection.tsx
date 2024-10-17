@@ -8,7 +8,7 @@ import { FlexBox } from "../../../components/container-styles/styles";
 import { ReactComponent as GoldStar } from "../../../images/svg/gold-star.svg";
 import { ReactComponent as WhiteStar } from "../../../images/svg/white-star.svg";
 import { ReactComponent as ReviewOrnament } from "../../../images/svg/ornaments/reviewOrnament.svg";
-import { IimageType } from "../../../utils/types/image";
+import { IimageType } from "../../../types/image";
 
 interface IProps {
   Reviews: {

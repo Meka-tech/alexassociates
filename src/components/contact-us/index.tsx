@@ -9,7 +9,7 @@ import StyledTextArea from "../../components/input/textArea";
 import { Link, useNavigate } from "react-router-dom";
 import Check from "../../components/input/check";
 import PhoneInput from "../input/phone_no/phone_input";
-import api from "../../utils/axiosInstance";
+import api from "../../services/axiosInstance";
 import Modal from "../modal";
 import ModalChildTemplate from "../modal/modal-child-template";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";

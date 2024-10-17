@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IimageType } from "../../../utils/types/image";
+import { IimageType } from "../../../types/image";
 
 const Slideshow = ({ images }: { images: IimageType[] }) => {
   const [index, setIndex] = useState(0);
